@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.BaseRobot;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
 
 
 public class BaseRobot{
@@ -148,14 +148,14 @@ public class BaseRobot{
 
     public void resetAll(){
         setIntakeSlidesPos(0);
-        setOuttakeSliderPos(0);
+        setOuttakeSlidesPos(0);
         v4b.setPosition(V4B_IN_ROBOT);
         outtakeAxle.setPosition(AXLE_TO_TRAY);
         outtakeWrist.setPosition(WRIST_TO_TRAY);
 
     }
     public void intakingFromGround(){
-        setOuttakeSliderPos(0);
+        setOuttakeSlidesPos(0);
         setIntakeSlidesPos(0);
         v4b.setPosition(V4B_INTAKE_POS);
         intakeGrasper.setPosition(INTAKE_GRASPER_OPEN);
@@ -165,14 +165,14 @@ public class BaseRobot{
 
     public void SpecimenScoring(){
         setIntakeSlidesPos(0);
-        setOuttakeSliderPos(OUTTAKE_SLIDES_SPECIMEN_SCORING);
+        setOuttakeSlidesPos(OUTTAKE_SLIDES_SPECIMEN_SCORING);
         outtakeAxle.setPosition(AXLE_STRAIGHT_OUT);
         outtakeWrist.setPosition(WRIST_SCORING);
         outtakeGrasper.setPosition(OUTTAKE_GRASPER_CLOSED);
     }
     public void HighBucketScoring(){
         setIntakeSlidesPos(0);
-        setOuttakeSliderPos(OUTTAKE_SLIDES_TO_HB);
+        setOuttakeSlidesPos(OUTTAKE_SLIDES_TO_HB);
         outtakeWrist.setPosition(WRIST_SCORING);
     }
 
