@@ -52,7 +52,8 @@ public class BaseRobot{
     private int INTAKE_SLIDES_MAX = 0;//chnage
     private int OUTTAKE_SLIDES_MAX = 0;//change
     private int OUTTAKE_SLIDES_TO_HB = 0;//change
-    private int OUTTAKE_SLIDES_SPECIMEN_SCORING = 0;//change
+    private int OUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER = 0;//change
+    private int OUTTAKE_SLIDES_ON_HIGH_CHAMBER = 0;//change
 
     //end motor constants
 
@@ -165,7 +166,7 @@ public class BaseRobot{
 
     public void SpecimenScoring(){
         setIntakeSlidesPos(0);
-        setOuttakeSlidesPos(OUTTAKE_SLIDES_SPECIMEN_SCORING);
+        setOuttakeSlidesPos(OUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER);
         outtakeAxle.setPosition(AXLE_STRAIGHT_OUT);
         outtakeWrist.setPosition(WRIST_SCORING);
         outtakeGrasper.setPosition(OUTTAKE_GRASPER_CLOSED);
@@ -176,7 +177,9 @@ public class BaseRobot{
         outtakeWrist.setPosition(WRIST_SCORING);
     }
 
-    public void updateAll(){
+
+
+    public void update(){
         updateGimbalPos();
         updateIntakeSlidesPos();
         updateOuttakeSlidesPos();
@@ -303,6 +306,8 @@ public class BaseRobot{
 
 
 
+
+
     public void delay(double seconds){
         ElapsedTime timer = new ElapsedTime();
         timer.reset();
@@ -398,10 +403,12 @@ public class BaseRobot{
     public int getOUTTAKE_SLIDES_TO_HB(){
         return OUTTAKE_SLIDES_TO_HB;
     }
-    public int getOUTTAKE_SLIDES_SPECIMEN_SCORING(){
-        return OUTTAKE_SLIDES_SPECIMEN_SCORING;
+    public int getOUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER(){
+        return OUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER;
     }
-
+    public int getOUTTAKE_SLIDES_ON_HIGH_CHAMBER(){
+        return OUTTAKE_SLIDES_ON_HIGH_CHAMBER;
+    }
 
 }
 

@@ -37,7 +37,7 @@ public class OZ_Teleop_V1 extends LinearOpMode {
 
             //updates
 
-            robot.updateAll();
+            robot.update();
             //end
 
 

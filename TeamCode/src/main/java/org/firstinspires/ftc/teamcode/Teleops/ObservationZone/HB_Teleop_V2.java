@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Teleops;
+package org.firstinspires.ftc.teamcode.Teleops.ObservationZone;
 
 //import com.google.blocks.ftcrobotcontroller.runtime.CRServoAccess;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.BaseRobot.BaseRobot;
 
 @TeleOp
-public class TestingTeleop extends LinearOpMode {
+public class HB_Teleop_V2 extends LinearOpMode {
 
     private com.qualcomm.robotcore.hardware.HardwareMap HardwareMap;
     BaseRobot robot;
@@ -44,8 +44,9 @@ public class TestingTeleop extends LinearOpMode {
 
 
 
-            robot.changeOuttakeSlidesPos((int)(gamepad1.right_stick_y) * 3);
-            robot.changeIntakeSlidesPos((int) (gamepad1.left_stick_y) * 3);
+            robot.changeOuttakeSlidesPos((int)(gamepad2.right_stick_y) * 10);
+            robot.changeIntakeSlidesPos((int) (gamepad2.left_stick_y) * 10);
+
 
             if(gamepad1.a){
                 robot.setV4bPos(robot.getV4B_IN_ROBOT());
@@ -54,9 +55,18 @@ public class TestingTeleop extends LinearOpMode {
                 robot.setV4bPos(robot.getV4B_INTAKE_POS());
             }
 
+            if(gamepad2.y){
+                robot.HighBucketScoring();
+            }
+            if(gamepad2.a){
+                robot.resetAll();
+            }
 
 
-                        //telemetry
+
+
+
+            //telemetry
             //_____________________________________________________________________________________
 
 
