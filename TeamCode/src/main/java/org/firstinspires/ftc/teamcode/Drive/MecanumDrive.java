@@ -123,6 +123,12 @@ public final class MecanumDrive {
     private final DownsampledWriter driveCommandWriter = new DownsampledWriter("DRIVE_COMMAND", 50_000_000);
     private final DownsampledWriter mecanumCommandWriter = new DownsampledWriter("MECANUM_COMMAND", 50_000_000);
 
+
+
+    double headingOffset = 0;//imu updates
+    double initialHeading = 0;//imu updates
+
+
     public class DriveLocalizer implements Localizer {
         public final Encoder leftFront, leftBack, rightBack, rightFront;
         public final IMU imu;
@@ -209,6 +215,8 @@ public final class MecanumDrive {
 
     public MecanumDrive(HardwareMap hardwareMap, Pose2d pose) {
         this.pose = pose;
+
+        initialHeading = Math.toDegrees( pose.heading.log());//new IMU updates
 
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
 
@@ -445,6 +453,8 @@ public final class MecanumDrive {
         Twist2dDual<Time> twist = localizer.update();
         pose = pose.plus(twist.value());
 
+        pose = new Pose2d(pose.position,Rotation2d.exp(getHeading()));//new IMU updates
+
         poseHistory.add(pose);
         while (poseHistory.size() > 100) {
             poseHistory.removeFirst();
@@ -487,4 +497,14 @@ public final class MecanumDrive {
                 defaultVelConstraint, defaultAccelConstraint
         );
     }
+
+    //new imu stuff
+    public double getHeading(){
+        return lazyImu.get().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS)+Math.toRadians(initialHeading)-Math.toRadians(headingOffset);
+    }
+
+    public void resetHeading(){
+        headingOffset = Math.toDegrees(lazyImu.get().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+    }
+    //end new imu stuff
 }
