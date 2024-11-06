@@ -1,11 +1,17 @@
 package org.firstinspires.ftc.teamcode.Teleops.NetZone;
 
 //import com.google.blocks.ftcrobotcontroller.runtime.CRServoAccess;
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.BaseRobot.BaseRobot;
@@ -25,16 +31,24 @@ public class OZ_Teleop_V1 extends LinearOpMode {
 
 
         waitForStart();
-
+        //USE SPEED VARIABLE FOR DRIVE
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
         robot = new BaseRobot(hardwareMap);
 
         while(!isStopRequested() && opModeIsActive()){
 
+            double driveSpeed = 1;
+            robot.drive.setDrivePowers(new PoseVelocity2d(new Vector2d(-gamepad1.left_stick_y * driveSpeed, -gamepad1.left_stick_x * driveSpeed), -gamepad1.right_stick_x * driveSpeed));
 
-            robot.drive.setDrivePowers(new PoseVelocity2d(new Vector2d(-gamepad1.left_stick_y, -gamepad1.left_stick_x), -gamepad1.right_stick_x));
 
 
+
+            if (gamepad1.a){
+                driveSpeed = .5;
+            }
+            if (gamepad1.y){
+                driveSpeed = 1;
+            }
             //updates
 
             robot.update();
@@ -48,12 +62,19 @@ public class OZ_Teleop_V1 extends LinearOpMode {
             robot.changeIntakeSlidesPos((int) (gamepad2.left_stick_y) * 10);
 
             
-            if(gamepad1.a){
+            if(gamepad2.a){
                 robot.setV4bPos(robot.getV4B_IN_ROBOT());
             }
-            if(gamepad1.y){
+            if(gamepad2.y){
                 robot.setV4bPos(robot.getV4B_INTAKE_POS());
+                robot.setIntakeGrasperPos(robot.getINTAKE_GRASPER_OPEN());
+                robot.setGimbalPos(robot.getGIMBAL_RESTING_POS());
             }
+
+            if(gamepad1.a){
+                //how do i run the IntakeAction here?
+            }
+
 
 
 

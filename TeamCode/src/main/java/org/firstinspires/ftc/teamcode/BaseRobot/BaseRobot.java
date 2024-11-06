@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.BaseRobot;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -13,8 +14,8 @@ public class BaseRobot{
 
 
     //motor powers
-    private double INTAKE_SLIDES_POWER = 0.9;
-    private double OUTTAKE_SLIDES_POWER = 0.9;
+    private final double INTAKE_SLIDES_POWER = 0.9;
+    private final double OUTTAKE_SLIDES_POWER = 0.9;
 
     //end motor powers
 
@@ -29,31 +30,32 @@ public class BaseRobot{
     private double outtakeWristPos = 0;
     private double outtakeAxlePos = 0;
     private double v4bPos = 0;
+    private double trayPos = 0;
 
     //servo constants
-    private double V4B_IN_ROBOT = 0;//change
-    private double V4B_INTAKE_POS = 0;//change
-    private double GIMBAL_RESTING_POS = 0; //change
-    private double INTAKE_GRASPER_OPEN = 0;//change
-    private double INTAKE_GRASPER_CLOSED = 0;//change
-    private double OUTTAKE_GRASPER_CLOSED = 0;//change
-    private double OUTTAKE_GRASPER_OPEN = 0;//change
-    private double AXLE_TO_WALL = 0;//change
-    private double OUTTAKE_WRIST_TO_WALL = 0;//change
-    private double AXLE_STRAIGHT_OUT = 0;//change
-    private double WRIST_SCORING = 0;//change
-    private double AXLE_TO_TRAY = 0;//change
-    private double WRIST_TO_TRAY = 0;//change
-
+    private final double V4B_IN_ROBOT = 0;//change
+    private final double V4B_INTAKE_POS = 0;//change
+    private final double GIMBAL_RESTING_POS = 0; //change
+    private final double INTAKE_GRASPER_OPEN = 0;//change
+    private final double INTAKE_GRASPER_CLOSED = 0;//change
+    private final double OUTTAKE_GRASPER_CLOSED = 0;//change
+    private final double OUTTAKE_GRASPER_OPEN = 0;//change
+    private final double AXLE_TO_WALL = 0;//change
+    private final double OUTTAKE_WRIST_TO_WALL = 0;//change
+    private final double AXLE_STRAIGHT_OUT = 0;//change
+    private final double WRIST_SCORING = 0;//change
+    private final double AXLE_TO_TRAY = 0;//change
+    private final double WRIST_TO_TRAY = 0;//change
+    private final double TRAY_CLOSED = 0; //change //moves the tray servo to bring the sample in
+    private final double TRAY_OPEN = 0;//change
 
     //end servo constants
 
     //motor constants
     private int INTAKE_SLIDES_MAX = 0;//chnage
-    private int OUTTAKE_SLIDES_MAX = 0;//change
-    private int OUTTAKE_SLIDES_TO_HB = 0;//change
-    private int OUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER = 0;//change
-    private int OUTTAKE_SLIDES_ON_HIGH_CHAMBER = 0;//change
+    private final int OUTTAKE_SLIDES_MAX = 0;//change
+    private final int OUTTAKE_SLIDES_TO_HB = 0;//change
+    private final int OUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER = 0;//change
 
     //end motor constants
 
@@ -74,6 +76,7 @@ public class BaseRobot{
     Servo v4b;
     Servo intakeGimbal;
     Servo outtakeAxle;
+    Servo tray;
 
 
 
@@ -93,6 +96,7 @@ public class BaseRobot{
         // Set to run with encoders and grab current Position
         leftIntakeSlider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftIntakeSlider.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftIntakeSlider.setDirection(DcMotorSimple.Direction.REVERSE);
 
         rightIntakeSlider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightIntakeSlider.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -105,6 +109,8 @@ public class BaseRobot{
         rightOuttakeSlider = hwMap.dcMotor.get("rightOuttakeSlider");
         //rightOuttakeSlider.setDirection(DcMotorSimple.Direction.REVERSE);
 
+
+
         // Set to run with encoders and grab current Position
         leftOuttakeSlider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftOuttakeSlider.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -116,30 +122,32 @@ public class BaseRobot{
 
 
 
+        tray = hwMap.servo.get("tray");
+        tray.setPosition(0);
+        trayPos = tray.getPosition();
 
-
-        intakeGrasper = hwMap.servo.get("IntakeGrasper");
-        intakeGrasper.setPosition(0);
+        intakeGrasper = hwMap.servo.get("intakeGrasper");
+        intakeGrasper.setPosition(INTAKE_GRASPER_CLOSED);
         intakeGrasperPos = intakeGrasper.getPosition();
 
         outtakeGrasper = hwMap.servo.get("outtakeGrasper");
-        outtakeGrasper.setPosition(0);
+        outtakeGrasper.setPosition(OUTTAKE_GRASPER_OPEN);
         outtakeGrasperPos = outtakeGrasper.getPosition();
 
         outtakeWrist = hwMap.servo.get("outtakeWrist");
-        outtakeWrist.setPosition(0);
+        outtakeWrist.setPosition(WRIST_SCORING);
         outtakeWristPos = outtakeWrist.getPosition();
 
         v4b = hwMap.servo.get("v4b");
-        v4b.setPosition(0);
+        v4b.setPosition(V4B_IN_ROBOT);
         v4bPos = v4b.getPosition();
 
         intakeGimbal = hwMap.servo.get("intakeGimbal");
-        intakeGimbal.setPosition(0);
+        intakeGimbal.setPosition(GIMBAL_RESTING_POS);
         gimbalPos = intakeGimbal.getPosition();
 
         outtakeAxle = hwMap.servo.get("outtakeAxle");
-        outtakeAxle.setPosition(0);
+        outtakeAxle.setPosition(AXLE_TO_TRAY);
         outtakeAxlePos = outtakeAxle.getPosition();
         //end servos
 
@@ -217,6 +225,16 @@ public class BaseRobot{
         outtakeAxlePos = newPos;
     }
 
+    public void updateTrayPos(){
+        tray.setPosition(trayPos);
+    }
+    public void changeTrayPos(double deltaPos){
+        trayPos += deltaPos;
+    }
+    public void setTrayPos(double newPos){
+        trayPos = newPos;
+    }
+
     public void updateIntakeGrasperPos(){
         intakeGrasper.setPosition(intakeGrasperPos);
     }
@@ -283,8 +301,8 @@ public class BaseRobot{
         rightOuttakeSlider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftOuttakeSlider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        rightOuttakeSlider.setPower(INTAKE_SLIDES_POWER);
-        leftOuttakeSlider.setPower(INTAKE_SLIDES_POWER);
+        rightOuttakeSlider.setPower(OUTTAKE_SLIDES_POWER);
+        leftOuttakeSlider.setPower(OUTTAKE_SLIDES_POWER);
 
        // if(leftOuttakeSliderPos != rightOuttakeSliderPos){
          //   leftOuttakeSliderPos = rightOuttakeSliderPos;
@@ -337,6 +355,9 @@ public class BaseRobot{
     public double getV4bPos(){
         return v4bPos;
     }
+    public double getTrayPos(){
+        return trayPos;
+    }
     //end servos
 
     //powers
@@ -388,6 +409,14 @@ public class BaseRobot{
     public double getWRIST_SCORING(){
         return WRIST_SCORING;
     }
+    public double getTRAY_CLOSED(){
+        return TRAY_CLOSED;
+    }
+    public double getTRAY_OPEN(){
+        return TRAY_OPEN;
+    }
+
+
     public int getIntakeSlidesPos(){
         return intakeSlidesPos;
     }
@@ -407,6 +436,8 @@ public class BaseRobot{
         return OUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER;
     }
     public int getOUTTAKE_SLIDES_ON_HIGH_CHAMBER(){
+        //change
+        int OUTTAKE_SLIDES_ON_HIGH_CHAMBER = 0;
         return OUTTAKE_SLIDES_ON_HIGH_CHAMBER;
     }
 
