@@ -19,6 +19,13 @@ public class IntakeAction implements Action {
 
         ElapsedTime time = new ElapsedTime();
 
+        //prepare outtake for grabbing sample
+        robot.setAxlePos(robot.getAXLE_TO_TRAY());
+        robot.setOuttakeWristPos(robot.getWRIST_TO_TRAY());
+        robot.setOuttakeSlidesPos(0);
+        //end preparing outtake
+
+
         robot.setIntakeGrasperPos(robot.getINTAKE_GRASPER_CLOSED());//close grasper
         robot.setV4bPos(robot.getV4B_IN_ROBOT());//v4b in robot
         robot.setIntakeSlidesPos(0);//slides in
@@ -45,13 +52,7 @@ public class IntakeAction implements Action {
         }
         time.reset();
 
-        //move outtake to scoring position
-        if (time.milliseconds()>500) {//wait .5 second
-            robot.setAxlePos(robot.getAXLE_STRAIGHT_OUT());
-            robot.setOuttakeWristPos(robot.getWRIST_SCORING());
-            robot.update();
-        }
-        time.reset();
+
 
 
 

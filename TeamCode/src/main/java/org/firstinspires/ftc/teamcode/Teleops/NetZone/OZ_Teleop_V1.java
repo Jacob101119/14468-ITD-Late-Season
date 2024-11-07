@@ -38,42 +38,102 @@ public class OZ_Teleop_V1 extends LinearOpMode {
         while(!isStopRequested() && opModeIsActive()){
 
             double driveSpeed = 1;
+            robot.update();
+
+            //GAMEPAD1------------------------------------------------------------------------
+
+            //drive
             robot.drive.setDrivePowers(new PoseVelocity2d(new Vector2d(-gamepad1.left_stick_y * driveSpeed, -gamepad1.left_stick_x * driveSpeed), -gamepad1.right_stick_x * driveSpeed));
 
+            //drive speeds
+            if (gamepad1.dpad_up){
+                driveSpeed = 1;//full speed
+            }
+            if (gamepad1.dpad_left || gamepad1.dpad_right){
+                driveSpeed = .5;//half speed
+            }
+            if (gamepad1.dpad_down){
+                driveSpeed = 0.25;//quarter speed
+            }
+            //end drive speeds
+            //end drive
+
+            //intake slides
+            robot.changeIntakeSlidesPos((int) (gamepad2.right_trigger - gamepad2.left_trigger) * 10);
+            //end intake slides
 
 
+            //gimbal
+            if (gamepad1.left_bumper){
+                robot.changeGimbalPos(-.005);
+            }
+            if (gamepad1.right_bumper){
+                robot.changeGimbalPos(.005);
+            }
+            //end gimbal
 
+            //intake claw
+            if(gamepad1.x){
+                robot.setIntakeGrasperPos(robot.getINTAKE_GRASPER_OPEN());
+            }
+            if(gamepad1.b){
+                robot.setIntakeGrasperPos(robot.getINTAKE_GRASPER_CLOSED());
+            }
+            //end intake claw
+
+            //intake action
+            if(gamepad1.y){
+                //intake action
+            }
+            //end intake action
+
+            //intake position
             if (gamepad1.a){
-                driveSpeed = .5;
+                robot.intakingFromGround();//v4b down, claw open, gimbal reset
             }
-            if (gamepad1.y){
-                driveSpeed = 1;
+            //end intake position
+
+
+            //GAMEPAD2------------------------------------------------------------------------
+
+
+            robot.changeOuttakeSlidesPos((int)(gamepad2.right_trigger-gamepad2.left_trigger) * 10);
+
+
+            //presets
+            if (gamepad2.dpad_left){
+                robot.setAxlePos(robot.getAXLE_TO_TRAY());
+                robot.setOuttakeWristPos(robot.getWRIST_TO_TRAY());
             }
-            //updates
-
-            robot.update();
-            //end
-
-
-
-
-
-            robot.changeOuttakeSlidesPos((int)(gamepad2.right_stick_y) * 10);
-            robot.changeIntakeSlidesPos((int) (gamepad2.left_stick_y) * 10);
-
-            
-            if(gamepad2.a){
-                robot.setV4bPos(robot.getV4B_IN_ROBOT());
+            if (gamepad2.dpad_right){
+                robot.setAxlePos(robot.getAXLE_TO_WALL());
+                robot.setOuttakeWristPos(robot.getOUTTAKE_WRIST_TO_WALL());
+            }
+            if(gamepad2.dpad_up){
+                robot.SpecimenScoring();
+            }
+            if(gamepad2.dpad_down){
+                robot.resetOuttake();
             }
             if(gamepad2.y){
-                robot.setV4bPos(robot.getV4B_INTAKE_POS());
-                robot.setIntakeGrasperPos(robot.getINTAKE_GRASPER_OPEN());
-                robot.setGimbalPos(robot.getGIMBAL_RESTING_POS());
+                robot.HighBucketScoring();
+            }
+            //end presets
+
+            //claw
+            if(gamepad2.right_bumper){
+                robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_CLOSED());
+            }
+            if(gamepad2.left_bumper){
+                robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_OPEN());
             }
 
-            if(gamepad1.a){
-                //how do i run the IntakeAction here?
-            }
+
+
+
+
+
+
 
 
 

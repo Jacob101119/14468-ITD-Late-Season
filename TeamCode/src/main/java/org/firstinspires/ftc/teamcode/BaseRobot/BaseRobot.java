@@ -35,15 +35,20 @@ public class BaseRobot{
     //servo constants
     private final double V4B_IN_ROBOT = 0;//change
     private final double V4B_INTAKE_POS = 0;//change
+    private final double V4B_HOVER_OVER_GROUND = 0;//change
     private final double GIMBAL_RESTING_POS = 0; //change
     private final double INTAKE_GRASPER_OPEN = 0;//change
     private final double INTAKE_GRASPER_CLOSED = 0;//change
     private final double OUTTAKE_GRASPER_CLOSED = 0;//change
     private final double OUTTAKE_GRASPER_OPEN = 0;//change
-    private final double AXLE_TO_WALL = 0;//change
-    private final double OUTTAKE_WRIST_TO_WALL = 0;//change
-    private final double AXLE_STRAIGHT_OUT = 0;//change
+
+    private final double WRIST_TO_WALL = 0;//change
+    private final double WRIST_STRAIGHT = 0;//change
     private final double WRIST_SCORING = 0;//change
+    private final double AXLE_STRAIGHT_OUT = 0;//change
+    private final double AXLE_TO_WALL = 0;//change
+    private final double AXLE_UP = 0;//change
+    private final double AXLE_DOWN = 0;//change
     private final double AXLE_TO_TRAY = 0;//change
     private final double WRIST_TO_TRAY = 0;//change
     private final double TRAY_CLOSED = 0; //change //moves the tray servo to bring the sample in
@@ -173,24 +178,44 @@ public class BaseRobot{
     }
 
     public void SpecimenScoring(){
-        setIntakeSlidesPos(0);
         setOuttakeSlidesPos(OUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER);
-        outtakeAxle.setPosition(AXLE_STRAIGHT_OUT);
+        outtakeAxle.setPosition(AXLE_DOWN);
         outtakeWrist.setPosition(WRIST_SCORING);
         outtakeGrasper.setPosition(OUTTAKE_GRASPER_CLOSED);
     }
     public void HighBucketScoring(){
-        setIntakeSlidesPos(0);
         setOuttakeSlidesPos(OUTTAKE_SLIDES_TO_HB);
-        outtakeWrist.setPosition(WRIST_SCORING);
+        setOuttakeWristPos(WRIST_STRAIGHT);
+        setAxlePos(AXLE_UP);
+    }
+
+    public void resetOuttake(){
+        setOuttakeSlidesPos(0);
+        setOuttakeWristPos(WRIST_TO_TRAY);
+        setAxlePos(AXLE_TO_TRAY);
+    }
+    public void resetIntake(){
+        setV4bPos(V4B_IN_ROBOT);
+        setIntakeSlidesPos(0);
+        setTrayPos(TRAY_OPEN);
+        setIntakeGrasperPos(INTAKE_GRASPER_OPEN);
     }
 
 
 
     public void update(){
-        updateGimbalPos();
+        //motors
         updateIntakeSlidesPos();
         updateOuttakeSlidesPos();
+
+        //servos
+        updateAxlePos();
+        updateTrayPos();
+        updateGimbalPos();
+        updateIntakeGrasperPos();
+        updateOuttakeGrasperPos();
+        updateWristPos();
+        updateV4bPos();
     }
 
 
@@ -349,6 +374,7 @@ public class BaseRobot{
     public double getOuttakeWristPos(){
         return outtakeWristPos;
     }
+
     public double getOuttakeAxlePos(){
         return outtakeAxlePos;
     }
@@ -376,6 +402,9 @@ public class BaseRobot{
     public double getV4B_INTAKE_POS(){
         return V4B_INTAKE_POS;
     }
+    public double getV4B_HOVER_OVER_GROUND(){
+        return V4B_HOVER_OVER_GROUND;
+    }
     public double getGIMBAL_RESTING_POS(){
         return GIMBAL_RESTING_POS;
     }
@@ -397,17 +426,29 @@ public class BaseRobot{
     public double getAXLE_TO_TRAY(){
         return AXLE_TO_TRAY;
     }
+    public double getAXLE_UP(){
+        return AXLE_UP;
+    }
+    public double getAXLE_DOWN(){
+        return AXLE_DOWN;
+    }
     public double getAXLE_STRAIGHT_OUT(){
         return AXLE_STRAIGHT_OUT;
     }
     public double getOUTTAKE_WRIST_TO_WALL(){
-        return OUTTAKE_WRIST_TO_WALL;
+        return WRIST_TO_WALL;
     }
     public double getWRIST_TO_TRAY(){
         return WRIST_TO_TRAY;
     }
     public double getWRIST_SCORING(){
         return WRIST_SCORING;
+    }
+    public double getWRIST_STRAIGHT(){
+        return WRIST_STRAIGHT;
+    }
+    public double getWRIST_TO_WALL(){
+        return WRIST_TO_WALL;
     }
     public double getTRAY_CLOSED(){
         return TRAY_CLOSED;

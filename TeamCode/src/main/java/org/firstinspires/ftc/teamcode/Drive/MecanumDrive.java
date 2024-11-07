@@ -2,6 +2,12 @@ package org.firstinspires.ftc.teamcode.Drive;
 
 import androidx.annotation.NonNull;
 
+//new imports
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
+//end new imports
+
 import com.acmerobotics.dashboard.canvas.Canvas;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
@@ -452,6 +458,8 @@ public final class MecanumDrive {
         }
     }
 
+
+
     public PoseVelocity2d updatePoseEstimate() {
         Twist2dDual<Time> twist = localizer.update();
         pose = pose.plus(twist.value());
@@ -510,4 +518,30 @@ public final class MecanumDrive {
         headingOffset = Math.toDegrees(lazyImu.get().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
     }
     //end new imu stuff
+
+    public void driveFieldCentric(double xPow, double yPow, double rotPow, double speed, Telemetry telemetry) {
+        if (Math.abs(xPow) < .05 && Math.abs(yPow) < .05) {
+            setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), rotPow * speed));
+            return;
+        }
+
+        double targetTheta = Math.atan2(Math.toRadians(yPow), Math.toRadians(xPow));
+        double robotTheta = getHeading();
+        double diffTheta = Math.toDegrees(targetTheta) - Math.toDegrees(robotTheta);
+        if (telemetry != null)
+            telemetry.addLine("Target " + Math.toDegrees(targetTheta) + " Robot " + Math.toDegrees(robotTheta) + " Difference " + diffTheta);
+        xPow = Math.cos(Math.toRadians(diffTheta)) * speed;
+        yPow = Math.sin(Math.toRadians(diffTheta)) * speed;
+        rotPow = rotPow * speed;
+        rotPow = rotPow * speed;
+        if (telemetry != null) {
+            telemetry.addLine("XPOW: " + xPow);
+            telemetry.addLine("YPOW" + yPow);
+            telemetry.addLine("ROT POW" + rotPow);
+            telemetry.addLine("DIFF " + Math.toDegrees(diffTheta));
+        }
+        setDrivePowers(new PoseVelocity2d(new Vector2d(xPow, yPow), rotPow));
+    }
+
+
 }
