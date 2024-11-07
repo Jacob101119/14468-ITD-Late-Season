@@ -27,9 +27,12 @@ public class IntakeAction implements Action {
 
 
         robot.setIntakeGrasperPos(robot.getINTAKE_GRASPER_CLOSED());//close grasper
-        robot.setV4bPos(robot.getV4B_IN_ROBOT());//v4b in robot
-        robot.setIntakeSlidesPos(0);//slides in
-        robot.update();
+        if(time.milliseconds()>300){
+            robot.setV4bPos(robot.getV4B_IN_ROBOT());//v4b in robot
+            robot.setIntakeSlidesPos(0);//slides in
+            robot.update();
+        }
+        time.reset();
 
         if (time.milliseconds() > 1000 && robot.leftIntakeSlider.getCurrentPosition() == 0) {//wait 1 second and wait for slides to go in
             robot.setIntakeGrasperPos(robot.getINTAKE_GRASPER_OPEN());
