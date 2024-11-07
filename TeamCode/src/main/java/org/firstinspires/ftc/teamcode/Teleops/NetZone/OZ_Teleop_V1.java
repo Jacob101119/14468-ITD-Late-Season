@@ -38,7 +38,7 @@ public class OZ_Teleop_V1 extends LinearOpMode {
         while(!isStopRequested() && opModeIsActive()){
 
             double driveSpeed = 1;
-            robot.update();
+            robot.TeleopUpdate();
 
             //GAMEPAD1------------------------------------------------------------------------
 
@@ -59,8 +59,14 @@ public class OZ_Teleop_V1 extends LinearOpMode {
             //end drive
 
             //intake slides
-            robot.changeIntakeSlidesPos((int) (gamepad2.right_trigger - gamepad2.left_trigger) * 10);
-            //end intake slides
+
+            double intakePower = gamepad1.right_trigger-gamepad1.left_trigger;
+            if (Math.abs(intakePower)> 0.1) {
+                robot.setIntakePower(intakePower);
+            }
+            else {
+                robot.updateIntakeSlidesPos();
+            }//end intake slides
 
 
             //gimbal
@@ -97,8 +103,14 @@ public class OZ_Teleop_V1 extends LinearOpMode {
             //GAMEPAD2------------------------------------------------------------------------
 
 
-            robot.changeOuttakeSlidesPos((int)(gamepad2.right_trigger-gamepad2.left_trigger) * 10);
-
+            //outtake slides
+            double outtakePower = gamepad2.right_trigger-gamepad2.left_trigger;
+            if (Math.abs(outtakePower) > 0.1) {
+                robot.setOuttakePower(outtakePower);
+            }
+            else {
+                robot.updateOuttakeSlidesPos();
+            }
 
             //presets
             if (gamepad2.dpad_left){

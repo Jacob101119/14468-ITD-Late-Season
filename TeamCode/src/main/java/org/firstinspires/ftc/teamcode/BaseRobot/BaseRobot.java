@@ -33,8 +33,8 @@ public class BaseRobot{
     private double trayPos = 0;
 
     //servo constants
-    private final double V4B_IN_ROBOT = 0;//change
-    private final double V4B_INTAKE_POS = 0;//change
+    private final double V4B_IN_ROBOT = .915;//change
+    private final double V4B_INTAKE_POS = .19;//change
     private final double V4B_HOVER_OVER_GROUND = 0;//change
     private final double GIMBAL_RESTING_POS = 0; //change
     private final double INTAKE_GRASPER_OPEN = 0;//change
@@ -57,10 +57,10 @@ public class BaseRobot{
     //end servo constants
 
     //motor constants
-    private int INTAKE_SLIDES_MAX = 0;//chnage
-    private final int OUTTAKE_SLIDES_MAX = 0;//change
-    private final int OUTTAKE_SLIDES_TO_HB = 0;//change
-    private final int OUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER = 0;//change
+    private int INTAKE_SLIDES_MAX = 2197;//chnage
+    private final int OUTTAKE_SLIDES_MAX = 3100;//change
+    private final int OUTTAKE_SLIDES_TO_HB = 3100;//change
+    private final int OUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER = 1481;//change
 
     //end motor constants
 
@@ -101,22 +101,21 @@ public class BaseRobot{
         // Set to run with encoders and grab current Position
         leftIntakeSlider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftIntakeSlider.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftIntakeSlider.setDirection(DcMotorSimple.Direction.REVERSE);
+
 
         rightIntakeSlider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightIntakeSlider.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightIntakeSlider.setDirection(DcMotorSimple.Direction.REVERSE);
 
         intakeSlidesPos = leftIntakeSlider.getCurrentPosition();
 
 
         //outtake
         leftOuttakeSlider = hwMap.dcMotor.get("leftOuttakeSlider");
+        leftOuttakeSlider.setDirection(DcMotorSimple.Direction.REVERSE);
+
         rightOuttakeSlider = hwMap.dcMotor.get("rightOuttakeSlider");
-        //rightOuttakeSlider.setDirection(DcMotorSimple.Direction.REVERSE);
 
-
-
-        // Set to run with encoders and grab current Position
         leftOuttakeSlider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftOuttakeSlider.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         outtakeSlidesPos = leftOuttakeSlider.getCurrentPosition();
@@ -218,6 +217,20 @@ public class BaseRobot{
         updateV4bPos();
     }
 
+    public void TeleopUpdate(){
+        //motors
+
+
+        //servos
+        updateAxlePos();
+        updateTrayPos();
+        updateGimbalPos();
+        updateIntakeGrasperPos();
+        updateOuttakeGrasperPos();
+        updateWristPos();
+        updateV4bPos();
+    }
+
 
 
     public void updateGimbalPos(){
@@ -303,9 +316,12 @@ public class BaseRobot{
         rightIntakeSlider.setPower(INTAKE_SLIDES_POWER);
         leftIntakeSlider.setPower(INTAKE_SLIDES_POWER);
 
-        //if(leftIntakeSliderPos != rightIntakeSliderPos){
-          //  leftIntakeSliderPos = rightIntakeSliderPos;
-        //}
+        if(intakeSlidesPos > INTAKE_SLIDES_MAX){
+            intakeSlidesPos = INTAKE_SLIDES_MAX;
+        }
+        if(intakeSlidesPos < 0){
+            intakeSlidesPos = 0;
+        }
 
 
     }
@@ -316,6 +332,14 @@ public class BaseRobot{
     public void setIntakeSlidesPos(int newPos){
         intakeSlidesPos = newPos;
 
+    }
+
+    public void setIntakePower(double power) {
+        rightIntakeSlider.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftIntakeSlider.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intakeSlidesPos = leftIntakeSlider.getCurrentPosition();
+        rightIntakeSlider.setPower(power);
+        leftIntakeSlider.setPower(power);
     }
 
     //outtake -------------------------------------------------------------------------
@@ -337,6 +361,9 @@ public class BaseRobot{
             outtakeSlidesPos = OUTTAKE_SLIDES_MAX;
 
         }
+        if (outtakeSlidesPos < 0){
+            outtakeSlidesPos = 0;
+        }
 
     }
     public void changeOuttakeSlidesPos(int deltaPos){
@@ -347,8 +374,13 @@ public class BaseRobot{
 
     }
 
-
-
+    public void setOuttakePower(double power) {
+        rightOuttakeSlider.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftOuttakeSlider.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        outtakeSlidesPos = leftOuttakeSlider.getCurrentPosition();
+        rightOuttakeSlider.setPower(power);
+        leftOuttakeSlider.setPower(power);
+    }
 
 
     public void delay(double seconds){

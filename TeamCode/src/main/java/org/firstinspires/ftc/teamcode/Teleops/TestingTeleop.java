@@ -32,7 +32,7 @@ public class TestingTeleop extends LinearOpMode {
         while(!isStopRequested() && opModeIsActive()){
 
 
-            robot.drive.setDrivePowers(new PoseVelocity2d(new Vector2d(-gamepad1.left_stick_y, -gamepad1.left_stick_x), -gamepad1.right_stick_x));
+            //robot.drive.setDrivePowers(new PoseVelocity2d(new Vector2d(-gamepad1.left_stick_y, -gamepad1.left_stick_x), -gamepad1.right_stick_x));
 
 
             //updates
@@ -44,8 +44,10 @@ public class TestingTeleop extends LinearOpMode {
 
 
 
-            robot.changeOuttakeSlidesPos((int)(gamepad1.right_stick_y) * 3);
-            robot.changeIntakeSlidesPos((int) (gamepad1.left_stick_y) * 3);
+            robot.changeOuttakeSlidesPos((int)(-gamepad1.right_stick_y) * 3);
+
+
+            robot.changeIntakeSlidesPos((int) (-gamepad1.left_stick_y) * 3);
 
             if(gamepad1.a){
                 robot.setV4bPos(robot.getV4B_IN_ROBOT());
@@ -60,6 +62,7 @@ public class TestingTeleop extends LinearOpMode {
             //_____________________________________________________________________________________
 
 
+            telemetry.addData("joystick", gamepad1.right_stick_y);
 
             telemetry.addLine("robot position (starting at x: 0, y: 0, heading: 0)");
             telemetry.addData("x:", drive.pose.position.x);
