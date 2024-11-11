@@ -44,17 +44,31 @@ public class TestingTeleop extends LinearOpMode {
 
 
 
-            robot.changeOuttakeSlidesPos((int)(-gamepad1.right_stick_y) * 3);
-
-
-            robot.changeIntakeSlidesPos((int) (-gamepad1.left_stick_y) * 3);
-
             if(gamepad1.a){
-                robot.setV4bPos(robot.getV4B_IN_ROBOT());
-            }
-            if(gamepad1.y){
                 robot.setV4bPos(robot.getV4B_INTAKE_POS());
             }
+            if(gamepad1.y){
+                robot.setV4bPos(robot.getV4B_IN_ROBOT());
+            }
+
+            if(gamepad1.dpad_up){
+                robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_TRANSFER());
+
+            }
+
+            if(gamepad1.x){
+                robot.setTrayPos(robot.getTRAY_OPEN());
+            }
+            if(gamepad1.b){
+                robot.setTrayPos(robot.getTRAY_CLOSED());
+            }
+            if(gamepad1.dpad_down){
+                robot.setAxlePos(robot.getAXLE_DOWN());
+            }
+            if(gamepad1.dpad_left){
+                robot.setAxlePos(robot.getAXLE_IN_ROBOT());
+            }
+
 
 
 

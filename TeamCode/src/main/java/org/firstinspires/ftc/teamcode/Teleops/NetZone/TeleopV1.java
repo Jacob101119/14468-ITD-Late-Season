@@ -1,17 +1,22 @@
-package org.firstinspires.ftc.teamcode.Teleops.ObservationZone;
+package org.firstinspires.ftc.teamcode.Teleops.NetZone;
 
 //import com.google.blocks.ftcrobotcontroller.runtime.CRServoAccess;
+
+import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.BaseRobot.IntakeAction;
 import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.BaseRobot.BaseRobot;
 
 @TeleOp
-public class HB_Teleop_V2 extends LinearOpMode {
+public class TeleopV1 extends LinearOpMode {
 
     private com.qualcomm.robotcore.hardware.HardwareMap HardwareMap;
     BaseRobot robot;
@@ -25,42 +30,126 @@ public class HB_Teleop_V2 extends LinearOpMode {
 
 
         waitForStart();
-
+        //USE SPEED VARIABLE FOR DRIVE
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
         robot = new BaseRobot(hardwareMap);
 
         while(!isStopRequested() && opModeIsActive()){
 
+            double driveSpeed = 1;
+            robot.TeleopUpdate();
 
-            robot.drive.setDrivePowers(new PoseVelocity2d(new Vector2d(-gamepad1.left_stick_y, -gamepad1.left_stick_x), -gamepad1.right_stick_x));
+            //GAMEPAD1------------------------------------------------------------------------
 
+            //drive
+            robot.drive.setDrivePowers(new PoseVelocity2d(new Vector2d(-gamepad1.left_stick_y * driveSpeed, -gamepad1.left_stick_x * driveSpeed), -gamepad1.right_stick_x * driveSpeed));
 
-            //updates
-
-            robot.update();
-            //end
-
-
-
-
-
-            robot.changeOuttakeSlidesPos((int)(gamepad2.right_stick_y) * 10);
-            robot.changeIntakeSlidesPos((int) (gamepad2.left_stick_y) * 10);
-
-
-            if(gamepad1.a){
-                robot.setV4bPos(robot.getV4B_IN_ROBOT());
+            //drive speeds
+            if (gamepad1.dpad_up){
+                driveSpeed = 1;//full speed
             }
+            if (gamepad1.dpad_left || gamepad1.dpad_right){
+                driveSpeed = .5;//half speed
+            }
+            if (gamepad1.dpad_down){
+                driveSpeed = 0.25;//quarter speed
+            }
+
+            if(gamepad2.a){
+                //Action IntakeAction = org.firstinspires.ftc.teamcode.BaseRobot.IntakeAction;
+                Actions.runBlocking(new IntakeAction(robot));
+            }
+            //end drive speeds
+            //end drive
+
+            //intake slides
+
+            double intakePower = gamepad1.right_trigger-gamepad1.left_trigger *.3;
+            if (Math.abs(intakePower)> 0.1) {
+                robot.setIntakePower(intakePower);
+            }
+            else {
+                robot.updateIntakeSlidesPos();
+
+            }//end intake slides
+
+
+            //gimbal
+            if (gamepad1.left_bumper){
+                robot.changeGimbalPos(-.005);
+            }
+            if (gamepad1.right_bumper){
+                robot.changeGimbalPos(.005);
+            }
+            //end gimbal
+
+            //intake claw
+            if(gamepad1.x){
+                robot.setIntakeGrasperPos(robot.getINTAKE_GRASPER_OPEN());
+            }
+            if(gamepad1.b){
+                robot.setIntakeGrasperPos(robot.getINTAKE_GRASPER_CLOSED());
+            }
+            //end intake claw
+
+            //intake action
             if(gamepad1.y){
                 robot.setV4bPos(robot.getV4B_INTAKE_POS());
             }
+            //end intake action
 
+            //intake position
+            if (gamepad1.a){
+                robot.intakingFromGround();//v4b down, claw open, gimbal reset
+            }
+            //end intake position
+
+
+            //GAMEPAD2------------------------------------------------------------------------
+
+
+            //outtake slides
+            double outtakePower = gamepad2.right_trigger-gamepad2.left_trigger;
+            if (Math.abs(outtakePower) > 0.1) {
+                robot.setOuttakePower(outtakePower);
+            }
+            else {
+                robot.updateOuttakeSlidesPos();
+            }
+
+            //presets
+            if (gamepad2.dpad_left){
+                robot.setAxlePos(robot.getAXLE_DOWN());
+                robot.setOuttakeWristPos(robot.getWRIST_TO_TRAY());
+            }
+            if (gamepad2.dpad_right){
+                robot.setAxlePos(robot.getAXLE_TO_WALL());
+                robot.setOuttakeWristPos(robot.getOUTTAKE_WRIST_TO_WALL());
+            }
+            if(gamepad2.dpad_up){
+                robot.SpecimenScoring();
+            }
+            if(gamepad2.dpad_down){
+                robot.resetOuttake();
+            }
             if(gamepad2.y){
                 robot.HighBucketScoring();
             }
-            if(gamepad2.a){
-                robot.resetAll();
+            //end presets
+
+            //claw
+            if(gamepad2.right_bumper){
+                robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_CLOSED());
             }
+            if(gamepad2.left_bumper){
+                robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_OPEN());
+            }
+
+
+
+
+
+
 
 
 
