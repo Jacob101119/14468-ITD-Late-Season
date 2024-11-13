@@ -25,6 +25,9 @@ public class ServoTesting extends LinearOpMode {
 
 
         waitForStart();
+        //robot.setV4bPos(robot.getV4B_INTAKE_POS());
+        //robot.setAxlePos(robot.getAXLE_HB());
+
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
         robot = new BaseRobot(hardwareMap);
@@ -50,17 +53,19 @@ public class ServoTesting extends LinearOpMode {
                 robot.setV4bPos(robot.getV4B_IN_ROBOT());
             }
             if(gamepad2.y){
-                robot.setV4bPos(robot.getV4B_INTAKE_POS());
+               robot.setV4bPos(robot.getV4B_INTAKE_POS());
             }
             robot.changeAxlePos(gamepad2.right_stick_y * stickSpeed);
             robot.changeV4bPos(gamepad2.left_stick_y * stickSpeed);
-            robot.changeIntakeGrasperPos(gamepad1.left_stick_y * stickSpeed);
-            robot.changeGimbalPos(gamepad1.right_stick_y * stickSpeed);
+            robot.changeGimbalPos(gamepad1.left_stick_y * stickSpeed);
+            robot.changeIntakeGrasperPos(gamepad1.right_stick_y * stickSpeed);
 
             if(gamepad2.y){
-                robot.changeGimbalPos(.01);
+                //robot.changeGimbalPos(.01);
+                robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_OPEN());
             }if(gamepad2.a){
-                robot.changeGimbalPos(-.01);
+                //robot.changeGimbalPos(-.01);
+                robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_CLOSED());
             }
 
 

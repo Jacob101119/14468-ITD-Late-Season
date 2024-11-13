@@ -42,7 +42,7 @@ public class TeleopV1 extends LinearOpMode {
             //GAMEPAD1------------------------------------------------------------------------
 
             //drive
-            robot.drive.setDrivePowers(new PoseVelocity2d(new Vector2d(-gamepad1.left_stick_y * driveSpeed, -gamepad1.left_stick_x * driveSpeed), -gamepad1.right_stick_x * driveSpeed));
+            robot.drive.setDrivePowers(new PoseVelocity2d(new Vector2d(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed), -gamepad1.right_stick_x * driveSpeed));
 
             //drive speeds
             if (gamepad1.dpad_up){

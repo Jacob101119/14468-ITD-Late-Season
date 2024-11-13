@@ -33,29 +33,30 @@ public class BaseRobot{
     private double trayPos = 0;
 
     //servo constants
-    private final double V4B_IN_ROBOT = .8948;
-    private final double V4B_UP = .603;
-    private final double V4B_INTAKE_POS = .1011;
+    private final double V4B_IN_ROBOT = .79;
+    private final double V4B_UP = .5593;
+    private final double V4B_INTAKE_POS = .05;
     private final double V4B_HOVER_OVER_GROUND = .1;//change
-    private final double GIMBAL_RESTING_POS = .8618; //change
-    private final double INTAKE_GRASPER_OPEN = .949;//change
-    private final double INTAKE_GRASPER_CLOSED = 1;
-    private final double OUTTAKE_GRASPER_CLOSED = .9557;//change
-    private final double OUTTAKE_GRASPER_OPEN = .6852;//change
+    private final double GIMBAL_RESTING_POS = .1862; //change
+    private final double INTAKE_GRASPER_OPEN = .4068;
+    private final double INTAKE_GRASPER_CLOSED = .6357;
+    private final double OUTTAKE_GRASPER_CLOSED = .63;//change
+    private final double OUTTAKE_GRASPER_OPEN = .4563;//change
 
 
     private final double WRIST_TO_WALL = 0;//change
     private final double WRIST_STRAIGHT = 0;//change
     private final double WRIST_SCORING = 0;//change
 
-    private final double AXLE_TO_WALL = .181;
+    private final double AXLE_TO_WALL = .14;
     private final double AXLE_HB = .35;
     private final double AXLE_DOWN = .9773;
     private final double AXLE_IN_ROBOT = .5769;
 
     private final double WRIST_TO_TRAY = 0;//change
-    private final double TRAY_CLOSED = 0; //change //moves the tray servo to bring the sample in
-    private final double TRAY_OPEN = 0;//change
+    private final double TRAY_CLOSED = .5635;//moves the tray servo to bring the sample in
+    private final double TRAY_HALF_CLOSED = .65;
+    private final double TRAY_OPEN = .83;
 
     //end servo constants
 
@@ -147,7 +148,7 @@ public class BaseRobot{
         outtakeWristPos = outtakeWrist.getPosition();
 
         v4b = hwMap.servo.get("v4b");
-        v4b.setPosition(V4B_IN_ROBOT);
+        //v4b.setPosition(V4B_IN_ROBOT);
         v4bPos = v4b.getPosition();
 
         intakeGimbal = hwMap.servo.get("intakeGimbal");
@@ -155,7 +156,7 @@ public class BaseRobot{
         gimbalPos = intakeGimbal.getPosition();
 
         outtakeAxle = hwMap.servo.get("outtakeAxle");
-        //outtakeAxle.setPosition(AXLE_TO_TRAY);
+        outtakeAxle.setPosition(AXLE_TO_WALL);
         outtakeAxlePos = outtakeAxle.getPosition();
         //end servos
 
@@ -259,6 +260,9 @@ public class BaseRobot{
     }
 
     public void updateAxlePos(){
+        if(outtakeSlidesPos < OUTTAKE_SLIDES_TRANSFER && outtakeAxlePos < AXLE_IN_ROBOT){
+            //outtakeAxlePos = AXLE_IN_ROBOT;
+        }
         outtakeAxle.setPosition(outtakeAxlePos);
     }
     public void changeAxlePos(double deltaPos){
@@ -490,6 +494,9 @@ public class BaseRobot{
     }
     public double getTRAY_CLOSED(){
         return TRAY_CLOSED;
+    }
+    public double getTRAY_HALF_CLOSED(){
+        return TRAY_HALF_CLOSED;
     }
     public double getTRAY_OPEN(){
         return TRAY_OPEN;
