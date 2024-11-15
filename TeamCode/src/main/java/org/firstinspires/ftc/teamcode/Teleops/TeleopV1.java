@@ -60,7 +60,7 @@ public class TeleopV1 extends LinearOpMode {
                 driveSpeed = 0.25;//quarter speed
             }
 
-            if(gamepad1.y){
+            if(gamepad2.y){
 
                 Actions.runBlocking(new IntakeAction(robot));
             }

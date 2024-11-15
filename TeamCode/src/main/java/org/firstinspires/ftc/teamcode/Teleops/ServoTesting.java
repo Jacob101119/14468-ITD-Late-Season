@@ -57,7 +57,7 @@ public class ServoTesting extends LinearOpMode {
             }
             robot.changeAxlePos(gamepad2.right_stick_y * stickSpeed);
             robot.changeV4bPos(gamepad2.left_stick_y * stickSpeed);
-            robot.changeGimbalPos(gamepad1.left_stick_y * stickSpeed);
+            robot.changeTrayPos(gamepad1.left_stick_y * stickSpeed);
             robot.changeIntakeGrasperPos(gamepad1.right_stick_y * stickSpeed);
 
             if(gamepad2.y){

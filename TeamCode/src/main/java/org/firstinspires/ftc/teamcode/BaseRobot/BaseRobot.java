@@ -38,8 +38,8 @@ public class BaseRobot{
     private final double V4B_INTAKE_POS = .2644;
     private final double V4B_HOVER_OVER_GROUND = .32;//change
     private final double GIMBAL_RESTING_POS = .1862; //change
-    private final double INTAKE_GRASPER_OPEN = .12;
-    private final double INTAKE_GRASPER_CLOSED = .8546;
+    private final double INTAKE_GRASPER_OPEN = .2139;
+    private final double INTAKE_GRASPER_CLOSED = .4403;
     private final double OUTTAKE_GRASPER_CLOSED = .6;//change .
     private final double OUTTAKE_GRASPER_OPEN = .4092;//change
 
@@ -54,8 +54,8 @@ public class BaseRobot{
     private final double AXLE_IN_ROBOT = .5;
 
     private final double WRIST_TO_TRAY = 0;//change
-    private final double TRAY_CLOSED = .5635;//moves the tray servo to bring the sample in
-    private final double TRAY_HALF_CLOSED = .65;
+    private final double TRAY_CLOSED = .7;//moves the tray servo to bring the sample in
+    private final double TRAY_HALF_CLOSED = .5;
     private final double TRAY_OPEN = .83;
 
     //end servo constants
@@ -300,9 +300,9 @@ public class BaseRobot{
     public void updateIntakeGrasperPos(){
 
         //new limits to let v4b move
-        if(intakeGrasperPos != INTAKE_GRASPER_CLOSED && intakeGrasperPos != INTAKE_GRASPER_OPEN){
-            intakeGrasperPos = INTAKE_GRASPER_CLOSED;
-        }
+        //if(intakeGrasperPos != INTAKE_GRASPER_CLOSED && intakeGrasperPos != INTAKE_GRASPER_OPEN){
+          //  intakeGrasperPos = INTAKE_GRASPER_CLOSED;
+        //}
         intakeGrasper.setPosition(intakeGrasperPos);
     }
     public void changeIntakeGrasperPos(double deltaPos){

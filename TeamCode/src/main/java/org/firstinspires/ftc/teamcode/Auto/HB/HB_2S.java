@@ -68,7 +68,7 @@ public final class HB_2S extends LinearOpMode {
         Action moveToYellow1 = robot.drive.actionBuilder(robot.drive.pose)
                         .strafeToLinearHeading(new Vector2d(49.5, -42.5), Math.toRadians(90))
                                 .build();
-        Actions.runBlocking();
+        Actions.runBlocking(moveToYellow1);
 
         robot.setV4bPos(robot.getV4B_INTAKE_POS());
         robot.update();

@@ -28,6 +28,7 @@ public class IntakeAction implements Action {
         //prepare outtake for grabbing sample
         robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_TRANSFER()+400);//slides up a bit
         robot.setAxlePos(robot.getAXLE_HB());
+
         robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_OPEN());
         //end preparing outtake
 
@@ -93,7 +94,7 @@ public class IntakeAction implements Action {
         }
         robot.setTrayPos(robot.getTRAY_CLOSED());
         robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_TRANSFER());
-        robot.setTrayPos(robot.getTRAY_OPEN());
+
 
         robot.update();
         time.reset();
@@ -101,6 +102,7 @@ public class IntakeAction implements Action {
         while (time.milliseconds() < 500){
 
         }
+        robot.setTrayPos(robot.getTRAY_OPEN());
         robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_CLOSED());//close grasper
         robot.update();
         time.reset();

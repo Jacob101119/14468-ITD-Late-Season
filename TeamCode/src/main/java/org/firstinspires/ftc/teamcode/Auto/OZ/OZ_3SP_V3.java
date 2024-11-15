@@ -94,7 +94,7 @@ public final class OZ_3SP_V3 extends LinearOpMode {
 
         Action moveToSub2 = robot.drive.actionBuilder(robot.drive.pose)
                 .strafeToConstantHeading(new Vector2d(41, -55))//move back
-                .strafeToLinearHeading(new Vector2d(4, -31.5), Math.toRadians(-90))//move to sub
+                .strafeToLinearHeading(new Vector2d(4, -30.8), Math.toRadians(-90))//move to sub
                 .build();
         Actions.runBlocking(moveToSub2);
 
@@ -138,7 +138,7 @@ public final class OZ_3SP_V3 extends LinearOpMode {
 
         Action moveToSub3 = robot.drive.actionBuilder(robot.drive.pose)
                 .strafeToConstantHeading(new Vector2d(38, -59))
-                .strafeToLinearHeading(new Vector2d(4, -38), Math.toRadians(-90))
+                .strafeToLinearHeading(new Vector2d(4, -36), Math.toRadians(-90))
                 .build();
         Actions.runBlocking(moveToSub3);
 
