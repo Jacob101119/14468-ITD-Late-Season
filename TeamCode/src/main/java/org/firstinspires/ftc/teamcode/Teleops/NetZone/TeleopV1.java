@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Teleops.NetZone;
 
 //import com.google.blocks.ftcrobotcontroller.runtime.CRServoAccess;
 
+import com.acmerobotics.roadrunner.AccelConstraint;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
@@ -12,6 +13,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.BaseRobot.IntakeAction;
+import org.firstinspires.ftc.teamcode.BaseRobot.tryTwoIntake;
+
 import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.BaseRobot.BaseRobot;
 
@@ -55,9 +58,12 @@ public class TeleopV1 extends LinearOpMode {
                 driveSpeed = 0.25;//quarter speed
             }
 
-            if(gamepad2.a){
-                //Action IntakeAction = org.firstinspires.ftc.teamcode.BaseRobot.IntakeAction;
+            if(gamepad1.y){
+
                 Actions.runBlocking(new IntakeAction(robot));
+            }
+            if(gamepad2.start){
+                Actions.runBlocking(new tryTwoIntake(robot));
             }
             //end drive speeds
             //end drive
@@ -93,15 +99,13 @@ public class TeleopV1 extends LinearOpMode {
             //end intake claw
 
             //intake action
-            if(gamepad1.y){
-                robot.setV4bPos(robot.getV4B_INTAKE_POS());
+            if(gamepad1.a){
+                robot.intakePos();
             }
             //end intake action
 
             //intake position
-            if (gamepad1.a){
-                robot.intakingFromGround();//v4b down, claw open, gimbal reset
-            }
+
             //end intake position
 
 

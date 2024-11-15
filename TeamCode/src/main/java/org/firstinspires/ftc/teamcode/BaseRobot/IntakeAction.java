@@ -67,6 +67,7 @@ public class IntakeAction implements Action {
         }
 
         robot.setV4bPos(robot.getV4B_UP());
+        robot.setTrayPos(robot.getTRAY_HALF_CLOSED());
         robot.update();
         //v4b out of way of the outtake
         time.reset();
@@ -87,7 +88,7 @@ public class IntakeAction implements Action {
         robot.update();
         time.reset();
 
-        while (time.milliseconds() < 800){//wait 1 second
+        while (time.milliseconds() < 500){//wait 1 second
 
         }
         robot.setTrayPos(robot.getTRAY_CLOSED());
@@ -97,17 +98,17 @@ public class IntakeAction implements Action {
         robot.update();
         time.reset();
 
-        while (time.milliseconds() < 1000){
+        while (time.milliseconds() < 500){
 
         }
         robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_CLOSED());//close grasper
         robot.update();
         time.reset();
-        while (time.milliseconds() < 8000){
+        while (time.milliseconds() < 400){
 
         }
         robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER());
-        robot.setAxlePos(robot.getAXLE_TO_WALL());
+        robot.setAxlePos(robot.getAXLE_HB());
         robot.update();
 
 
