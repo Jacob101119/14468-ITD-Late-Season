@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Teleops.NetZone;
+package org.firstinspires.ftc.teamcode.Teleops;
 
 //import com.google.blocks.ftcrobotcontroller.runtime.CRServoAccess;
 
@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.BaseRobot.BaseRobot;
 
 @TeleOp
-public class TeleopV1 extends LinearOpMode {
+public class Teleop_Meet_4 extends LinearOpMode {
 
     private com.qualcomm.robotcore.hardware.HardwareMap HardwareMap;
     BaseRobot robot;
@@ -58,19 +58,13 @@ public class TeleopV1 extends LinearOpMode {
                 driveSpeed = 0.25;//quarter speed
             }
 
-            if(gamepad1.y){
 
-                Actions.runBlocking(new IntakeAction(robot));
-            }
-            if(gamepad2.start){
-                Actions.runBlocking(new tryTwoIntake(robot));
-            }
             //end drive speeds
             //end drive
 
             //intake slides
 
-            double intakePower = gamepad1.right_trigger-gamepad1.left_trigger *.3;
+            double intakePower = gamepad2.right_stick_y-gamepad2.left_stick_y *.3;
             if (Math.abs(intakePower)> 0.1) {
                 robot.setIntakePower(intakePower);
             }
@@ -81,32 +75,20 @@ public class TeleopV1 extends LinearOpMode {
 
 
             //gimbal
-            if (gamepad1.left_bumper){
+            if (gamepad2.back){
                 robot.changeGimbalPos(-.005);
             }
-            if (gamepad1.right_bumper){
+            if (gamepad2.start){
                 robot.changeGimbalPos(.005);
+            }
+
+            if(gamepad2.right_stick_button || gamepad2.left_stick_button){
+                robot.setGimbalPos(robot.getGIMBAL_RESTING_POS());
             }
             //end gimbal
 
-            //intake claw
-            if(gamepad1.x){
-                robot.setIntakeGrasperPos(robot.getINTAKE_GRASPER_OPEN());
-            }
-            if(gamepad1.b){
-                robot.setIntakeGrasperPos(robot.getINTAKE_GRASPER_CLOSED());
-            }
-            //end intake claw
 
-            //intake action
-            if(gamepad1.a){
-                robot.intakePos();
-            }
-            //end intake action
 
-            //intake position
-
-            //end intake position
 
 
             //GAMEPAD2------------------------------------------------------------------------
@@ -121,24 +103,22 @@ public class TeleopV1 extends LinearOpMode {
                 robot.updateOuttakeSlidesPos();
             }
 
+
+            //SPECIMEN______________________________________________________________
             //presets
+
             if (gamepad2.dpad_left){
-                robot.setAxlePos(robot.getAXLE_DOWN());
-                robot.setOuttakeWristPos(robot.getWRIST_TO_TRAY());
-            }
-            if (gamepad2.dpad_right){
-                robot.setAxlePos(robot.getAXLE_TO_WALL());
-                robot.setOuttakeWristPos(robot.getOUTTAKE_WRIST_TO_WALL());
+                robot.HighBucketScoring();//high bucket
             }
             if(gamepad2.dpad_up){
-                robot.SpecimenScoring();
+                robot.SpecimenScoring();//specimen
             }
             if(gamepad2.dpad_down){
-                robot.resetOuttake();
+                robot.setAxlePos(robot.getAXLE_TO_WALL());//grab from wall
+                robot.setOuttakeSlidesPos(0);
+                robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_OPEN());
             }
-            if(gamepad2.y){
-                robot.HighBucketScoring();
-            }
+
             //end presets
 
             //claw
@@ -148,6 +128,35 @@ public class TeleopV1 extends LinearOpMode {
             if(gamepad2.left_bumper){
                 robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_OPEN());
             }
+            //END SPECIMEN_________________________________
+
+            //TRANSFER______________________________
+
+
+            if(gamepad2.a){
+                robot.intakePos();//get ready for intake
+            }
+            if(gamepad2.y){
+                Actions.runBlocking(new IntakeAction(robot));//intake
+            }
+            if(gamepad2.dpad_right){
+                robot.setV4bPos(robot.getV4B_HOVER_OVER_GROUND());
+            }
+
+            //claw
+            if(gamepad1.x){
+                robot.setIntakeGrasperPos(robot.getINTAKE_GRASPER_CLOSED());//close claw
+            }
+            if(gamepad1.b){
+                robot.setIntakeGrasperPos(robot.getINTAKE_GRASPER_OPEN());//open claw
+            }
+            //end claw
+
+            //END TRANSFER_________________________________
+
+
+
+
 
 
 
@@ -163,7 +172,20 @@ public class TeleopV1 extends LinearOpMode {
             //_____________________________________________________________________________________
 
 
+           /* double voltage = drive.voltageSensor.getVoltage();
+            if(voltage < 12 && voltage > 10){
+                telemetry.addLine("MEDIUM VOLTAGE");
+                telemetry.update();
+            }
+            if(voltage >12){
+                telemetry.addLine("Good voltage");
+            }
+            if(voltage <10){
+                telemetry.addLine("LOW VOLTAGE");
+                telemetry.update();
+            }
 
+            */
             telemetry.addLine("robot position (starting at x: 0, y: 0, heading: 0)");
             telemetry.addData("x:", drive.pose.position.x);
             telemetry.addData("y:", drive.pose.position.y);
@@ -208,26 +230,29 @@ public class TeleopV1 extends LinearOpMode {
             telemetry.addLine();
             telemetry.addLine();
 
-            /*
+
             telemetry.addLine("controls: ");
             telemetry.addLine();
 
             telemetry.addLine("Gamepad1:");
             telemetry.addLine("right/left stick: drive");
-            //telemetry.addLine("right/left trigger: slides");
+            telemetry.addLine("dpad_up/right & left/down: speeds high/med/low");
+
             telemetry.addLine();
 
             telemetry.addLine("Gamepad2:");
-            telemetry.addLine("left stick: pivot motor");
-            telemetry.addLine("right stick: slides");
-            telemetry.addLine("dpad_up/down: axle rotation servo");
-            telemetry.addLine("dpad_left/right: grasper");
-            telemetry.addLine("a: pivot motor back");
-            telemetry.addLine("y: pivot motor vertical");
-            telemetry.addLine("b: pivot motor horizontal");
-            telemetry.addLine("left/right bumper: change gimbal pos");
-            telemetry.addLine("left&right bumper at the same time: reset gimbal pos");
-             */
+            telemetry.addLine("sticks: intake slides");
+            telemetry.addLine("triggers: outtake slides");
+            telemetry.addLine("dpad_up: Specimen scoring");
+            telemetry.addLine("dpad_left: HB scoring");
+            telemetry.addLine("dpad_down: Grab from wall");
+            telemetry.addLine("dpad_right: v4b hover over ground");
+            telemetry.addLine("bumpers: outtake claw");
+            telemetry.addLine("b/x: intake claw open/closed");
+            telemetry.addLine("y: intake action");
+            telemetry.addLine("a: v4b intake pos");
+
+
             telemetry.update();
             //end telemetry
 

@@ -51,7 +51,7 @@ public class BaseRobot{
     private final double AXLE_TO_WALL = .14;
     private final double AXLE_HB = .35;
     private final double AXLE_DOWN = .9773;
-    private final double AXLE_IN_ROBOT = .5769;
+    private final double AXLE_IN_ROBOT = .5;
 
     private final double WRIST_TO_TRAY = 0;//change
     private final double TRAY_CLOSED = .5635;//moves the tray servo to bring the sample in
@@ -67,7 +67,7 @@ public class BaseRobot{
     private final int OUTTAKE_SLIDES_TRANSFER = 390;
     private final int OUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER = 1685;
     //1151
-    int OUTTAKE_SLIDES_ON_HIGH_CHAMBER = 890;
+    private final int OUTTAKE_SLIDES_ON_HIGH_CHAMBER = 890;
     private final int OUTTAKE_SLIDES_UPSIDE_DOWN_HIGH_CHAMBER = 1151;
 
     //end motor constants
@@ -175,30 +175,22 @@ public class BaseRobot{
         outtakeWrist.setPosition(WRIST_TO_TRAY);
 
     }
-    public void intakingFromGround(){
-        setOuttakeSlidesPos(OUTTAKE_SLIDES_TRANSFER);
-        setIntakeSlidesPos(0);
-        v4b.setPosition(V4B_INTAKE_POS);
-        intakeGrasper.setPosition(INTAKE_GRASPER_OPEN);
-        outtakeAxle.setPosition(AXLE_DOWN);
-        outtakeWrist.setPosition(WRIST_TO_TRAY);
-    }
 
     public void SpecimenScoring(){
         setOuttakeSlidesPos(OUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER);
-        outtakeAxle.setPosition(AXLE_DOWN);
-        outtakeWrist.setPosition(WRIST_SCORING);
+        outtakeAxle.setPosition(AXLE_TO_WALL);
+        //outtakeWrist.setPosition(WRIST_SCORING);
         outtakeGrasper.setPosition(OUTTAKE_GRASPER_CLOSED);
     }
     public void HighBucketScoring(){
         setOuttakeSlidesPos(OUTTAKE_SLIDES_TO_HB);
-        setOuttakeWristPos(WRIST_STRAIGHT);
+        //setOuttakeWristPos(WRIST_STRAIGHT);
         setAxlePos(AXLE_HB);
     }
 
     public void resetOuttake(){
         setOuttakeSlidesPos(0);
-        setOuttakeWristPos(WRIST_TO_TRAY);
+        //setOuttakeWristPos(WRIST_TO_TRAY);
         setAxlePos(AXLE_IN_ROBOT);
     }
     public void resetIntake(){
@@ -247,7 +239,14 @@ public class BaseRobot{
         setTrayPos(TRAY_OPEN);
     }
 
-
+    public void servoTestingUpdate(){
+        intakeGimbal.setPosition(gimbalPos);
+        outtakeAxle.setPosition(outtakeAxlePos);
+        tray.setPosition(trayPos);
+        intakeGrasper.setPosition(intakeGrasperPos);
+        outtakeGrasper.setPosition(outtakeGrasperPos);
+        v4b.setPosition(v4bPos);
+    }
 
     public void updateGimbalPos(){
         intakeGimbal.setPosition(gimbalPos);
@@ -289,10 +288,21 @@ public class BaseRobot{
         trayPos += deltaPos;
     }
     public void setTrayPos(double newPos){
+        if(trayPos > TRAY_OPEN){
+            trayPos = TRAY_OPEN;
+        }
+        if(trayPos < TRAY_CLOSED){
+            trayPos = TRAY_CLOSED;
+        }
         trayPos = newPos;
     }
 
     public void updateIntakeGrasperPos(){
+
+        //new limits to let v4b move
+        if(intakeGrasperPos != INTAKE_GRASPER_CLOSED && intakeGrasperPos != INTAKE_GRASPER_OPEN){
+            intakeGrasperPos = INTAKE_GRASPER_CLOSED;
+        }
         intakeGrasper.setPosition(intakeGrasperPos);
     }
     public void changeIntakeGrasperPos(double deltaPos){
@@ -303,6 +313,10 @@ public class BaseRobot{
     }
 
     public void updateOuttakeGrasperPos(){
+        if(outtakeGrasperPos != OUTTAKE_GRASPER_CLOSED && outtakeGrasperPos != OUTTAKE_GRASPER_OPEN){
+            intakeGrasperPos = OUTTAKE_GRASPER_CLOSED;
+        }
+
         outtakeGrasper.setPosition(outtakeGrasperPos);
     }
     public void changeOuttakeGrasperPos(double deltaPos){
@@ -313,6 +327,12 @@ public class BaseRobot{
     }
 
     public void updateV4bPos(){
+        if (v4bPos > getV4B_IN_ROBOT()){
+            v4bPos = getV4B_IN_ROBOT();
+        }
+        if(v4bPos < V4B_INTAKE_POS){
+            v4bPos = V4B_INTAKE_POS;
+        }
         v4b.setPosition(v4bPos);
     }
     public void changeV4bPos(double deltaPos){
