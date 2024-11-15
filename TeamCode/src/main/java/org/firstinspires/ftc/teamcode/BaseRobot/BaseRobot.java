@@ -35,13 +35,14 @@ public class BaseRobot{
     //servo constants
     private final double V4B_IN_ROBOT = .8943;
     private final double V4B_UP = .5593;
+    private final double V4B_RESTING_POS = .62;
     private final double V4B_INTAKE_POS = .2644;
-    private final double V4B_HOVER_OVER_GROUND = .32;//change
-    private final double GIMBAL_RESTING_POS = .1862; //change
+    private final double V4B_HOVER_OVER_GROUND = .32;
+    private final double GIMBAL_RESTING_POS = .1862;
     private final double INTAKE_GRASPER_OPEN = .2139;
     private final double INTAKE_GRASPER_CLOSED = .4403;
-    private final double OUTTAKE_GRASPER_CLOSED = .6;//change .
-    private final double OUTTAKE_GRASPER_OPEN = .4092;//change
+    private final double OUTTAKE_GRASPER_CLOSED = .6;
+    private final double OUTTAKE_GRASPER_OPEN = .4092;
 
 
     private final double WRIST_TO_WALL = 0;//change
@@ -233,7 +234,7 @@ public class BaseRobot{
     }
 
     public void intakePos(){
-        setV4bPos(getV4B_INTAKE_POS());
+        setV4bPos(V4B_INTAKE_POS);
         setIntakeGrasperPos(getINTAKE_GRASPER_CLOSED());
         setGimbalPos(GIMBAL_RESTING_POS);
         setTrayPos(TRAY_OPEN);
@@ -327,8 +328,8 @@ public class BaseRobot{
     }
 
     public void updateV4bPos(){
-        if (v4bPos > getV4B_IN_ROBOT()){
-            v4bPos = getV4B_IN_ROBOT();
+        if (v4bPos > V4B_IN_ROBOT()){
+            v4bPos = V4B_IN_ROBOT;
         }
         if(v4bPos < V4B_INTAKE_POS){
             v4bPos = V4B_INTAKE_POS;
@@ -475,6 +476,9 @@ public class BaseRobot{
     }
     public double getV4B_UP(){
         return V4B_UP;
+    }
+    public double getV4B_RESTING_POS(){
+        return V4B_RESTING_POS;
     }
     public double getV4B_HOVER_OVER_GROUND(){
         return V4B_HOVER_OVER_GROUND;

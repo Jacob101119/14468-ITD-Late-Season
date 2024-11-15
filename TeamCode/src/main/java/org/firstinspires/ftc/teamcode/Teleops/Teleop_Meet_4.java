@@ -112,6 +112,7 @@ public class Teleop_Meet_4 extends LinearOpMode {
             }
             if(gamepad2.dpad_up){
                 robot.SpecimenScoring();//specimen
+                robot.setV4bPos(robot.getV4B_RESTING_POS());
             }
             if(gamepad2.dpad_down){
                 robot.setAxlePos(robot.getAXLE_TO_WALL());//grab from wall
