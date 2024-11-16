@@ -33,16 +33,16 @@ public class BaseRobot{
     private double trayPos = 0;
 
     //servo constants
-    private final double V4B_IN_ROBOT = .8943;
-    private final double V4B_UP = .5593;
-    private final double V4B_RESTING_POS = .62;
-    private final double V4B_INTAKE_POS = .2644;
-    private final double V4B_HOVER_OVER_GROUND = .32;
+    private final double V4B_IN_ROBOT = .7638;
+    private final double V4B_UP = .45;
+    private final double V4B_RESTING_POS = .6544;
+    private final double V4B_INTAKE_POS = .1;
+    private final double V4B_HOVER_OVER_GROUND = .2397;
     private final double GIMBAL_RESTING_POS = .1862;
-    private final double INTAKE_GRASPER_OPEN = .2139;
-    private final double INTAKE_GRASPER_CLOSED = .4403;
-    private final double OUTTAKE_GRASPER_CLOSED = .6;
-    private final double OUTTAKE_GRASPER_OPEN = .4092;
+    private final double INTAKE_GRASPER_OPEN = .5875;
+    private final double INTAKE_GRASPER_CLOSED = 1;
+    private final double OUTTAKE_GRASPER_CLOSED = .6584;
+    private final double OUTTAKE_GRASPER_OPEN = .3916;
 
 
     private final double WRIST_TO_WALL = 0;//change
@@ -62,7 +62,7 @@ public class BaseRobot{
     //end servo constants
 
     //motor constants
-    private int INTAKE_SLIDES_MAX = 2197;
+    private int INTAKE_SLIDES_MAX = 1661;
     private final int OUTTAKE_SLIDES_MAX = 3100;
     private final int OUTTAKE_SLIDES_TO_HB = 3070;
     private final int OUTTAKE_SLIDES_TRANSFER = 390;
@@ -328,12 +328,14 @@ public class BaseRobot{
     }
 
     public void updateV4bPos(){
-        if (v4bPos > V4B_IN_ROBOT()){
+        /*if (v4bPos > V4B_IN_ROBOT){
             v4bPos = V4B_IN_ROBOT;
         }
         if(v4bPos < V4B_INTAKE_POS){
             v4bPos = V4B_INTAKE_POS;
         }
+
+         */
         v4b.setPosition(v4bPos);
     }
     public void changeV4bPos(double deltaPos){

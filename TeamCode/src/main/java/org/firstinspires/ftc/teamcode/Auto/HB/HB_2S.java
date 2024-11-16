@@ -29,7 +29,7 @@ public final class HB_2S extends LinearOpMode {
     public void runOpMode() throws InterruptedException{
 
         double startY = -62.7;
-        robot = new BaseRobot(hardwareMap, new Pose2d(-39, startY, Math.toRadians(180)));
+        robot = new BaseRobot(hardwareMap, new Pose2d(-39, -62.7, Math.toRadians(0)));
 
 
 
@@ -42,68 +42,42 @@ public final class HB_2S extends LinearOpMode {
 
         waitForStart();
 
-        robot.setAxlePos(robot.getAXLE_HB());
-        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_TO_HB());
+        robot.setAxlePos(robot.getAXLE_TO_WALL());
+        robot.setOuttakeSlidesPos(2104);
         robot.update();
 
         Action moveForwardAtHB1 = robot.drive.actionBuilder(robot.drive.pose)
-                        .strafeToConstantHeading(new Vector2d(-50, startY))
+                .strafeToLinearHeading(new Vector2d(-59, -59), Math.toRadians(45))
+                        .strafeToLinearHeading(new Vector2d(-59, -59), Math.toRadians(45))
                                 .build();
         Actions.runBlocking(moveForwardAtHB1);
-
+        robot.delay(2);
         robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_OPEN());
         robot.update();
 
         Action moveBackFromHB1 = robot.drive.actionBuilder(robot.drive.pose)
-                .strafeToConstantHeading(new Vector2d(-46, startY))
+                .strafeToConstantHeading(new Vector2d(-50, -50))
+
                 .build();
         Actions.runBlocking(moveBackFromHB1);
 
-        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_TRANSFER());
-        robot.setV4bPos(robot.getV4B_HOVER_OVER_GROUND());
-        robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_OPEN());
-        robot.update();
 
-
-        Action moveToYellow1 = robot.drive.actionBuilder(robot.drive.pose)
-                        .strafeToLinearHeading(new Vector2d(49.5, -42.5), Math.toRadians(90))
-                                .build();
-        Actions.runBlocking(moveToYellow1);
-
-        robot.setV4bPos(robot.getV4B_INTAKE_POS());
-        robot.update();
-        robot.delay(.5);
-
-        robot.setIntakeGrasperPos(robot.getINTAKE_GRASPER_CLOSED());
-        robot.update();
-        robot.delay(.1);
-
-        Actions.runBlocking(new IntakeAction(robot));//intake action
-        robot.delay(.1);
-
-        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_TO_HB());
-        robot.update();
-
-        Action moveToHB2 = robot.drive.actionBuilder(robot.drive.pose)
-                .strafeToLinearHeading(new Vector2d(-55.2, -55.2), Math.toRadians(225))
-                .build();
-        Actions.runBlocking(moveToHB2);
-
-        robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_OPEN());
-        robot.update();
-
-        Action moveBackFromHB2 = robot.drive.actionBuilder(robot.drive.pose)
-                .strafeToConstantHeading(new Vector2d(-50, -50))
-                .build();
-        Actions.runBlocking(moveBackFromHB2);
 
         robot.setOuttakeSlidesPos(0);
         robot.update();
 
         Action touchLowBar = robot.drive.actionBuilder(robot.drive.pose)
-                .strafeToLinearHeading(new Vector2d(-26.7, -10.6),Math.toRadians(180))
+
+                .strafeToLinearHeading(new Vector2d(-30, -10.6), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-26.7, -10.6),Math.toRadians(0))
                 .build();
         Actions.runBlocking(touchLowBar);
+        robot.setV4bPos(robot.getV4B_HOVER_OVER_GROUND());
+        robot.update();
+        robot.delay(.5);
+        robot.setIntakeGrasperPos(robot.getINTAKE_GRASPER_OPEN());
+        robot.update();
+
 
     }
 }
