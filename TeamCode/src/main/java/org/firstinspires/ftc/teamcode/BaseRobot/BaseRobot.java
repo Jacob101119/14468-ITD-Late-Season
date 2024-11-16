@@ -39,10 +39,10 @@ public class BaseRobot{
     private final double V4B_INTAKE_POS = .1;
     private final double V4B_HOVER_OVER_GROUND = .2397;
     private final double GIMBAL_RESTING_POS = .1862;
-    private final double INTAKE_GRASPER_OPEN = .5875;
-    private final double INTAKE_GRASPER_CLOSED = 1;
-    private final double OUTTAKE_GRASPER_CLOSED = .6584;
-    private final double OUTTAKE_GRASPER_OPEN = .3916;
+    private final double INTAKE_GRASPER_OPEN = .710;
+    private final double INTAKE_GRASPER_CLOSED = .875;
+    private final double OUTTAKE_GRASPER_CLOSED = 1;
+    private final double OUTTAKE_GRASPER_OPEN = .8435;
 
 
     private final double WRIST_TO_WALL = 0;//change
@@ -270,9 +270,9 @@ public class BaseRobot{
     }
 
     public void updateAxlePos(){
-        if(outtakeSlidesPos < OUTTAKE_SLIDES_TRANSFER && outtakeAxlePos > AXLE_IN_ROBOT){
-            outtakeAxlePos = AXLE_IN_ROBOT;
-        }
+        //if(outtakeSlidesPos < OUTTAKE_SLIDES_TRANSFER && outtakeAxlePos > AXLE_IN_ROBOT){
+          //  outtakeAxlePos = AXLE_IN_ROBOT;
+        //}
         outtakeAxle.setPosition(outtakeAxlePos);
     }
     public void changeAxlePos(double deltaPos){

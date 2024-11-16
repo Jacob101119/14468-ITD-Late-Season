@@ -5,17 +5,14 @@ package org.firstinspires.ftc.teamcode.Teleops;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
-import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
-import org.firstinspires.ftc.teamcode.BaseRobot.IntakeAction;
 
 import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.BaseRobot.BaseRobot;
 
 @TeleOp
-public class A_Teleop_Meet_4 extends LinearOpMode {
+public class A_TELEOP_MEET_4 extends LinearOpMode {
 
     private com.qualcomm.robotcore.hardware.HardwareMap HardwareMap;
     BaseRobot robot;
@@ -138,7 +135,8 @@ public class A_Teleop_Meet_4 extends LinearOpMode {
                 robot.intakePos();//get ready for intake
             }
             if(gamepad2.y){
-                Actions.runBlocking(new IntakeAction(robot));//intake
+                //Actions.runBlocking(new IntakeAction(robot));//intake
+                robot.setV4bPos(robot.getV4B_HOVER_OVER_GROUND());
             }
             if(gamepad2.dpad_right){
                 robot.setV4bPos(robot.getV4B_HOVER_OVER_GROUND());
@@ -187,6 +185,7 @@ public class A_Teleop_Meet_4 extends LinearOpMode {
             }
 
             */
+
             telemetry.addLine("robot position (starting at x: 0, y: 0, heading: 0)");
             telemetry.addData("x:", drive.pose.position.x);
             telemetry.addData("y:", drive.pose.position.y);

@@ -47,8 +47,8 @@ public final class HB_2S extends LinearOpMode {
         robot.update();
 
         Action moveForwardAtHB1 = robot.drive.actionBuilder(robot.drive.pose)
-                .strafeToLinearHeading(new Vector2d(-59, -59), Math.toRadians(45))
-                        .strafeToLinearHeading(new Vector2d(-59, -59), Math.toRadians(45))
+                .strafeToLinearHeading(new Vector2d(-54, -54), Math.toRadians(45))
+                        .strafeToConstantHeading(new Vector2d(-59, -59))
                                 .build();
         Actions.runBlocking(moveForwardAtHB1);
         robot.delay(2);
@@ -77,6 +77,7 @@ public final class HB_2S extends LinearOpMode {
         robot.delay(.5);
         robot.setIntakeGrasperPos(robot.getINTAKE_GRASPER_OPEN());
         robot.update();
+        robot.delay(6);
 
 
     }
