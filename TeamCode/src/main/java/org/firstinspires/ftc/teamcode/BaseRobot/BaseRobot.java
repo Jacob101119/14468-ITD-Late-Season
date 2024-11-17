@@ -16,10 +16,7 @@ public class BaseRobot{
 
 
     //color sensor
-    private static final int COLOR_RANGE = 50;
-    private static final int RED_THRESHOLD = 150;
-    private static final int GREEN_THRESHOLD = 150;
-    private static final int BLUE_THRESHOLD = 150;
+
 
 
     //end color sensor
@@ -191,30 +188,27 @@ public class BaseRobot{
         int green = colorSensor.green();
         int blue = colorSensor.blue();
 
-        if (isRed(red, green, blue)) {
-            return "Red";
-        } else if (isBlue(red, green, blue)) {
-            return "Blue";
-        } else if (isYellow(red, green, blue)) {
-            return "Yellow";
+        if (isRedSample(red, green, blue)) {
+            return "RedSample";
+        } else if (isBlueSample(red, green, blue)) {
+            return "BlueSample";
+        } else if (isYellowSample(red, green, blue)) {
+            return "YellowSample";
         } else {
             return "No Color"; // Default when no color is detected
         }
     }
 
-    // Method to check if the color is Red
-    private boolean isRed(int red, int green, int blue) {
-        return red > 100 && green < 80 && blue < 80; // You may need to adjust the values based on your tests
-    }
 
-    // Method to check if the color is Blue
-    private boolean isBlue(int red, int green, int blue) {
-        return blue > 100 && red < 80 && green < 80; // Adjust the threshold values as needed
-    }
 
-    // Method to check if the color is Yellow
-    private boolean isYellow(int red, int green, int blue) {
-        return red > 100 && green > 100 && blue < 80; // Yellow typically has high red and green values with low blue
+    private boolean isRedSample(int red, int green, int blue) {
+        return red > 100 && green < 80 && blue < 80;
+    }
+    private boolean isBlueSample(int red, int green, int blue) {
+        return blue > 100 && red < 80 && green < 80;//check if all of these are true, if not return false
+    }
+    private boolean isYellowSample(int red, int green, int blue) {
+        return red > 100 && green > 100 && blue < 80;
     }
 
 
@@ -227,8 +221,7 @@ public class BaseRobot{
         v4b.setPosition(V4B_IN_ROBOT);
         outtakeAxle.setPosition(.5769);
         outtakeWrist.setPosition(WRIST_TO_TRAY);
-
-    }
+        }
 
     public void SpecimenScoring(){
         setOuttakeSlidesPos(OUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER);
@@ -625,19 +618,7 @@ public class BaseRobot{
     }
 
 
-    //color sensor
-    public int getColorRange(){
-        return COLOR_RANGE;
-    }
-    public int getRedThreshold(){
-        return RED_THRESHOLD;
-    }
-    public int getGreenThreshold(){
-        return GREEN_THRESHOLD;
-    }
-    public int getBlueThreshold(){
-        return BLUE_THRESHOLD;
-    }
+
 
 }
 
