@@ -6,11 +6,23 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
 
 
 public class BaseRobot{
+
+
+
+    //color sensor
+    private static final int COLOR_RANGE = 50;
+    private static final int RED_THRESHOLD = 150;
+    private static final int GREEN_THRESHOLD = 150;
+    private static final int BLUE_THRESHOLD = 150;
+
+
+    //end color sensor
 
 
     //motor powers
@@ -92,6 +104,8 @@ public class BaseRobot{
     Servo outtakeAxle;
     Servo tray;
 
+    public ColorSensor colorSensor;
+
 
 
     public BaseRobot(HardwareMap hwMap){
@@ -101,6 +115,9 @@ public class BaseRobot{
     public BaseRobot(HardwareMap hwMap, Pose2d pose){
 
         drive = new MecanumDrive(hwMap, pose);
+
+        colorSensor = hwMap.colorSensor.get("colorSensor");
+        colorSensor.enableLed(true);
 
 
         leftIntakeSlider = hwMap.dcMotor.get("leftIntakeSlider");
@@ -168,7 +185,43 @@ public class BaseRobot{
 
     }
 
-    public void resetAll(){
+    public String detectColor() {
+        // Get the RGB values from the color sensor
+        int red = colorSensor.red();
+        int green = colorSensor.green();
+        int blue = colorSensor.blue();
+
+        if (isRed(red, green, blue)) {
+            return "Red";
+        } else if (isBlue(red, green, blue)) {
+            return "Blue";
+        } else if (isYellow(red, green, blue)) {
+            return "Yellow";
+        } else {
+            return "No Color"; // Default when no color is detected
+        }
+    }
+
+    // Method to check if the color is Red
+    private boolean isRed(int red, int green, int blue) {
+        return red > 100 && green < 80 && blue < 80; // You may need to adjust the values based on your tests
+    }
+
+    // Method to check if the color is Blue
+    private boolean isBlue(int red, int green, int blue) {
+        return blue > 100 && red < 80 && green < 80; // Adjust the threshold values as needed
+    }
+
+    // Method to check if the color is Yellow
+    private boolean isYellow(int red, int green, int blue) {
+        return red > 100 && green > 100 && blue < 80; // Yellow typically has high red and green values with low blue
+    }
+
+
+
+
+
+        public void resetAll(){
         setIntakeSlidesPos(0);
         setOuttakeSlidesPos(0);
         v4b.setPosition(V4B_IN_ROBOT);
@@ -355,14 +408,14 @@ public class BaseRobot{
         rightIntakeSlider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftIntakeSlider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        rightIntakeSlider.setPower(INTAKE_SLIDES_POWER);
+        rightIntakeSlider.setPower(INTAKE_SLIDES_POWER);//we make this like .9
         leftIntakeSlider.setPower(INTAKE_SLIDES_POWER);
 
         if(intakeSlidesPos > INTAKE_SLIDES_MAX){
-            intakeSlidesPos = INTAKE_SLIDES_MAX;
+            intakeSlidesPos = INTAKE_SLIDES_MAX;//limit
         }
         if(intakeSlidesPos < 0){
-            intakeSlidesPos = 0;
+            intakeSlidesPos = 0;//limit
         }
 
 
@@ -569,6 +622,21 @@ public class BaseRobot{
         //change
 
         return OUTTAKE_SLIDES_ON_HIGH_CHAMBER;
+    }
+
+
+    //color sensor
+    public int getColorRange(){
+        return COLOR_RANGE;
+    }
+    public int getRedThreshold(){
+        return RED_THRESHOLD;
+    }
+    public int getGreenThreshold(){
+        return GREEN_THRESHOLD;
+    }
+    public int getBlueThreshold(){
+        return BLUE_THRESHOLD;
     }
 
 }
