@@ -37,10 +37,6 @@ public class A_TELEOP_MEET_4 extends LinearOpMode {
 
             //GAMEPAD1------------------------------------------------------------------------
 
-            //drive
-            robot.drive.setDrivePowers(new PoseVelocity2d(new Vector2d(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed), -gamepad1.right_stick_x * driveSpeed));
-
-            //drive speeds
             if (gamepad1.dpad_up){
                 driveSpeed = 1;//full speed
             }
@@ -53,6 +49,11 @@ public class A_TELEOP_MEET_4 extends LinearOpMode {
             if(gamepad1.a){
                 driveSpeed = .125;//1/8 speed
             }
+            //drive
+            robot.drive.setDrivePowers(new PoseVelocity2d(new Vector2d(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed), -gamepad1.right_stick_x * driveSpeed));
+
+            //drive speeds
+
 
 
 

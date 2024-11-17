@@ -371,6 +371,8 @@ public class BaseRobot{
         intakeSlidesPos += deltaPos;
 
     }
+
+
     public void setIntakeSlidesPos(int newPos){
         intakeSlidesPos = newPos;
 
