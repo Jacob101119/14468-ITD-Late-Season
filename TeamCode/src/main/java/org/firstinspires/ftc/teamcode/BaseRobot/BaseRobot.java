@@ -199,8 +199,6 @@ public class BaseRobot{
         }
     }
 
-
-
     private boolean isRedSample(int red, int green, int blue) {
         return red > 100 && green < 80 && blue < 80;
     }
@@ -212,6 +210,7 @@ public class BaseRobot{
     }
 
 
+    //what would cause a camera video t
 
 
 

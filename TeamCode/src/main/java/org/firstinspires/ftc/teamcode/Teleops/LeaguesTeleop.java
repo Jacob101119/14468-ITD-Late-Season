@@ -15,7 +15,8 @@ import org.firstinspires.ftc.teamcode.BaseRobot.BaseRobot;
 public class LeaguesTeleop extends LinearOpMode {
 
     private com.qualcomm.robotcore.hardware.HardwareMap HardwareMap;
-    BaseRobot robot;
+    volatile BaseRobot robot;
+    private volatile boolean endTeleop=false;
 
 
 
@@ -23,6 +24,8 @@ public class LeaguesTeleop extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
 
+        Thread driveThread = new Thread(this::driveLoop);
+        driveThread.start();
 
 
         waitForStart();
@@ -261,6 +264,22 @@ public class LeaguesTeleop extends LinearOpMode {
 
 
             //_____________________________________________________________________________________
+        }
+        endTeleop=true;
+        try{
+            driveThread.join();
+        }
+        catch (InterruptedException e){
+
+        }
+
+    }
+
+
+
+    public void driveLoop(){
+        while(endTeleop){
+
         }
     }
 }

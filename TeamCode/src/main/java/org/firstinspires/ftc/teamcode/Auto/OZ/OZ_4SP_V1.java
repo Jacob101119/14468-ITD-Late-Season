@@ -112,7 +112,7 @@ public final class OZ_4SP_V1 extends LinearOpMode {
                 .splineTo(new Vector2d(4, -38), Math.toRadians(-90))//turn 180
                 .splineToConstantHeading(new Vector2d(4, -29.5), 90)//run into chamber
                 .build();
-        Actions.runBlocking(moveToSub2NEW);
+        Actions.runBlocking(moveToSub2);
 
 
         robot.update();
@@ -137,7 +137,7 @@ public final class OZ_4SP_V1 extends LinearOpMode {
         Action moveToOZ = robot.drive.actionBuilder(robot.drive.pose)
                 .strafeToConstantHeading(new Vector2d(12, -48))
 
-                .strafeToLinearHeading(new Vector2d(38, -59), Math.toRadians(90))
+                .strafeToSplineHeading(new Vector2d(38, -59), Math.toRadians(90))
                 .strafeToConstantHeading(new Vector2d(38, -64.5))
                 .build();
         Actions.runBlocking(moveToOZ);
@@ -153,8 +153,8 @@ public final class OZ_4SP_V1 extends LinearOpMode {
         robot.update();
 
         Action moveToSub3 = robot.drive.actionBuilder(robot.drive.pose)
-                .strafeToConstantHeading(new Vector2d(38, -59))
-                .strafeToLinearHeading(new Vector2d(6, -33.4), Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(38, -59),90)
+                .strafeToSplineHeading(new Vector2d(6, -33.4), Math.toRadians(-90))
                 .build();
         Actions.runBlocking(moveToSub3);
 
@@ -185,8 +185,8 @@ public final class OZ_4SP_V1 extends LinearOpMode {
         robot.update();
 
         Action moveToSub4 = robot.drive.actionBuilder(robot.drive.pose)
-                .strafeToConstantHeading(new Vector2d(38, -59))
-                .strafeToLinearHeading(new Vector2d(6, -33.4), Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(38, -59), 90)
+                .strafeToSplineHeading(new Vector2d(6, -33.4), Math.toRadians(-90))
                 .build();
         Actions.runBlocking(moveToSub4);
 
