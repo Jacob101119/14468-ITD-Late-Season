@@ -43,6 +43,7 @@ public class ServoTesting extends LinearOpMode {
             double stickSpeed = .01;
             double speed = .005;
             robot.update();
+            robot.updateOuttakeSlidesPos();
             //end
 
 
@@ -59,6 +60,10 @@ public class ServoTesting extends LinearOpMode {
             robot.changeV4bPos(gamepad2.left_stick_y * stickSpeed);
             robot.changeIntakeGrasperPos(gamepad1.left_stick_y * stickSpeed);
             robot.changeOuttakeGrasperPos(gamepad1.right_stick_y * stickSpeed);
+
+            if(gamepad2.y){
+                robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_PASS_THROUGH_ON_HIGH_CHAMBER());
+            }
 
             if(gamepad2.y){
                 //robot.changeGimbalPos(.01);
@@ -81,11 +86,13 @@ public class ServoTesting extends LinearOpMode {
 
             telemetry.addData("1 - Intake Grasper - left Stick: ", robot.getIntakeGrasperPos());
             telemetry.addLine();
+
             telemetry.addData("1 - Outtake Grasper - right stick", robot.getOuttakeGrasperPos());
             telemetry.addLine();
             telemetry.addData("2 - V4b - left stick", robot.getV4bPos());
             telemetry.addLine();
             telemetry.addData("2 - axle - right stick", robot.getOuttakeAxlePos());
+            telemetry.addData("outtake slides pos", robot.getOuttakeSlidesPos());
             telemetry.addLine();
             telemetry.addData("2 - wrist - y/a", robot.getOuttakeWristPos());
             telemetry.addData("intake Gimbal - 2y and a", robot.getGimbalPos());

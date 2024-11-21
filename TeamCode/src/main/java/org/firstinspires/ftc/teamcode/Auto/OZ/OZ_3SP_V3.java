@@ -68,6 +68,7 @@ public final class OZ_3SP_V3 extends LinearOpMode {
                 //straight to left - 180
                 //straight back - -270
                 //straight forward - 90
+                //https://docs.google.com/document/d/1X0pDgbtgT15IFovgTdUFh0gcSpguYCod1T1fexQR0Fs/edit?tab=t.0
 
 
                 .splineToConstantHeading(new Vector2d(12, -45), 270)//move back from sub //was (12, -41)

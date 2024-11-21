@@ -66,7 +66,7 @@ public class TestingTeleop extends LinearOpMode {
                 robot.setAxlePos(robot.getAXLE_DOWN());
             }
             if(gamepad1.dpad_left){
-                robot.setAxlePos(robot.getAXLE_IN_ROBOT());
+                robot.setAxlePos(robot.getAXLE_PASS_THROUGH());
             }
 
 

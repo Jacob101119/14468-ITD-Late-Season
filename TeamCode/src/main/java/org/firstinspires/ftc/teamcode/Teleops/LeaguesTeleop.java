@@ -16,7 +16,7 @@ public class LeaguesTeleop extends LinearOpMode {
 
     private com.qualcomm.robotcore.hardware.HardwareMap HardwareMap;
     volatile BaseRobot robot;
-    private volatile boolean endTeleop=false;
+    private volatile boolean endTeleop = false;
 
 
 
@@ -35,25 +35,6 @@ public class LeaguesTeleop extends LinearOpMode {
 
         while(!isStopRequested() && opModeIsActive()){
 
-            double driveSpeed = 1;
-            robot.TeleopUpdate();
-
-            //GAMEPAD1------------------------------------------------------------------------
-
-            if (gamepad1.dpad_up){
-                driveSpeed = 1;//full speed
-            }
-            if (gamepad1.dpad_left || gamepad1.dpad_right){
-                driveSpeed = .5;//half speed
-            }
-            if (gamepad1.dpad_down){
-                driveSpeed = 0.25;//quarter speed
-            }
-            if(gamepad1.a){
-                driveSpeed = .125;//1/8 speed
-            }
-            //drive
-            robot.drive.setDrivePowers(new PoseVelocity2d(new Vector2d(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed), -gamepad1.right_stick_x * driveSpeed));
 
             //drive speeds
 
@@ -279,6 +260,26 @@ public class LeaguesTeleop extends LinearOpMode {
 
     public void driveLoop(){
         while(endTeleop){
+
+            double driveSpeed = 1;
+            robot.TeleopUpdate();
+
+            //GAMEPAD1------------------------------------------------------------------------
+
+            if (gamepad1.dpad_up){
+                driveSpeed = 1;//full speed
+            }
+            if (gamepad1.dpad_left || gamepad1.dpad_right){
+                driveSpeed = .5;//half speed
+            }
+            if (gamepad1.dpad_down){
+                driveSpeed = 0.25;//quarter speed
+            }
+            if(gamepad1.a){
+                driveSpeed = .125;//1/8 speed
+            }
+            //drive
+            robot.drive.setDrivePowers(new PoseVelocity2d(new Vector2d(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed), -gamepad1.right_stick_x * driveSpeed));
 
         }
     }

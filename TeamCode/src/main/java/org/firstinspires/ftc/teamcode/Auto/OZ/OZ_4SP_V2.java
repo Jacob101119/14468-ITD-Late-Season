@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
 
 
 @Autonomous
-public final class OZ_4SP_V1 extends LinearOpMode {
+public final class OZ_4SP_V2 extends LinearOpMode {
 
     BaseRobot robot;
     //MecanumDrive drive;
@@ -30,7 +30,6 @@ public final class OZ_4SP_V1 extends LinearOpMode {
 
 
 
-        robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_CLOSED());
 
 
 
@@ -39,13 +38,25 @@ public final class OZ_4SP_V1 extends LinearOpMode {
 
         waitForStart();
 
+        robot.setAxlePos(robot.getAXLE_TO_WALL());
+        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_PASS_THROUGH_BELOW_CHAMBER());
+        robot.update();
+
+        robot.delay(2);
+        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_PASS_THROUGH_ON_HIGH_CHAMBER());
+        robot.update();
+        robot.delay(10);
+
+        robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_CLOSED());
+
+
         robot.setV4bPos(robot.getV4B_IN_ROBOT());
         robot.setAxlePos(robot.getAXLE_TO_WALL());
         robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER());//slides above high chamber
         robot.update();
 
         Action moveToSub = robot.drive.actionBuilder(robot.drive.pose)
-                .strafeToConstantHeading(new Vector2d(9.2, -32.3))
+                .splineToConstantHeading(new Vector2d(9.2, -32.3), 90)
 
 
                 .build();
@@ -83,7 +94,7 @@ public final class OZ_4SP_V1 extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(45,-15.3),270)//move back
                 .splineToConstantHeading(new Vector2d(49,-15.3),0)//move to second sample //to the right
                 .splineToConstantHeading(new Vector2d(49, -63), 90)//move to OZ and grab spec //forward
-                        .build();
+                .build();
 
         Actions.runBlocking(push2);
 
@@ -95,26 +106,28 @@ public final class OZ_4SP_V1 extends LinearOpMode {
         robot.update();
 
         robot.delay(.2);
-
-        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER());
+        robot.setAxlePos(robot.getAXLE_TO_WALL());
+        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_PASS_THROUGH_BELOW_CHAMBER());
         robot.update();
 
         Action moveToSub2 = robot.drive.actionBuilder(robot.drive.pose)
                 .splineToConstantHeading(new Vector2d(41, -55), 270)//move back
-                .strafeToSplineHeading(new Vector2d(4, -36), Math.toRadians(-90))//move to sub
-                .splineToConstantHeading(new Vector2d(4, -29.5), 90)//run into chamber
+                .splineToConstantHeading(new Vector2d(4, -36), 0)//move to sub
+                .splineToConstantHeading(new Vector2d(4, -29.5), 270)//run into chamber
                 .build();
 
         Actions.runBlocking(moveToSub2);
 
-
+        robot.delay(.2);
+        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_PASS_THROUGH_ON_HIGH_CHAMBER());
         robot.update();
+
 
         //robot.delay(.9);
 
 
 
-        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_ON_HIGH_CHAMBER());
+
         robot.update();
         robot.delay(.4);//was .5
 
@@ -122,16 +135,15 @@ public final class OZ_4SP_V1 extends LinearOpMode {
         robot.update();
 
         //robot.delay(.3);
-
+        robot.setAxlePos(robot.getAXLE_PASS_THROUGH());
         robot.setOuttakeSlidesPos(0);
         robot.update();
 
 
         Action moveToOZ = robot.drive.actionBuilder(robot.drive.pose)
-                .strafeToConstantHeading(new Vector2d(12, -48))
-
-                .strafeToSplineHeading(new Vector2d(38, -59), Math.toRadians(90))
-                .strafeToConstantHeading(new Vector2d(38, -64.5))
+                .splineToConstantHeading(new Vector2d(4, -48),90)
+                .splineToConstantHeading(new Vector2d(38, -59), 0)
+                .splineToConstantHeading(new Vector2d(38, -64.5), 90)
                 .build();
         Actions.runBlocking(moveToOZ);
         robot.delay(.2);//was 1
@@ -142,23 +154,19 @@ public final class OZ_4SP_V1 extends LinearOpMode {
         robot.delay(.2);//was 1
 
 
-        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER()+80);
+        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_PASS_THROUGH_BELOW_CHAMBER());
+        robot.setAxlePos(robot.getAXLE_TO_WALL());
         robot.update();
 
         Action moveToSub3 = robot.drive.actionBuilder(robot.drive.pose)
                 .splineToConstantHeading(new Vector2d(38, -59),90)
-                .strafeToSplineHeading(new Vector2d(6, -33.4), Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(6, -33.4), 270)
                 .splineToConstantHeading(new Vector2d(6, -29.5), 90)//run into chamber
                 .build();
         Actions.runBlocking(moveToSub3);
-
-
-
-
-
         robot.delay(.2);
 
-        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_ON_HIGH_CHAMBER());
+        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_PASS_THROUGH_ON_HIGH_CHAMBER());
         robot.update();
         robot.delay(.5);
 
@@ -166,22 +174,39 @@ public final class OZ_4SP_V1 extends LinearOpMode {
         robot.update();
 
         robot.delay(.2);
+        robot.setAxlePos(robot.getAXLE_PASS_THROUGH());
 
         robot.setOuttakeSlidesPos(0);
         robot.update();
 
-        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER()+80);
+        Action moveToOZ2 = robot.drive.actionBuilder(robot.drive.pose)
+                .splineToConstantHeading(new Vector2d(4, -48),90)
+                .splineToConstantHeading(new Vector2d(38, -59), 0)
+                .splineToConstantHeading(new Vector2d(38, -64.5), 90)
+                .build();
+        Actions.runBlocking(moveToOZ);
+
+
+        robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_CLOSED());
         robot.update();
 
+        robot.delay(.2);//was 1
+
+
+        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_PASS_THROUGH_BELOW_CHAMBER());
+        robot.setAxlePos(robot.getAXLE_TO_WALL());
+        robot.update();
+
+
         Action moveToSub4 = robot.drive.actionBuilder(robot.drive.pose)
-                .splineToConstantHeading(new Vector2d(38, -59), 90)
-                .strafeToSplineHeading(new Vector2d(6, -33.4), Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(38, -59), 270)
+                .splineToConstantHeading(new Vector2d(6, -33.4), 270)
                 .build();
         Actions.runBlocking(moveToSub4);
 
         robot.delay(.2);
 
-        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_ON_HIGH_CHAMBER());
+        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_PASS_THROUGH_ON_HIGH_CHAMBER());
         robot.update();
         robot.delay(.5);
 
@@ -191,10 +216,10 @@ public final class OZ_4SP_V1 extends LinearOpMode {
         robot.delay(.2);
 
         robot.setOuttakeSlidesPos(0);
+        robot.setAxlePos(robot.getAXLE_PASS_THROUGH());
         robot.update();
 
-        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER()+80);
-        robot.update();
+
 
         Action park = robot.drive.actionBuilder(robot.drive.pose)
                 .strafeToConstantHeading(new Vector2d(54, -60), new TranslationalVelConstraint(100), new ProfileAccelConstraint(-100 , 100))
