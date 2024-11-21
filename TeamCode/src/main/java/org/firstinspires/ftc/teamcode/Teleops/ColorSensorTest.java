@@ -5,6 +5,7 @@ package org.firstinspires.ftc.teamcode.Teleops;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -31,7 +32,7 @@ public class ColorSensorTest extends LinearOpMode {
 
 
 
-        robot.colorSensor = hardwareMap.get(ColorSensor.class, "sensor_color");
+        robot.colorSensor = hardwareMap.get(RevColorSensorV3.class, "sensor_color");
         robot.colorSensor.enableLed(true);
 
         waitForStart();

@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 
 import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
 
@@ -79,10 +80,6 @@ public class BaseRobot{
     private final int OUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER = 1685;
     private final int OUTTAKE_SLIDES_PASS_THROUGH_BELOW_CHAMBER = 1685;
     private final int OUTTAKE_SLIDES_PASS_THROUGH_ON_HIGH_CHAMBER = 2552;
-    //2543
-
-
-    //1151
     private final int OUTTAKE_SLIDES_ON_HIGH_CHAMBER = 890;
     private final int OUTTAKE_SLIDES_UPSIDE_DOWN_HIGH_CHAMBER = 1151;
 
@@ -107,7 +104,7 @@ public class BaseRobot{
     Servo outtakeAxle;
     Servo tray;
 
-    public ColorSensor colorSensor;
+    public RevColorSensorV3 colorSensor;
 
 
 
@@ -119,7 +116,7 @@ public class BaseRobot{
 
         drive = new MecanumDrive(hwMap, pose);
 
-        colorSensor = hwMap.colorSensor.get("colorSensor");
+        colorSensor = hwMap.get(RevColorSensorV3.class, "colorSensor");
         colorSensor.enableLed(true);
 
 
