@@ -10,6 +10,9 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.Const;
+import org.firstinspires.ftc.teamcode.util.Constants;
+
 import org.firstinspires.ftc.teamcode.BaseRobot.BaseRobot;
 import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
 
@@ -31,49 +34,38 @@ public final class OZ_4SP_V2 extends LinearOpMode {
 
 
 
-
+        robot.setIntakeGrasperPos(Constants.intakeClawConstants.closed);
+        robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.closed);
 
         //test heading reset
         robot.drive.resetHeading();
 
         waitForStart();
 
-        robot.setAxlePos(robot.getAXLE_TO_WALL());
-        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_PASS_THROUGH_BELOW_CHAMBER());
-        robot.update();
 
-        robot.delay(2);
-        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_PASS_THROUGH_ON_HIGH_CHAMBER());
-        robot.update();
-        robot.delay(10);
-
-        robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_CLOSED());
-
-
-        robot.setV4bPos(robot.getV4B_IN_ROBOT());
-        robot.setAxlePos(robot.getAXLE_TO_WALL());
-        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER());//slides above high chamber
+        robot.setV4bPos(Constants.v4bConstants.farInTrayForPassThrough);
+        robot.setAxlePos(Constants.outtakeAxleConstants.specScoring);
+        robot.setOuttakeSlidesPos(Constants.outtakeSlideConstants.aboveChamber);//slides above high chamber
         robot.update();
 
         Action moveToSub = robot.drive.actionBuilder(robot.drive.pose)
                 .splineToConstantHeading(new Vector2d(9.2, -32.3), 90)
-
-
                 .build();
         Actions.runBlocking(moveToSub);
 
 
 
-        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_ON_HIGH_CHAMBER());
+        robot.setOuttakeSlidesPos(Constants.outtakeSlideConstants.onChamber);
         robot.update();
 
         robot.delay(.3);//was .8
 
-        robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_OPEN());
+        robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.open);
 
         robot.update();
         robot.delay(.1);
         robot.setOuttakeSlidesPos(0);
+        robot.setAxlePos(Constants.outtakeAxleConstants.passThrough);
         robot.update();
 
         Action push2 = robot.drive.actionBuilder(robot.drive.pose)
@@ -102,12 +94,12 @@ public final class OZ_4SP_V2 extends LinearOpMode {
 
         robot.delay(.2);
 
-        robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_CLOSED());
+        robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.closed);
         robot.update();
 
         robot.delay(.2);
-        robot.setAxlePos(robot.getAXLE_TO_WALL());
-        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_PASS_THROUGH_BELOW_CHAMBER());
+        robot.setAxlePos(Constants.outtakeAxleConstants.specScoring);
+        robot.setOuttakeSlidesPos(Constants.outtakeSlideConstants.passThroughScoringBelowChamber);
         robot.update();
 
         Action moveToSub2 = robot.drive.actionBuilder(robot.drive.pose)
@@ -115,11 +107,10 @@ public final class OZ_4SP_V2 extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(4, -36), 0)//move to sub
                 .splineToConstantHeading(new Vector2d(4, -29.5), 270)//run into chamber
                 .build();
-
         Actions.runBlocking(moveToSub2);
 
         robot.delay(.2);
-        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_PASS_THROUGH_ON_HIGH_CHAMBER());
+        robot.setOuttakeSlidesPos(Constants.outtakeSlideConstants.passThroughScoringOnChamber);
         robot.update();
 
 
@@ -131,11 +122,11 @@ public final class OZ_4SP_V2 extends LinearOpMode {
         robot.update();
         robot.delay(.4);//was .5
 
-        robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_OPEN());
+        robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.open);
         robot.update();
 
         //robot.delay(.3);
-        robot.setAxlePos(robot.getAXLE_PASS_THROUGH());
+        robot.setAxlePos(Constants.outtakeAxleConstants.passThrough);
         robot.setOuttakeSlidesPos(0);
         robot.update();
 
@@ -146,16 +137,16 @@ public final class OZ_4SP_V2 extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(38, -64.5), 90)
                 .build();
         Actions.runBlocking(moveToOZ);
-        robot.delay(.2);//was 1
+        robot.delay(.2);
 
-        robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_CLOSED());
+        robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.closed);
         robot.update();
 
-        robot.delay(.2);//was 1
+        robot.delay(.2);
 
 
-        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_PASS_THROUGH_BELOW_CHAMBER());
-        robot.setAxlePos(robot.getAXLE_TO_WALL());
+        robot.setOuttakeSlidesPos(Constants.outtakeSlideConstants.passThroughScoringBelowChamber);
+        robot.setAxlePos(Constants.outtakeAxleConstants.specScoring);
         robot.update();
 
         Action moveToSub3 = robot.drive.actionBuilder(robot.drive.pose)
@@ -166,15 +157,15 @@ public final class OZ_4SP_V2 extends LinearOpMode {
         Actions.runBlocking(moveToSub3);
         robot.delay(.2);
 
-        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_PASS_THROUGH_ON_HIGH_CHAMBER());
+        robot.setOuttakeSlidesPos(Constants.outtakeSlideConstants.passThroughScoringOnChamber);
         robot.update();
         robot.delay(.5);
 
-        robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_OPEN());
+        robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.open);
         robot.update();
 
         robot.delay(.2);
-        robot.setAxlePos(robot.getAXLE_PASS_THROUGH());
+        robot.setAxlePos(Constants.outtakeAxleConstants.passThrough);
 
         robot.setOuttakeSlidesPos(0);
         robot.update();
@@ -187,14 +178,14 @@ public final class OZ_4SP_V2 extends LinearOpMode {
         Actions.runBlocking(moveToOZ);
 
 
-        robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_CLOSED());
+        robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.closed);
         robot.update();
 
         robot.delay(.2);//was 1
 
 
-        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_PASS_THROUGH_BELOW_CHAMBER());
-        robot.setAxlePos(robot.getAXLE_TO_WALL());
+        robot.setOuttakeSlidesPos(Constants.outtakeSlideConstants.passThroughScoringBelowChamber);
+        robot.setAxlePos(Constants.outtakeAxleConstants.specScoring);
         robot.update();
 
 
@@ -206,17 +197,17 @@ public final class OZ_4SP_V2 extends LinearOpMode {
 
         robot.delay(.2);
 
-        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_PASS_THROUGH_ON_HIGH_CHAMBER());
+        robot.setOuttakeSlidesPos(Constants.outtakeSlideConstants.passThroughScoringOnChamber);
         robot.update();
         robot.delay(.5);
 
-        robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_OPEN());
+        robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.open);
         robot.update();
 
         robot.delay(.2);
 
         robot.setOuttakeSlidesPos(0);
-        robot.setAxlePos(robot.getAXLE_PASS_THROUGH());
+        robot.setAxlePos(Constants.outtakeAxleConstants.passThrough);
         robot.update();
 
 
@@ -226,7 +217,10 @@ public final class OZ_4SP_V2 extends LinearOpMode {
                 .build();
         Actions.runBlocking(park);
 
-
+        robot.setOuttakeSlidesPos(0);
+        robot.setV4bPos(Constants.v4bConstants.hover);//ready for intaking from sub
+        robot.setIntakeGrasperPos(Constants.intakeClawConstants.open);
+        robot.setGimbalPos(Constants.intakeClawConstants.gimbalReset);
 
 
 

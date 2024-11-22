@@ -9,6 +9,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 
+import org.firstinspires.ftc.robotcore.external.Const;
+import org.firstinspires.ftc.teamcode.util.Constants;
+
+
 import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
 
 
@@ -153,31 +157,31 @@ public class BaseRobot{
 
 
         tray = hwMap.servo.get("tray");
-        tray.setPosition(TRAY_OPEN);
+        //tray.setPosition(Constants.trayConstants.open);
         trayPos = tray.getPosition();
 
         intakeGrasper = hwMap.servo.get("intakeGrasper");
-        intakeGrasper.setPosition(INTAKE_GRASPER_CLOSED);
+        //intakeGrasper.setPosition(Constants.LoonyClawConstants.closed);
         intakeGrasperPos = intakeGrasper.getPosition();
 
         outtakeGrasper = hwMap.servo.get("outtakeGrasper");
-        outtakeGrasper.setPosition(OUTTAKE_GRASPER_CLOSED);
+        outtakeGrasper.setPosition(Constants.outtakeClawConstants.closed);
         outtakeGrasperPos = outtakeGrasper.getPosition();
 
         outtakeWrist = hwMap.servo.get("outtakeWrist");
-        //outtakeWrist.setPosition(WRIST_SCORING);
+
         outtakeWristPos = outtakeWrist.getPosition();
 
         v4b = hwMap.servo.get("v4b");
-        //v4b.setPosition(V4B_IN_ROBOT);
+        //v4b.setPosition(Constants.v4bConstants.tray);
         v4bPos = v4b.getPosition();
 
         intakeGimbal = hwMap.servo.get("intakeGimbal");
-        //intakeGimbal.setPosition(GIMBAL_RESTING_POS);
+        intakeGimbal.setPosition(Constants.intakeClawConstants.gimbalReset);
         gimbalPos = intakeGimbal.getPosition();
 
         outtakeAxle = hwMap.servo.get("outtakeAxle");
-        outtakeAxle.setPosition(AXLE_TO_WALL);
+        outtakeAxle.setPosition(Constants.outtakeAxleConstants.specScoring);
         outtakeAxlePos = outtakeAxle.getPosition();
         //end servos
 
@@ -220,37 +224,33 @@ public class BaseRobot{
         public void resetAll(){
         setIntakeSlidesPos(0);
         setOuttakeSlidesPos(0);
-        v4b.setPosition(V4B_IN_ROBOT);
-        outtakeAxle.setPosition(.5769);
-        outtakeWrist.setPosition(WRIST_TO_TRAY);
+        v4b.setPosition(Constants.v4bConstants.tray);
+        //outtakeAxle.setPosition();
+
         }
 
     public void SpecimenScoring(){
-        setOuttakeSlidesPos(OUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER);
-        outtakeAxle.setPosition(AXLE_TO_WALL);
+        setOuttakeSlidesPos(Constants.outtakeSlideConstants.aboveChamber);
+        outtakeAxle.setPosition(Constants.outtakeAxleConstants.specScoring);
         //outtakeWrist.setPosition(WRIST_SCORING);
-        outtakeGrasper.setPosition(OUTTAKE_GRASPER_CLOSED);
+        outtakeGrasper.setPosition(Constants.outtakeClawConstants.closed);
     }
     public void HighBucketScoring(){
-        setOuttakeSlidesPos(OUTTAKE_SLIDES_TO_HB);
-        //setOuttakeWristPos(WRIST_STRAIGHT);
-        setAxlePos(AXLE_HB);
+        setOuttakeSlidesPos(Constants.outtakeSlideConstants.HighBucket);
+        setAxlePos(Constants.outtakeAxleConstants.HBScoring);
     }
 
     public void resetOuttake(){
         setOuttakeSlidesPos(0);
-        //setOuttakeWristPos(WRIST_TO_TRAY);
-        setAxlePos(AXLE_TO_WALL);
+        setAxlePos(Constants.outtakeAxleConstants.specScoring);
     }
     public void resetIntake(){
-        setV4bPos(V4B_IN_ROBOT);
+        setV4bPos(Constants.v4bConstants.farInTrayForPassThrough);
         setIntakeSlidesPos(0);
-        setTrayPos(TRAY_OPEN);
-        setIntakeGrasperPos(INTAKE_GRASPER_OPEN);
+        setTrayPos(Constants.trayConstants.open);
+        setIntakeGrasperPos(Constants.intakeClawConstants.closed);
     }
 
-//open .792
-    //.949
 
     public void update(){
         //motors
@@ -282,10 +282,10 @@ public class BaseRobot{
     }
 
     public void intakePos(){
-        setV4bPos(V4B_INTAKE_POS);
+        setV4bPos(Constants.v4bConstants.ground);
         setIntakeGrasperPos(getINTAKE_GRASPER_CLOSED());
-        setGimbalPos(GIMBAL_RESTING_POS);
-        setTrayPos(TRAY_OPEN);
+        setGimbalPos(Constants.intakeClawConstants.gimbalReset);
+        setTrayPos(Constants.trayConstants.open);
     }
 
     public void servoTestingUpdate(){
@@ -337,12 +337,7 @@ public class BaseRobot{
         trayPos += deltaPos;
     }
     public void setTrayPos(double newPos){
-        if(trayPos > TRAY_OPEN){
-            trayPos = TRAY_OPEN;
-        }
-        if(trayPos < TRAY_CLOSED){
-            trayPos = TRAY_CLOSED;
-        }
+
         trayPos = newPos;
     }
 
@@ -362,9 +357,7 @@ public class BaseRobot{
     }
 
     public void updateOuttakeGrasperPos(){
-        if(outtakeGrasperPos != OUTTAKE_GRASPER_CLOSED && outtakeGrasperPos != OUTTAKE_GRASPER_OPEN){
-            intakeGrasperPos = OUTTAKE_GRASPER_CLOSED;
-        }
+
 
         outtakeGrasper.setPosition(outtakeGrasperPos);
     }
@@ -376,14 +369,7 @@ public class BaseRobot{
     }
 
     public void updateV4bPos(){
-        /*if (v4bPos > V4B_IN_ROBOT){
-            v4bPos = V4B_IN_ROBOT;
-        }
-        if(v4bPos < V4B_INTAKE_POS){
-            v4bPos = V4B_INTAKE_POS;
-        }
 
-         */
         v4b.setPosition(v4bPos);
     }
     public void changeV4bPos(double deltaPos){
@@ -403,11 +389,11 @@ public class BaseRobot{
         rightIntakeSlider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftIntakeSlider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        rightIntakeSlider.setPower(INTAKE_SLIDES_POWER);//we make this like .9
-        leftIntakeSlider.setPower(INTAKE_SLIDES_POWER);
+        rightIntakeSlider.setPower(Constants.intakeSlideConstants.power);
+        leftIntakeSlider.setPower(Constants.intakeSlideConstants.power);
 
-        if(intakeSlidesPos > INTAKE_SLIDES_MAX){
-            intakeSlidesPos = INTAKE_SLIDES_MAX;//limit
+        if(intakeSlidesPos > Constants.intakeSlideConstants.MAX){
+            intakeSlidesPos = Constants.intakeSlideConstants.MAX;//limit
         }
         if(intakeSlidesPos < 0){
             intakeSlidesPos = 0;//limit
@@ -442,15 +428,15 @@ public class BaseRobot{
         rightOuttakeSlider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftOuttakeSlider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        rightOuttakeSlider.setPower(OUTTAKE_SLIDES_POWER);
-        leftOuttakeSlider.setPower(OUTTAKE_SLIDES_POWER);
+        rightOuttakeSlider.setPower(Constants.outtakeSlideConstants.power);
+        leftOuttakeSlider.setPower(Constants.outtakeSlideConstants.power);
 
        // if(leftOuttakeSliderPos != rightOuttakeSliderPos){
          //   leftOuttakeSliderPos = rightOuttakeSliderPos;
         //}
 
-        if(outtakeSlidesPos > OUTTAKE_SLIDES_MAX){
-            outtakeSlidesPos = OUTTAKE_SLIDES_MAX;
+        if(outtakeSlidesPos > Constants.outtakeSlideConstants.MAX){
+            outtakeSlidesPos = Constants.outtakeSlideConstants.MAX;
 
         }
         if (outtakeSlidesPos < 0){

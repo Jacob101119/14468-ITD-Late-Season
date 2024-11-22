@@ -5,11 +5,13 @@ package org.firstinspires.ftc.teamcode.Teleops;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.BaseRobot.BaseRobot;
+import org.firstinspires.ftc.teamcode.BaseRobot.TransferAction;
 
 @TeleOp
 public class LeaguesTeleop extends LinearOpMode {
@@ -40,7 +42,9 @@ public class LeaguesTeleop extends LinearOpMode {
 
 
 
-
+            if(gamepad2.a){
+                Actions.runBlocking(new TransferAction(robot));
+            }
 
             //end drive speeds
             //end drive

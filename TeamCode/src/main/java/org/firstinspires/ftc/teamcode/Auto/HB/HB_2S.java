@@ -3,8 +3,6 @@ package org.firstinspires.ftc.teamcode.Auto.HB;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.ProfileAccelConstraint;
-import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -13,8 +11,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.BaseRobot.BaseRobot;
 import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
 
-import org.firstinspires.ftc.teamcode.BaseRobot.IntakeAction;
-
+import org.firstinspires.ftc.teamcode.util.Constants;
+import org.firstinspires.ftc.teamcode.BaseRobot.TransferAction;
 
 
 
@@ -33,6 +31,7 @@ public final class HB_2S extends LinearOpMode {
 
 
 
+
         robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_CLOSED());
 
 
@@ -42,29 +41,50 @@ public final class HB_2S extends LinearOpMode {
 
         waitForStart();
 
-        robot.setAxlePos(robot.getAXLE_TO_WALL());
-        robot.setOuttakeSlidesPos(2104);
+        robot.setAxlePos(Constants.outtakeAxleConstants.specScoring);
+        robot.setOuttakeSlidesPos(Constants.outtakeSlideConstants.MAX);
         robot.update();
 
         Action moveForwardAtHB1 = robot.drive.actionBuilder(robot.drive.pose)
-                .strafeToLinearHeading(new Vector2d(-54, -54), Math.toRadians(45))
-                        .strafeToConstantHeading(new Vector2d(-59, -59))
+
+                .splineToConstantHeading(new Vector2d(-59, -59), 270)
                                 .build();
         Actions.runBlocking(moveForwardAtHB1);
         robot.delay(2);
-        robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_OPEN());
+
+
+        robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.open);
         robot.update();
+        robot.delay(.2);
 
         Action moveBackFromHB1 = robot.drive.actionBuilder(robot.drive.pose)
-                .strafeToConstantHeading(new Vector2d(-50, -50))
+                .splineToConstantHeading(new Vector2d(-50, -50), 90)
 
                 .build();
         Actions.runBlocking(moveBackFromHB1);
 
 
 
-        robot.setOuttakeSlidesPos(0);
+        robot.setOuttakeSlidesPos(Constants.outtakeSlideConstants.transfer);
+        robot.setAxlePos(Constants.outtakeAxleConstants.down);
+        robot.setV4bPos(Constants.v4bConstants.hover);
         robot.update();
+
+        Action moveTo1stYellow = robot.drive.actionBuilder(robot.drive.pose)
+                .strafeToLinearHeading(new Vector2d(-48.5, -39.8), Math.toRadians(270))
+                .build();
+        Actions.runBlocking(moveTo1stYellow);
+
+        robot.setV4bPos(Constants.v4bConstants.ground);
+        robot.setIntakeGrasperPos(Constants.intakeClawConstants.open);
+        robot.update();
+
+        robot.delay(.4);
+        robot.setIntakeGrasperPos(Constants.intakeClawConstants.closed);
+        robot.delay(.1);
+
+        Actions.runBlocking(new TransferAction(robot));
+
 
         Action touchLowBar = robot.drive.actionBuilder(robot.drive.pose)
 
