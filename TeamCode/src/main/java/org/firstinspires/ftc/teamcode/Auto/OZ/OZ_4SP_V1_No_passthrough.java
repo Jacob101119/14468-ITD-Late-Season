@@ -11,13 +11,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.BaseRobot.BaseRobot;
-import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
-
-
 
 
 @Autonomous
-public final class OZ_4SP_V1 extends LinearOpMode {
+public final class OZ_4SP_V1_No_passthrough extends LinearOpMode {
 
     BaseRobot robot;
     //MecanumDrive drive;

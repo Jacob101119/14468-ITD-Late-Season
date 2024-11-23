@@ -46,7 +46,7 @@ import com.acmerobotics.dashboard.config.Config;
         }@Config
 
         public static final class outtakeAxleConstants{
-            public static double passThrough = .6799;
+            public static double passThrough = .6954;
             public static double specScoring = .1961;
             public static double HBScoring =.3949;
             public static double straightUp = .5;

@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.BaseRobot.BaseRobot;
+import org.firstinspires.ftc.teamcode.util.Constants;
 
 @TeleOp
 public class A_TELEOP_MEET_4 extends LinearOpMode {
@@ -81,7 +82,7 @@ public class A_TELEOP_MEET_4 extends LinearOpMode {
             }
 
             if(gamepad2.right_stick_button || gamepad2.left_stick_button){
-                robot.setGimbalPos(robot.getGIMBAL_RESTING_POS());
+                robot.setGimbalPos(Constants.intakeClawConstants.gimbalReset);
             }
             //end gimbal
 
@@ -109,11 +110,11 @@ public class A_TELEOP_MEET_4 extends LinearOpMode {
                 robot.HighBucketScoring();//high bucket
             }
             if(gamepad2.dpad_up){
-                robot.SpecimenScoring();//specimen
+                robot.setAxlePos(Constants.outtakeAxleConstants.specScoring);
                 robot.setV4bPos(robot.getV4B_RESTING_POS());
             }
             if(gamepad2.dpad_down){
-                robot.setAxlePos(robot.getAXLE_TO_WALL());//grab from wall
+                robot.setAxlePos(Constants.outtakeAxleConstants.passThrough);//grab from wall
                 robot.setOuttakeSlidesPos(0);
                 //robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_OPEN());
             }
@@ -122,10 +123,10 @@ public class A_TELEOP_MEET_4 extends LinearOpMode {
 
             //claw
             if(gamepad2.right_bumper){
-                robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_CLOSED());
+                robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.closed);
             }
             if(gamepad2.left_bumper){
-                robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_OPEN());
+                robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.open);
             }
             //END SPECIMEN_________________________________
 
@@ -137,18 +138,16 @@ public class A_TELEOP_MEET_4 extends LinearOpMode {
             }
             if(gamepad2.y){
                 //Actions.runBlocking(new IntakeAction(robot));//intake
-                robot.setV4bPos(robot.getV4B_HOVER_OVER_GROUND());
+                robot.setV4bPos(Constants.v4bConstants.hover);
             }
-            if(gamepad2.dpad_right){
-                robot.setV4bPos(robot.getV4B_HOVER_OVER_GROUND());
-            }
+
 
             //claw
             if(gamepad2.x){
-                robot.setIntakeGrasperPos(robot.getINTAKE_GRASPER_CLOSED());//close claw
+                robot.setIntakeGrasperPos(Constants.intakeClawConstants.closed);//close claw
             }
             if(gamepad2.b){
-                robot.setIntakeGrasperPos(robot.getINTAKE_GRASPER_OPEN());//open claw
+                robot.setIntakeGrasperPos(Constants.intakeClawConstants.open);//open claw
             }
             //end claw
 
