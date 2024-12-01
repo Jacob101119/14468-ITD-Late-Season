@@ -56,10 +56,15 @@ public class ServoTesting extends LinearOpMode {
             if(gamepad2.y){
                robot.setV4bPos(robot.getV4B_INTAKE_POS());
             }
+
+            //open: .4887
+            //closed: .2951
+            //gimbal reset: .4825
+
             robot.changeAxlePos(gamepad2.right_stick_y * stickSpeed);
             robot.changeV4bPos(gamepad2.left_stick_y * stickSpeed);
             robot.changeIntakeGrasperPos(gamepad1.left_stick_y * stickSpeed);
-            robot.changeOuttakeGrasperPos(gamepad1.right_stick_y * stickSpeed);
+            robot.changeTrayPos(gamepad1.right_stick_y * stickSpeed);
 
             if(gamepad2.y){
                 robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_PASS_THROUGH_ON_HIGH_CHAMBER());

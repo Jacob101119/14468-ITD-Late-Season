@@ -23,13 +23,16 @@ import java.util.Vector;
 public final class OZ_5SP_V1 extends LinearOpMode {
 
     BaseRobot robot;
-    //MecanumDrive drive;
+    MecanumDrive drive;
     @Override
 
 
     public void runOpMode() throws InterruptedException{
 
         robot = new BaseRobot(hardwareMap, new Pose2d(12, -62.91, Math.toRadians(-90)));
+
+
+
 
 
 
@@ -61,9 +64,10 @@ public final class OZ_5SP_V1 extends LinearOpMode {
         robot.delay(.3);
 
         robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.open);
-
         robot.update();
+
         robot.delay(.1);
+
         robot.setOuttakeSlidesPos(0);
         robot.setAxlePos(Constants.outtakeAxleConstants.passThrough);//axle back into robot for grabbing spec
         robot.update();

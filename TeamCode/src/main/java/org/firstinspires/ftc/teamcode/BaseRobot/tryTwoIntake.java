@@ -8,6 +8,8 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.util.Constants;
+
 public class tryTwoIntake implements Action {
 
     BaseRobot robot;
@@ -27,22 +29,22 @@ public class tryTwoIntake implements Action {
 
         //prepare outtake for grabbing sample
 
-        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_TRANSFER());
-        robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_OPEN());
-        robot.setTrayPos(robot.getTRAY_CLOSED());
+        robot.setOuttakeSlidesPos(Constants.outtakeSlideConstants.transfer);
+        robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.open);
+        robot.setTrayPos(Constants.trayConstants.closed);
         robot.setAxlePos(robot.getAXLE_DOWN());
         while(time.milliseconds()<1000){
 
         }
-        robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_CLOSED());
+        robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.closed);
         time.reset();
 
 
         while(time.milliseconds()<400){
 
         }
-        robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER());
-        robot.setAxlePos(robot.getAXLE_TO_WALL());
+        robot.setOuttakeSlidesPos(Constants.outtakeSlideConstants.aboveChamber);
+        robot.setAxlePos(Constants.outtakeAxleConstants.specScoring);
         robot.update();
 
 

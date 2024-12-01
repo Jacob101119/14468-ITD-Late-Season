@@ -54,6 +54,7 @@ import org.firstinspires.ftc.teamcode.messages.MecanumCommandMessage;
 import org.firstinspires.ftc.teamcode.messages.MecanumLocalizerInputsMessage;
 import org.firstinspires.ftc.teamcode.messages.PoseMessage;
 
+
 import java.lang.Math;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -71,14 +72,14 @@ public final class MecanumDrive {
                 RevHubOrientationOnRobot.UsbFacingDirection.FORWARD; //updated
 
         // drive model parameters
-        public double inPerTick = .001959421;//updated
-        public double lateralInPerTick = 0.0009978705285903712;//updated
-        public double trackWidthTicks = 7739.219048905568;//Updated
+        public double inPerTick = .0019579435;
+        public double lateralInPerTick =  0.0010847571457107722;
+        public double trackWidthTicks = 7612.048139603385;
 
         // feedforward parameters (in tick units)
-        public double kS = 2.1872291612686343;
-        public double kV =  0.0002290586699016293;//updated
-        public double kA = 0.0001;
+        public double kS = 1.6709643493946955;
+        public double kV = 0.00023912576646750014;
+        public double kA = 0;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 50;
@@ -90,9 +91,9 @@ public final class MecanumDrive {
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 4;
+        public double axialGain = 3;
         public double lateralGain = 2;
-        public double headingGain = 2.5; // shared with turn
+        public double headingGain = 3; // shared with turn
 
         public double axialVelGain = 0.0;
         public double lateralVelGain = 0.0;

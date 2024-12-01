@@ -61,6 +61,11 @@ public class TransferAction implements Action {
 
             robot.update();
         time.reset();
+        while(time.milliseconds() < 100){
+
+        }
+        robot.setV4bPos(Constants.v4bConstants.ground);
+        time.reset();
 
 //        //sample is in tray, now needs to move to outtake
 //

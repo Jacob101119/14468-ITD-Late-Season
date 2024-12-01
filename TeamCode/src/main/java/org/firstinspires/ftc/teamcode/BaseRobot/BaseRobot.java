@@ -28,7 +28,7 @@ public class BaseRobot{
 
 
     //motor powers
-    private final double INTAKE_SLIDES_POWER = 0.9;
+    private final double INTAKE_SLIDES_POWER = 0.7;
     private final double OUTTAKE_SLIDES_POWER = 0.9;
 
     //end motor powers
@@ -254,7 +254,8 @@ public class BaseRobot{
 
     public void update(){
         //motors
-        updateIntakeSlidesPos();
+
+        //updateIntakeSlidesPos();
         updateOuttakeSlidesPos();
 
         //servos
@@ -444,6 +445,7 @@ public class BaseRobot{
         }
 
     }
+
     public void changeOuttakeSlidesPos(int deltaPos){
         outtakeSlidesPos += deltaPos;
     }

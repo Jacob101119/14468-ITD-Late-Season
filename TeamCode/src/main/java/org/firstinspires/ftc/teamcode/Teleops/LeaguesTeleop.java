@@ -38,6 +38,7 @@ public class LeaguesTeleop extends LinearOpMode {
 
         while(!isStopRequested() && opModeIsActive()){
 
+            robot.TeleopUpdate();
 
             //drive speeds
 
@@ -268,7 +269,7 @@ public class LeaguesTeleop extends LinearOpMode {
         while(endTeleop){
 
             double driveSpeed = 1;
-            robot.TeleopUpdate();
+
 
             //GAMEPAD1------------------------------------------------------------------------
 
