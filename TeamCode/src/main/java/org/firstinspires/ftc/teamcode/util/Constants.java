@@ -10,7 +10,7 @@ import com.acmerobotics.dashboard.config.Config;
         @Config
         public static final class outtakeSlideConstants{
             public static int HighBucket = 3100;//
-            public static int passThroughScoringBelowChamber = 1685;
+            public static int passThroughScoringBelowChamber = 1864;
             public static int passThroughScoringOnChamber = 2552;
             public static int transfer = 910;
             public static int onChamber = 890;

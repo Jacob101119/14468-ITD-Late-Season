@@ -266,7 +266,7 @@ public class LeaguesTeleop extends LinearOpMode {
 
 
     public void driveLoop(){
-        while(endTeleop){
+        while(!endTeleop){
 
             double driveSpeed = 1;
 
