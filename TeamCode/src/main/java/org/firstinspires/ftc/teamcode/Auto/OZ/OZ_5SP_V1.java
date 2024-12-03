@@ -83,8 +83,8 @@ public final class OZ_5SP_V1 extends LinearOpMode {
 
                 //back from sub to first sample
                 .splineToConstantHeading(new Vector2d(12, -44), 90)//move back from sub
-                .splineToConstantHeading(new Vector2d(32, -44), 180)//sideways
-                .splineToConstantHeading(new Vector2d(32, -18), 90)//forward
+                .splineToConstantHeading(new Vector2d(33, -44), 180)//sideways
+                .splineToConstantHeading(new Vector2d(33, -18), 90)//forward
                 .splineToConstantHeading(new Vector2d(45, -16), 180)//move to sample 1
 
                 //push
@@ -92,16 +92,17 @@ public final class OZ_5SP_V1 extends LinearOpMode {
 
                 //move to 2nd sample
                 .splineToConstantHeading(new Vector2d(45,-16),270)//move back
-                .splineToConstantHeading(new Vector2d(55,-16),180)//move to second sample
+                .splineToConstantHeading(new Vector2d(56,-16),180)//move to second sample
 
                 //push
-                .splineToConstantHeading(new Vector2d(49, -44), 90)//move to OZ
+                .splineToConstantHeading(new Vector2d(49, -47.5), 90)//move to OZ
 
                 //move to third sample
                 .splineToConstantHeading(new Vector2d(49, -15.3), 270)//back away from oz
                 .splineToConstantHeading(new Vector2d(60, -15.3), 180)//move to sample
                 .splineToConstantHeading(new Vector2d(60, -50), 90)//push to OZ and grab spec
-                .splineToConstantHeading(new Vector2d(60, -58), 90)// grab spec
+                .splineToConstantHeading(new Vector2d(50, -50), 90)// grab spec
+                .splineToConstantHeading(new Vector2d(50, -64), 90)// grab spec
                 .build();
 
         Actions.runBlocking(push3);
@@ -120,8 +121,8 @@ public final class OZ_5SP_V1 extends LinearOpMode {
 
         Action moveToSub2 = robot.drive.actionBuilder(robot.drive.pose)
                 .splineToConstantHeading(new Vector2d(41, -55), 270)//move back
-                .splineToConstantHeading(new Vector2d(4, -36), 0)//move to sub
-                .splineToConstantHeading(new Vector2d(4, -32), 270)//run into chamber
+                .splineToConstantHeading(new Vector2d(4, -38.5), 0)//move to sub
+                //.splineToConstantHeading(new Vector2d(4, -39), 270)//run into chamber
                 .build();
         Actions.runBlocking(moveToSub2);
 
@@ -163,8 +164,8 @@ public final class OZ_5SP_V1 extends LinearOpMode {
 
         Action moveToSub3 = robot.drive.actionBuilder(robot.drive.pose)
                 .splineToConstantHeading(new Vector2d(38, -59),90)
-                .splineToConstantHeading(new Vector2d(6, -33.4), 270)
-                .splineToConstantHeading(new Vector2d(6, -29.5), 90)//run into chamber
+                .splineToConstantHeading(new Vector2d(6, -39), 270)
+                //.splineToConstantHeading(new Vector2d(6, -36), 90)//run into chamber
                 .build();
         Actions.runBlocking(moveToSub3);
         robot.delay(.2);
