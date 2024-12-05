@@ -26,25 +26,20 @@ public class TransferAction implements Action {
 
 
         //prepare outtake for grabbing sample
-        robot.setOuttakeSlidesPos(Constants.outtakeSlideConstants.transfer);//slides up a bit
-        robot.setAxlePos(Constants.outtakeAxleConstants.HBScoring);
+        robot.setOuttakeSlidesPos(0);//slides up a bit
+        robot.setAxlePos(Constants.outtakeAxleConstants.passThrough);
 
         robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.open);
         //end preparing outtake
 
         robot.setIntakeSlidesPos(Constants.intakeSlideConstants.transfer);
         robot.setIntakeGrasperPos(Constants.intakeClawConstants.closed);//close grasper
-        robot.setTrayPos(Constants.trayConstants.open);//tray open to receive sample
-        robot.update();
-
-        while(time.milliseconds()< 100){
-
-        }
         robot.setGimbalPos(Constants.intakeClawConstants.gimbalReset);//gimbal straight
         robot.update();
-        time.reset();
 
-        while(time.milliseconds() < 300){
+
+
+        while(time.milliseconds() < 100){
 
 
         }
@@ -53,74 +48,29 @@ public class TransferAction implements Action {
         robot.update();
         time.reset();
 
-        while(time.milliseconds() < 2000){
+        while(time.milliseconds() < 1000){
 
         }
-        robot.setIntakeSlidesPos(0);//slides in
-        robot.setIntakeGrasperPos(Constants.intakeClawConstants.open);//drop sample into tray
-
-            robot.update();
-        time.reset();
-        while(time.milliseconds() < 100){
-
-        }
-
-        robot.setV4bPos(Constants.v4bConstants.ground);
+        robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.closed);
         robot.update();
         time.reset();
 
-//        //sample is in tray, now needs to move to outtake
-//
-//        while (time.milliseconds() < 1000){
-//
-//        }
-//
-//
-//        robot.setTrayPos(Constants.trayConstants.halfClosed);
-//        robot.update();
-//        //v4b out of way of the outtake
-//        time.reset();
-//        while(time.milliseconds()<300){
-//
-//        }
-//        //robot.setIntakeGrasperPos(Constants.intakeClawConstants.closed);
-//        robot.update();
-//        time.reset();
-
-        while(time.milliseconds()<1000){
+        while(time.milliseconds() < 50){
 
         }
-        robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.open);
-        robot.setAxlePos(Constants.outtakeAxleConstants.down);
-        robot.setTrayPos(Constants.trayConstants.closed);//move tray servo
-
+        robot.setIntakeGrasperPos(Constants.intakeClawConstants.open);
         robot.update();
         time.reset();
 
-        while (time.milliseconds() < 500){//wait 1 second
+
+        while(time.milliseconds()<100){
 
         }
-        robot.setTrayPos(Constants.trayConstants.closed);
 
-
-
-        robot.update();
-        time.reset();
-
-        while (time.milliseconds() < 500){
-
-        }
-        robot.setTrayPos(Constants.trayConstants.open);
-        robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.closed);//close grasper
-        robot.update();
-        time.reset();
-        while (time.milliseconds() < 400){
-
-        }
-        robot.setOuttakeSlidesPos(Constants.outtakeSlideConstants.aboveChamber);
         robot.setAxlePos(Constants.outtakeAxleConstants.specScoring);
-        //robot.setAxlePos(robot.getAXLE_HB());
         robot.update();
+
+
 
 
 
