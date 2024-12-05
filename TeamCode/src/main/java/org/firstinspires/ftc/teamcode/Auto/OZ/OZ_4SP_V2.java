@@ -43,7 +43,7 @@ public final class OZ_4SP_V2 extends LinearOpMode {
         waitForStart();
 
 
-        robot.setV4bPos(Constants.v4bConstants.farInTrayForPassThrough);
+        robot.setV4bPos(Constants.v4bConstants.up);
         robot.setAxlePos(Constants.outtakeAxleConstants.specScoring);
         robot.setOuttakeSlidesPos(Constants.outtakeSlideConstants.passThroughScoringBelowChamber);//slides right below high chamber for upside down scoring
         robot.update();

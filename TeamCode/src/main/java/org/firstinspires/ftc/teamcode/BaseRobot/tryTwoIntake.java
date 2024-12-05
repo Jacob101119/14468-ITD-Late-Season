@@ -32,7 +32,7 @@ public class tryTwoIntake implements Action {
         robot.setOuttakeSlidesPos(Constants.outtakeSlideConstants.transfer);
         robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.open);
         robot.setTrayPos(Constants.trayConstants.closed);
-        robot.setAxlePos(robot.getAXLE_DOWN());
+        robot.setAxlePos(Constants.outtakeAxleConstants.down);
         while(time.milliseconds()<1000){
 
         }

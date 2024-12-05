@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.BaseRobot.BaseRobot;
 import org.firstinspires.ftc.teamcode.util.Constants;
 
 @TeleOp
-public class slidesTest extends LinearOpMode {
+public class meet4_teleop extends LinearOpMode {
 
     private com.qualcomm.robotcore.hardware.HardwareMap HardwareMap;
     BaseRobot robot;
@@ -28,17 +28,72 @@ public class slidesTest extends LinearOpMode {
 
         waitForStart();
         //USE SPEED VARIABLE FOR DRIVE
-
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
         robot = new BaseRobot(hardwareMap);
 
         while(!isStopRequested() && opModeIsActive()){
 
-
+            double driveSpeed = 1;
             robot.TeleopUpdate();
 
             //GAMEPAD1------------------------------------------------------------------------
 
+            if (gamepad1.dpad_up){
+                driveSpeed = 1;//full speed
+            }
+            if (gamepad1.dpad_left || gamepad1.dpad_right){
+                driveSpeed = .5;//half speed
+            }
+            if (gamepad1.dpad_down){
+                driveSpeed = 0.25;//quarter speed
+            }
+            if(gamepad1.a){
+                driveSpeed = .125;//1/8 speed
+            }
+            //drive
+            robot.drive.setDrivePowers(new PoseVelocity2d(new Vector2d(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed), -gamepad1.right_stick_x * driveSpeed));
 
+            //drive speeds
+
+
+
+
+            //end drive speeds
+            //end drive
+
+            //intake slides
+
+            double intakePower = gamepad2.right_stick_y-gamepad2.left_stick_y *.3;
+            if (Math.abs(intakePower)> 0.1) {
+                robot.setIntakePower(intakePower);
+            }
+            else {
+                robot.updateIntakeSlidesPos();
+
+            }//end intake slides
+
+
+            //gimbal
+            if (gamepad2.back){
+                robot.changeGimbalPos(-.005);
+            }
+            if (gamepad2.start){
+                robot.changeGimbalPos(.005);
+            }
+
+            if(gamepad2.right_stick_button || gamepad2.left_stick_button){
+                robot.setGimbalPos(Constants.intakeClawConstants.gimbalReset);
+            }
+            //end gimbal
+
+
+
+
+
+            //GAMEPAD2------------------------------------------------------------------------
+
+
+            //outtake slides
             double outtakePower = gamepad2.right_trigger-gamepad2.left_trigger;
             if (Math.abs(outtakePower) > 0.1) {
                 robot.setOuttakePower(outtakePower);
@@ -50,6 +105,56 @@ public class slidesTest extends LinearOpMode {
 
             //SPECIMEN______________________________________________________________
             //presets
+
+            if (gamepad2.dpad_left){
+                robot.HighBucketScoring();//high bucket
+            }
+            if(gamepad2.dpad_up){
+                robot.setAxlePos(Constants.outtakeAxleConstants.specScoring);
+                robot.setV4bPos(Constants.v4bConstants.up);
+            }
+            if(gamepad2.dpad_down){
+                robot.setAxlePos(Constants.outtakeAxleConstants.passThrough);//grab from wall
+                robot.setOuttakeSlidesPos(0);
+                //robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_OPEN());
+            }
+
+            //end presets
+
+            //claw
+            if(gamepad2.right_bumper){
+                robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.closed);
+            }
+            if(gamepad2.left_bumper){
+                robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.open);
+            }
+            //END SPECIMEN_________________________________
+
+            //TRANSFER______________________________
+
+
+            if(gamepad2.a){
+                robot.intakePos();//get ready for intake
+            }
+            if(gamepad2.y){
+                //Actions.runBlocking(new IntakeAction(robot));//intake
+                robot.setV4bPos(Constants.v4bConstants.hover);
+            }
+
+
+            //claw
+            if(gamepad2.x){
+                robot.setIntakeGrasperPos(Constants.intakeClawConstants.closed);//close claw
+            }
+            if(gamepad2.b){
+                robot.setIntakeGrasperPos(Constants.intakeClawConstants.open);//open claw
+            }
+            //end claw
+
+            //END TRANSFER_________________________________
+
+
+
 
 
 
@@ -81,7 +186,12 @@ public class slidesTest extends LinearOpMode {
 
             */
 
-
+            telemetry.addLine("robot position (starting at x: 0, y: 0, heading: 0)");
+            telemetry.addData("x:", drive.pose.position.x);
+            telemetry.addData("y:", drive.pose.position.y);
+            telemetry.addData("heading (deg):", Math.toDegrees(drive.pose.heading.toDouble()));
+            telemetry.addLine();
+            telemetry.addLine();
 
 
             telemetry.addLine("Motors: ");
@@ -93,7 +203,7 @@ public class slidesTest extends LinearOpMode {
             telemetry.addLine();
 
             telemetry.addData("intake slides position: ", robot.getIntakeSlidesPos());
-            //telemetry.addData("intake slides power: ", robot.getINTAKE_SLIDES_POWER());
+           // telemetry.addData("intake slides power: ", robot.getINTAKE_SLIDES_POWER());
             telemetry.addLine();
             telemetry.addLine();
 

@@ -32,7 +32,7 @@ public class TransferAction implements Action {
         robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.open);
         //end preparing outtake
 
-        robot.setIntakeSlidesPos(0);
+        robot.setIntakeSlidesPos(Constants.intakeSlideConstants.transfer);
         robot.setIntakeGrasperPos(Constants.intakeClawConstants.closed);//close grasper
         robot.setTrayPos(Constants.trayConstants.open);//tray open to receive sample
         robot.update();
@@ -48,15 +48,15 @@ public class TransferAction implements Action {
 
 
         }
-        robot.setV4bPos(Constants.v4bConstants.tray);//v4b in robot
-        robot.setIntakeSlidesPos(0);//slides in
+        robot.setV4bPos(Constants.v4bConstants.up);//v4b in robot
+
         robot.update();
         time.reset();
 
         while(time.milliseconds() < 2000){
 
         }
-
+        robot.setIntakeSlidesPos(0);//slides in
         robot.setIntakeGrasperPos(Constants.intakeClawConstants.open);//drop sample into tray
 
             robot.update();
@@ -64,7 +64,9 @@ public class TransferAction implements Action {
         while(time.milliseconds() < 100){
 
         }
+
         robot.setV4bPos(Constants.v4bConstants.ground);
+        robot.update();
         time.reset();
 
 //        //sample is in tray, now needs to move to outtake
@@ -116,6 +118,7 @@ public class TransferAction implements Action {
 
         }
         robot.setOuttakeSlidesPos(Constants.outtakeSlideConstants.aboveChamber);
+        robot.setAxlePos(Constants.outtakeAxleConstants.specScoring);
         //robot.setAxlePos(robot.getAXLE_HB());
         robot.update();
 

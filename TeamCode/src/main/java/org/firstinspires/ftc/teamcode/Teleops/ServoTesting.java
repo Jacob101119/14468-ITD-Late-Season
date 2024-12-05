@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.BaseRobot.BaseRobot;
+import org.firstinspires.ftc.teamcode.util.Constants;
 
 @TeleOp
 public class ServoTesting extends LinearOpMode {
@@ -51,10 +52,10 @@ public class ServoTesting extends LinearOpMode {
             //HB axle: .35
             //axle out: .181
             if (gamepad2.a){
-                robot.setV4bPos(robot.getV4B_IN_ROBOT());
+                robot.setV4bPos(Constants.v4bConstants.up);
             }
             if(gamepad2.y){
-               robot.setV4bPos(robot.getV4B_INTAKE_POS());
+               robot.setV4bPos(Constants.v4bConstants.hover);
             }
 
             //open: .4887
@@ -64,18 +65,15 @@ public class ServoTesting extends LinearOpMode {
             robot.changeAxlePos(gamepad2.right_stick_y * stickSpeed);
             robot.changeV4bPos(gamepad2.left_stick_y * stickSpeed);
             robot.changeIntakeGrasperPos(gamepad1.left_stick_y * stickSpeed);
-            robot.changeTrayPos(gamepad1.right_stick_y * stickSpeed);
+            robot.changeGimbalPos(gamepad1.right_stick_y * stickSpeed);
 
             if(gamepad2.y){
-                robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_PASS_THROUGH_ON_HIGH_CHAMBER());
-            }
+                }
 
             if(gamepad2.y){
-                //robot.changeGimbalPos(.01);
-                robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_OPEN());
+
             }if(gamepad2.a){
-                //robot.changeGimbalPos(-.01);
-                robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_CLOSED());
+
             }
 
 

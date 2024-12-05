@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.BaseRobot.BaseRobot;
+import org.firstinspires.ftc.teamcode.util.Constants;
 
 @TeleOp
 public class TestingTeleop extends LinearOpMode {
@@ -45,28 +46,28 @@ public class TestingTeleop extends LinearOpMode {
 
 
             if(gamepad1.a){
-                robot.setV4bPos(robot.getV4B_INTAKE_POS());
+                robot.setV4bPos(Constants.v4bConstants.ground);
             }
             if(gamepad1.y){
-                robot.setV4bPos(robot.getV4B_IN_ROBOT());
+                robot.setV4bPos(Constants.v4bConstants.up);
             }
 
             if(gamepad1.dpad_up){
-                robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_TRANSFER());
+                //robot.setOuttakeSlidesPos(robot.getOUTTAKE_SLIDES_TRANSFER());
 
             }
 
             if(gamepad1.x){
-                robot.setTrayPos(robot.getTRAY_OPEN());
+                //robot.setTrayPos(robot.getTRAY_OPEN());
             }
             if(gamepad1.b){
-                robot.setTrayPos(robot.getTRAY_CLOSED());
+                //robot.setTrayPos(robot.getTRAY_CLOSED());
             }
             if(gamepad1.dpad_down){
-                robot.setAxlePos(robot.getAXLE_DOWN());
+                //robot.setAxlePos(robot.getAXLE_DOWN());
             }
             if(gamepad1.dpad_left){
-                robot.setAxlePos(robot.getAXLE_PASS_THROUGH());
+                //robot.setAxlePos(robot.getAXLE_PASS_THROUGH());
             }
 
 
@@ -91,11 +92,11 @@ public class TestingTeleop extends LinearOpMode {
 
             telemetry.addLine("Slides: ");
             telemetry.addData("outtake slides position: ", robot.getOuttakeSlidesPos());
-            telemetry.addData("outtake slides power: ", robot.getOUTTAKE_SLIDES_POWER());
+            //telemetry.addData("outtake slides power: ", robot.getOUTTAKE_SLIDES_POWER());
             telemetry.addLine();
 
             telemetry.addData("intake slides position: ", robot.getIntakeSlidesPos());
-            telemetry.addData("intake slides power: ", robot.getINTAKE_SLIDES_POWER());
+            //telemetry.addData("intake slides power: ", robot.getINTAKE_SLIDES_POWER());
             telemetry.addLine();
             telemetry.addLine();
 

@@ -224,15 +224,20 @@ public class BaseRobot{
         public void resetAll(){
         setIntakeSlidesPos(0);
         setOuttakeSlidesPos(0);
-        v4b.setPosition(Constants.v4bConstants.tray);
+        v4b.setPosition(Constants.v4bConstants.up);
         //outtakeAxle.setPosition();
 
         }
 
     public void SpecimenScoring(){
-        setOuttakeSlidesPos(Constants.outtakeSlideConstants.aboveChamber);
+        //if below chamber go on chamber
+        if(outtakeSlidesPos == Constants.outtakeSlideConstants.passThroughScoringBelowChamber){
+            setOuttakeSlidesPos(Constants.outtakeSlideConstants.passThroughScoringOnChamber);
+        }
+        else{
+            setOuttakeSlidesPos(Constants.outtakeSlideConstants.passThroughScoringBelowChamber);
+        }
         outtakeAxle.setPosition(Constants.outtakeAxleConstants.specScoring);
-        //outtakeWrist.setPosition(WRIST_SCORING);
         outtakeGrasper.setPosition(Constants.outtakeClawConstants.closed);
     }
     public void HighBucketScoring(){
@@ -240,15 +245,17 @@ public class BaseRobot{
         setAxlePos(Constants.outtakeAxleConstants.HBScoring);
     }
 
-    public void resetOuttake(){
+    public void passThroughPrep(){
         setOuttakeSlidesPos(0);
-        setAxlePos(Constants.outtakeAxleConstants.specScoring);
+        setAxlePos(Constants.outtakeAxleConstants.passThrough);
+        setOuttakeGrasperPos(Constants.outtakeClawConstants.open);
     }
     public void resetIntake(){
-        setV4bPos(Constants.v4bConstants.farInTrayForPassThrough);
+        setV4bPos(Constants.v4bConstants.up);
         setIntakeSlidesPos(0);
-        setTrayPos(Constants.trayConstants.open);
+        //setTrayPos(Constants.trayConstants.open);
         setIntakeGrasperPos(Constants.intakeClawConstants.closed);
+        setGimbalPos(Constants.intakeClawConstants.gimbalReset);
     }
 
 
@@ -282,12 +289,58 @@ public class BaseRobot{
         updateV4bPos();
     }
 
-    public void intakePos(){
-        setV4bPos(Constants.v4bConstants.ground);
-        setIntakeGrasperPos(getINTAKE_GRASPER_CLOSED());
-        setGimbalPos(Constants.intakeClawConstants.gimbalReset);
-        setTrayPos(Constants.trayConstants.open);
+    public void prepForIntake(){
+        setV4bPos(Constants.v4bConstants.hover);
     }
+    public void intakeGround(){
+        setV4bPos(Constants.v4bConstants.ground);
+
+    }
+
+    public void intakeUpStage(){
+        //move up one stage
+        if(v4bPos == Constants.v4bConstants.ground){
+            setV4bPos(Constants.v4bConstants.hover);
+        }
+        else if(v4bPos == Constants.v4bConstants.hover){
+            setV4bPos(Constants.v4bConstants.up);
+        }
+        else{
+            setV4bPos(Constants.v4bConstants.up);
+        }
+    }
+    public void intakeDownStage(){
+        //go down one stage
+        if(v4bPos == Constants.v4bConstants.up){
+            setV4bPos(Constants.v4bConstants.hover);
+        }
+        else if(v4bPos == Constants.v4bConstants.hover){
+            setV4bPos(Constants.v4bConstants.ground);
+        }
+        else{
+            setV4bPos(Constants.v4bConstants.ground);
+        }
+    }
+
+    public void intakeGrasperToggle(){
+        //if open, close | if closed, open
+        if(intakeGrasperPos == Constants.intakeClawConstants.closed){
+            setIntakeGrasperPos(Constants.intakeClawConstants.open);
+        }
+        else{
+            setIntakeGrasperPos(Constants.intakeClawConstants.closed);
+        }
+    }
+    public void outtakeGrasperToggle(){
+        if(outtakeGrasperPos == Constants.outtakeClawConstants.closed){
+            setOuttakeGrasperPos(Constants.outtakeClawConstants.open);
+        }
+        else{
+            setOuttakeGrasperPos(Constants.outtakeClawConstants.closed);
+        }
+    }
+
+
 
     public void servoTestingUpdate(){
         intakeGimbal.setPosition(gimbalPos);
@@ -496,122 +549,15 @@ public class BaseRobot{
     public double getTrayPos(){
         return trayPos;
     }
-    //end servos
-
-    //powers
-    public double getINTAKE_SLIDES_POWER(){
-        return INTAKE_SLIDES_POWER;
-    }
-    public double getOUTTAKE_SLIDES_POWER(){
-        return OUTTAKE_SLIDES_POWER;
-    }
-    //end powers
-
-    //servo constants
-    public double getV4B_IN_ROBOT(){
-        return V4B_IN_ROBOT;
-    }
-    public double getV4B_INTAKE_POS(){
-        return V4B_INTAKE_POS;
-    }
-    public double getV4B_UP(){
-        return V4B_UP;
-    }
-    public double getV4B_RESTING_POS(){
-        return V4B_RESTING_POS;
-    }
-    public double getV4B_HOVER_OVER_GROUND(){
-        return V4B_HOVER_OVER_GROUND;
-    }
-    public double getGIMBAL_RESTING_POS(){
-        return GIMBAL_RESTING_POS;
-    }
-    public double getINTAKE_GRASPER_OPEN(){
-        return INTAKE_GRASPER_OPEN;
-    }
-    public double getINTAKE_GRASPER_CLOSED(){
-        return INTAKE_GRASPER_CLOSED;
-    }
-    public double getOUTTAKE_GRASPER_CLOSED(){
-        return OUTTAKE_GRASPER_CLOSED;
-    }
-    public double getOUTTAKE_GRASPER_OPEN(){
-        return OUTTAKE_GRASPER_OPEN;
-    }
-    public double getAXLE_TO_WALL(){
-        return AXLE_TO_WALL;
-    }
-
-    public double getAXLE_HB(){
-        return AXLE_HB;
-    }
-    public double getAXLE_DOWN(){
-        return AXLE_DOWN;
-    }
-    public double getAXLE_PASS_THROUGH(){
-        return AXLE_PASS_THROUGH;
-    }
-    public double getOUTTAKE_WRIST_TO_WALL(){
-        return WRIST_TO_WALL;
-    }
-    public double getWRIST_TO_TRAY(){
-        return WRIST_TO_TRAY;
-    }
-    public double getWRIST_SCORING(){
-        return WRIST_SCORING;
-    }
-    public double getWRIST_STRAIGHT(){
-        return WRIST_STRAIGHT;
-    }
-    public double getWRIST_TO_WALL(){
-        return WRIST_TO_WALL;
-    }
-    public double getTRAY_CLOSED(){
-        return TRAY_CLOSED;
-    }
-    public double getTRAY_HALF_CLOSED(){
-        return TRAY_HALF_CLOSED;
-    }
-    public double getTRAY_OPEN(){
-        return TRAY_OPEN;
-    }
-
-
-    public int getIntakeSlidesPos(){
-        return intakeSlidesPos;
-    }
     public int getOuttakeSlidesPos(){
         return outtakeSlidesPos;
     }
-    public int getOUTTAKE_SLIDES_TRANSFER(){
-        return OUTTAKE_SLIDES_TRANSFER;
+    public int getIntakeSlidesPos(){
+        return intakeSlidesPos;
     }
-    public int getINTAKE_SLIDES_MAX(){
-        return INTAKE_SLIDES_MAX;
-    }
-    public int getOUTTAKE_SLIDES_MAX(){
-        return OUTTAKE_SLIDES_MAX;
-    }
-    public int getOUTTAKE_SLIDES_TO_HB(){
-        return OUTTAKE_SLIDES_TO_HB;
-    }
-    public int getOUTTAKE_SLIDES_UPSIDE_DOWN_HIGH_CHAMBER(){
-        return OUTTAKE_SLIDES_UPSIDE_DOWN_HIGH_CHAMBER;
-    }
-    public int getOUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER(){
-        return OUTTAKE_SLIDES_ABOVE_HIGH_CHAMBER;
-    }
-    public int getOUTTAKE_SLIDES_ON_HIGH_CHAMBER(){
-        //change
+    //end servos
 
-        return OUTTAKE_SLIDES_ON_HIGH_CHAMBER;
-    }
-    public int getOUTTAKE_SLIDES_PASS_THROUGH_ON_HIGH_CHAMBER(){
-        return OUTTAKE_SLIDES_PASS_THROUGH_ON_HIGH_CHAMBER;
-    }
-    public int getOUTTAKE_SLIDES_PASS_THROUGH_BELOW_CHAMBER(){
-        return OUTTAKE_SLIDES_PASS_THROUGH_BELOW_CHAMBER;
-    }
+
 
 
 

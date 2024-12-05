@@ -5,17 +5,15 @@ package org.firstinspires.ftc.teamcode.Teleops;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
-import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.BaseRobot.BaseRobot;
-import org.firstinspires.ftc.teamcode.BaseRobot.TransferAction;
 import org.firstinspires.ftc.teamcode.util.Constants;
 
 @TeleOp
-public class LeaguesTeleop extends LinearOpMode {
+public class Leagues_teleop_v2 extends LinearOpMode {
 
     private com.qualcomm.robotcore.hardware.HardwareMap HardwareMap;
     volatile BaseRobot robot;
@@ -28,13 +26,14 @@ public class LeaguesTeleop extends LinearOpMode {
 
 
         Thread driveThread = new Thread(this::driveLoop);
-        driveThread.start();
+
 
 
         waitForStart();
         //USE SPEED VARIABLE FOR DRIVE
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
         robot = new BaseRobot(hardwareMap);
+        driveThread.start();
 
         while(!isStopRequested() && opModeIsActive()){
 
@@ -44,9 +43,9 @@ public class LeaguesTeleop extends LinearOpMode {
 
 
 
-            if(gamepad2.a){
-                Actions.runBlocking(new TransferAction(robot));
-            }
+            //if(gamepad2.a){
+            //  Actions.runBlocking(new TransferAction(robot));
+            //}
 
             //end drive speeds
             //end drive
@@ -72,15 +71,13 @@ public class LeaguesTeleop extends LinearOpMode {
             }
 
             if(gamepad2.right_stick_button || gamepad2.left_stick_button){
-                robot.setGimbalPos(robot.getGIMBAL_RESTING_POS());
+                robot.setGimbalPos(Constants.intakeClawConstants.gimbalReset);
             }
             //end gimbal
 
 
 
 
-
-            //GAMEPAD2------------------------------------------------------------------------
 
 
             //outtake slides
@@ -100,84 +97,40 @@ public class LeaguesTeleop extends LinearOpMode {
                 robot.HighBucketScoring();//high bucket
             }
             if(gamepad2.dpad_up){
-
-                robot.setAxlePos(Constants.outtakeAxleConstants.specScoring);
-                robot.setV4bPos(Constants.v4bConstants.tray);
+                robot.SpecimenScoring();//get ready for spec scoring and if alr there, score
             }
             if(gamepad2.dpad_down){
-                robot.setAxlePos(Constants.outtakeAxleConstants.passThrough);//grab from wall
-                robot.setOuttakeSlidesPos(0);
-                //robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_OPEN());
+                robot.passThroughPrep();//slides down, axle pass through, grasper open
+
             }
 
             //end presets
 
             //claw
-            if(gamepad2.right_bumper){
-                robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.closed);
+            if(gamepad2.right_bumper || gamepad2.left_bumper){
+                //if open, close | if closed, open
+                robot.outtakeGrasperToggle();
             }
-            if(gamepad2.left_bumper){
-                robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.open);
-            }
-            //END SPECIMEN_________________________________
 
-            //TRANSFER______________________________
+
 
 
             if(gamepad2.a){
-                robot.intakePos();//get ready for intake
+                robot.intakeDownStage();//if up hover, if hover ground
             }
             if(gamepad2.y){
-                //Actions.runBlocking(new IntakeAction(robot));//intake
-                robot.setV4bPos(Constants.v4bConstants.hover);
-            }
-            if(gamepad2.dpad_right){
-                robot.setV4bPos(Constants.v4bConstants.hover);
+                robot.intakeUpStage();//if ground hover, if hover up, if up stay
             }
 
-            //claw
             if(gamepad2.x){
                 robot.setIntakeGrasperPos(Constants.intakeClawConstants.closed);//close claw
             }
             if(gamepad2.b){
-                robot.setIntakeGrasperPos(Constants.intakeClawConstants.open);//open claw
-            }
-            //end claw
-
-            //END TRANSFER_________________________________
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //telemetry
-           // _____________________________________________________________________________________
-
-
-           /* double voltage = drive.voltageSensor.getVoltage();
-            if(voltage < 12 && voltage > 10){
-                telemetry.addLine("MEDIUM VOLTAGE");
-                telemetry.update();
-            }
-            if(voltage >12){
-                telemetry.addLine("Good voltage");
-            }
-            if(voltage <10){
-                telemetry.addLine("LOW VOLTAGE");
-                telemetry.update();
+                robot.intakeGrasperToggle();
             }
 
-            */
+
+
 
             telemetry.addLine("robot position (starting at x: 0, y: 0, heading: 0)");
             telemetry.addData("x:", drive.pose.position.x);
@@ -192,11 +145,11 @@ public class LeaguesTeleop extends LinearOpMode {
 
             telemetry.addLine("Slides: ");
             telemetry.addData("outtake slides position: ", robot.getOuttakeSlidesPos());
-            telemetry.addData("outtake slides power: ", robot.getOUTTAKE_SLIDES_POWER());
+            //telemetry.addData("outtake slides power: ", robot.getOUTTAKE_SLIDES_POWER());
             telemetry.addLine();
 
             telemetry.addData("intake slides position: ", robot.getIntakeSlidesPos());
-            telemetry.addData("intake slides power: ", robot.getINTAKE_SLIDES_POWER());
+            //telemetry.addData("intake slides power: ", robot.getINTAKE_SLIDES_POWER());
             telemetry.addLine();
             telemetry.addLine();
 

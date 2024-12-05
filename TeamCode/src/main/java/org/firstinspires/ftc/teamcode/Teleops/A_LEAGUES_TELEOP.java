@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Teleops;
 
-//import com.google.blocks.ftcrobotcontroller.runtime.CRServoAccess;
+//import com.google.blocks.ftcrobotcontroller.;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
@@ -13,10 +13,11 @@ import org.firstinspires.ftc.teamcode.BaseRobot.BaseRobot;
 import org.firstinspires.ftc.teamcode.util.Constants;
 
 @TeleOp
-public class A_TELEOP_MEET_4 extends LinearOpMode {
+public class A_LEAGUES_TELEOP extends LinearOpMode {
 
     private com.qualcomm.robotcore.hardware.HardwareMap HardwareMap;
-    BaseRobot robot;
+    volatile BaseRobot robot;
+    private volatile boolean endTeleop = false;
 
 
 
@@ -24,39 +25,27 @@ public class A_TELEOP_MEET_4 extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
 
+        Thread driveThread = new Thread(this::driveLoop);
+
 
 
         waitForStart();
         //USE SPEED VARIABLE FOR DRIVE
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
         robot = new BaseRobot(hardwareMap);
+        driveThread.start();
 
         while(!isStopRequested() && opModeIsActive()){
 
-            double driveSpeed = 1;
             robot.TeleopUpdate();
-
-            //GAMEPAD1------------------------------------------------------------------------
-
-            if (gamepad1.dpad_up){
-                driveSpeed = 1;//full speed
-            }
-            if (gamepad1.dpad_left || gamepad1.dpad_right){
-                driveSpeed = .5;//half speed
-            }
-            if (gamepad1.dpad_down){
-                driveSpeed = 0.25;//quarter speed
-            }
-            if(gamepad1.a){
-                driveSpeed = .125;//1/8 speed
-            }
-            //drive
-            robot.drive.setDrivePowers(new PoseVelocity2d(new Vector2d(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed), -gamepad1.right_stick_x * driveSpeed));
 
             //drive speeds
 
 
 
+            //if(gamepad2.a){
+              //  Actions.runBlocking(new TransferAction(robot));
+            //}
 
             //end drive speeds
             //end drive
@@ -111,7 +100,7 @@ public class A_TELEOP_MEET_4 extends LinearOpMode {
             }
             if(gamepad2.dpad_up){
                 robot.setAxlePos(Constants.outtakeAxleConstants.specScoring);
-                robot.setV4bPos(robot.getV4B_RESTING_POS());
+                robot.setV4bPos(Constants.v4bConstants.up);
             }
             if(gamepad2.dpad_down){
                 robot.setAxlePos(Constants.outtakeAxleConstants.passThrough);//grab from wall
@@ -134,11 +123,14 @@ public class A_TELEOP_MEET_4 extends LinearOpMode {
 
 
             if(gamepad2.a){
-                robot.intakePos();//get ready for intake
+                robot.intakeGround();//get ready for intake
             }
             if(gamepad2.y){
-                //Actions.runBlocking(new IntakeAction(robot));//intake
-                robot.setV4bPos(Constants.v4bConstants.hover);
+                robot.setAxlePos(Constants.v4bConstants.up);
+                robot.setIntakeSlidesPos(0);
+            }
+            if(gamepad2.dpad_right){
+                robot.prepForIntake();
             }
 
 
@@ -149,42 +141,7 @@ public class A_TELEOP_MEET_4 extends LinearOpMode {
             if(gamepad2.b){
                 robot.setIntakeGrasperPos(Constants.intakeClawConstants.open);//open claw
             }
-            //end claw
 
-            //END TRANSFER_________________________________
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //telemetry
-            //_____________________________________________________________________________________
-
-
-           /* double voltage = drive.voltageSensor.getVoltage();
-            if(voltage < 12 && voltage > 10){
-                telemetry.addLine("MEDIUM VOLTAGE");
-                telemetry.update();
-            }
-            if(voltage >12){
-                telemetry.addLine("Good voltage");
-            }
-            if(voltage <10){
-                telemetry.addLine("LOW VOLTAGE");
-                telemetry.update();
-            }
-
-            */
 
             telemetry.addLine("robot position (starting at x: 0, y: 0, heading: 0)");
             telemetry.addData("x:", drive.pose.position.x);
@@ -199,11 +156,11 @@ public class A_TELEOP_MEET_4 extends LinearOpMode {
 
             telemetry.addLine("Slides: ");
             telemetry.addData("outtake slides position: ", robot.getOuttakeSlidesPos());
-            telemetry.addData("outtake slides power: ", robot.getOUTTAKE_SLIDES_POWER());
+            //telemetry.addData("outtake slides power: ", robot.getOUTTAKE_SLIDES_POWER());
             telemetry.addLine();
 
             telemetry.addData("intake slides position: ", robot.getIntakeSlidesPos());
-            telemetry.addData("intake slides power: ", robot.getINTAKE_SLIDES_POWER());
+            //telemetry.addData("intake slides power: ", robot.getINTAKE_SLIDES_POWER());
             telemetry.addLine();
             telemetry.addLine();
 
@@ -259,6 +216,42 @@ public class A_TELEOP_MEET_4 extends LinearOpMode {
 
 
             //_____________________________________________________________________________________
+        }
+        endTeleop=true;
+        try{
+            driveThread.join();
+        }
+        catch (InterruptedException e){
+
+        }
+
+    }
+
+
+
+    public void driveLoop(){
+        while(!endTeleop){
+
+            double driveSpeed = 1;
+
+
+            //GAMEPAD1------------------------------------------------------------------------
+
+            if (gamepad1.dpad_up){
+                driveSpeed = 1;//full speed
+            }
+            if (gamepad1.dpad_left || gamepad1.dpad_right){
+                driveSpeed = .5;//half speed
+            }
+            if (gamepad1.dpad_down){
+                driveSpeed = 0.25;//quarter speed
+            }
+            if(gamepad1.a){
+                driveSpeed = .125;//1/8 speed
+            }
+            //drive
+            robot.drive.setDrivePowers(new PoseVelocity2d(new Vector2d(gamepad1.left_stick_y * driveSpeed, gamepad1.left_stick_x * driveSpeed), -gamepad1.right_stick_x * driveSpeed));
+
         }
     }
 }

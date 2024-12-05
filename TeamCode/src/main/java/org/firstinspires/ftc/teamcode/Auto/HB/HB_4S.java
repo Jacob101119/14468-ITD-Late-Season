@@ -32,7 +32,7 @@ public final class HB_4S extends LinearOpMode {
 
 
 
-        robot.setOuttakeGrasperPos(robot.getOUTTAKE_GRASPER_CLOSED());
+        robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.closed);
 
 
         //test heading reset
@@ -99,10 +99,10 @@ public final class HB_4S extends LinearOpMode {
                 .strafeToLinearHeading(new Vector2d(-26.7, -10.6),Math.toRadians(0))
                 .build();
         Actions.runBlocking(touchLowBar);
-        robot.setV4bPos(robot.getV4B_HOVER_OVER_GROUND());
+        robot.setV4bPos(Constants.v4bConstants.hover);
         robot.update();
         robot.delay(.5);
-        robot.setIntakeGrasperPos(robot.getINTAKE_GRASPER_OPEN());
+        robot.setIntakeGrasperPos(Constants.intakeClawConstants.open);
         robot.update();
         robot.delay(6);
 
