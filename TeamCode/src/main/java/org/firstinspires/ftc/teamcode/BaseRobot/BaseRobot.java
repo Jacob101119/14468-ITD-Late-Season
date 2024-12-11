@@ -28,7 +28,7 @@ public class BaseRobot{
 
 
     //motor powers
-    private final double INTAKE_SLIDES_POWER = 0.7;
+    private final double INTAKE_SLIDES_POWER = 0.3;
     private final double OUTTAKE_SLIDES_POWER = 0.9;
 
     //end motor powers
@@ -89,6 +89,8 @@ public class BaseRobot{
 
     //end motor constants
 
+    private int realIntakeSlidesPos = 0;
+
 
 
 
@@ -96,6 +98,8 @@ public class BaseRobot{
 
     DcMotor leftIntakeSlider;//from the perspective of the robot
     DcMotor rightIntakeSlider;//from the perspective of the robot
+
+
 
     DcMotor leftOuttakeSlider;//from the perspective of the robot
     DcMotor rightOuttakeSlider;//from the perspective of the robot
@@ -131,6 +135,7 @@ public class BaseRobot{
         // Set to run with encoders and grab current Position
         leftIntakeSlider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftIntakeSlider.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
 
         rightIntakeSlider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -173,7 +178,7 @@ public class BaseRobot{
         outtakeWristPos = outtakeWrist.getPosition();
 
         v4b = hwMap.servo.get("v4b");
-        //v4b.setPosition(Constants.v4bConstants.tray);
+        v4b.setPosition(Constants.v4bConstants.up);
         v4bPos = v4b.getPosition();
 
         intakeGimbal = hwMap.servo.get("intakeGimbal");
@@ -262,7 +267,7 @@ public class BaseRobot{
     public void update(){
         //motors
 
-        //updateIntakeSlidesPos();
+        updateIntakeSlidesPos();
         updateOuttakeSlidesPos();
 
         //servos
@@ -322,6 +327,15 @@ public class BaseRobot{
         }
     }
 
+    public void axleToggle(){
+        if(outtakeAxlePos == Constants.outtakeAxleConstants.specScoring || outtakeAxlePos == Constants.outtakeAxleConstants.HBScoring){
+            setAxlePos(Constants.outtakeAxleConstants.passThrough);
+        }
+        else{
+            setAxlePos(Constants.outtakeAxleConstants.specScoring);
+        }
+    }
+
     public void intakeGrasperToggle(){
         //if open, close | if closed, open
         if(intakeGrasperPos == Constants.intakeClawConstants.closed){
@@ -352,6 +366,12 @@ public class BaseRobot{
     }
 
     public void updateGimbalPos(){
+        if(gimbalPos > 1){
+            gimbalPos = 1;
+        }
+         if(gimbalPos < 0){
+             gimbalPos = 0;
+         }
         intakeGimbal.setPosition(gimbalPos);
     }
     public void changeGimbalPos(double deltaPos){
@@ -397,7 +417,9 @@ public class BaseRobot{
 
     public void updateIntakeGrasperPos(){
 
-        //new limits to let v4b move
+        if(v4bPos == Constants.v4bConstants.up){
+            setIntakeGrasperPos(Constants.intakeClawConstants.closed);
+        }
         //if(intakeGrasperPos != INTAKE_GRASPER_CLOSED && intakeGrasperPos != INTAKE_GRASPER_OPEN){
           //  intakeGrasperPos = INTAKE_GRASPER_CLOSED;
         //}
@@ -411,8 +433,6 @@ public class BaseRobot{
     }
 
     public void updateOuttakeGrasperPos(){
-
-
         outtakeGrasper.setPosition(outtakeGrasperPos);
     }
     public void changeOuttakeGrasperPos(double deltaPos){
@@ -424,6 +444,12 @@ public class BaseRobot{
 
     public void updateV4bPos(){
 
+        //less than up = up
+        if (v4bPos < Constants.v4bConstants.up && intakeSlidesPos < Constants.intakeSlideConstants.minFromGround){
+
+            setIntakeSlidesPos(Constants.intakeSlideConstants.minFromGround);
+            setV4bPos(Constants.v4bConstants.hover);
+        }
         v4b.setPosition(v4bPos);
     }
     public void changeV4bPos(double deltaPos){
@@ -437,6 +463,7 @@ public class BaseRobot{
 
     public void updateIntakeSlidesPos(){
 
+        realIntakeSlidesPos = leftIntakeSlider.getCurrentPosition();
         rightIntakeSlider.setTargetPosition(intakeSlidesPos);
         leftIntakeSlider.setTargetPosition(intakeSlidesPos);
 
@@ -526,6 +553,9 @@ public class BaseRobot{
     }
 
 
+    public int getRealIntakeSlidesPos(){
+        return realIntakeSlidesPos;
+    }
     //servos
     public double getGimbalPos(){
         return gimbalPos;

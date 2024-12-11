@@ -39,9 +39,11 @@ public final class OZ_5SP_V1 extends LinearOpMode {
 
         robot.setIntakeGrasperPos(Constants.intakeClawConstants.closed);
         robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.closed);
-
+        robot.setAxlePos(Constants.outtakeAxleConstants.specScoring);
+        robot.update();
         //test heading reset
         robot.drive.resetHeading();
+
 
         waitForStart();
 
@@ -52,7 +54,7 @@ public final class OZ_5SP_V1 extends LinearOpMode {
         robot.update();
 
         Action moveToSub = robot.drive.actionBuilder(robot.drive.pose)
-                .strafeToConstantHeading(new Vector2d(9, -39.4))
+                .strafeToConstantHeading(new Vector2d(6, -37.5))
                 .afterTime(0, (t) -> {
                     robot.setOuttakeSlidesPos(Constants.outtakeSlideConstants.passThroughScoringOnChamber);
                     robot.update();
@@ -87,23 +89,24 @@ public final class OZ_5SP_V1 extends LinearOpMode {
                 //back from sub to first sample
                 //.splineToConstantHeading(new Vector2d(12, -44), 90)//move back from sub
                 .splineToConstantHeading(new Vector2d(33, -39.4), 180)//sideways
-                .splineToConstantHeading(new Vector2d(33, -19.5), 90)//forward
-                .splineToConstantHeading(new Vector2d(45, -16), 180)//move to sample 1
+                .splineToConstantHeading(new Vector2d(33, -14), 90)//forward
+                .splineToConstantHeading(new Vector2d(48, -14), 180)//move to sample 1
 
                 //push
-                .splineToConstantHeading(new Vector2d(45, -44), 90)//move to OZ
+                .splineToConstantHeading(new Vector2d(48, -46), 90)//move to OZ
 
                 //move to 2nd sample
-                .splineToConstantHeading(new Vector2d(45,-19.5),270)//move back
-                .splineToConstantHeading(new Vector2d(56,-19.5),180)//move to second sample
+                .splineToConstantHeading(new Vector2d(48,-14),270)//move back
+                .splineToConstantHeading(new Vector2d(56,-14),180)//move to second sample
 
                 //push
-                .splineToConstantHeading(new Vector2d(49, -47.5), 90)//move to OZ
+                .splineToConstantHeading(new Vector2d(56, -50), 90)//move to OZ
 
                 //move to third sample
-                .splineToConstantHeading(new Vector2d(55, -18), 270)//back away from oz
-                .splineToConstantHeading(new Vector2d(62, -18), 180)//move to sample
-                .splineToConstantHeading(new Vector2d(55, -50), 90)//push to OZ and grab spec
+                .splineToConstantHeading(new Vector2d(60, -14), 270)//back away from oz
+                .splineToConstantHeading(new Vector2d(68, -14), 180)//move to sample
+                .splineToConstantHeading(new Vector2d(55, -49), 90)//push to OZ and grab spec
+                .splineToConstantHeading(new Vector2d(44, - 45), 270)
                 .splineToConstantHeading(new Vector2d(44, -64), 90)// grab spec
                 //.splineToConstantHeading(new Vector2d(50, -64), 90)// grab spec
                 .build();

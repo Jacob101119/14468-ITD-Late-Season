@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.BaseRobot.BaseRobot;
 import org.firstinspires.ftc.teamcode.util.Constants;
 
 @TeleOp
-public class A_LEAGUES_TELEOP extends LinearOpMode {
+public class old_teleop extends LinearOpMode {
 
     private com.qualcomm.robotcore.hardware.HardwareMap HardwareMap;
     volatile BaseRobot robot;

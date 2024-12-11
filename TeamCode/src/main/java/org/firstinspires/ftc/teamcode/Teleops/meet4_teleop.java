@@ -134,7 +134,7 @@ public class meet4_teleop extends LinearOpMode {
 
 
             if(gamepad2.a){
-                robot.intakePos();//get ready for intake
+                robot.prepForIntake();//get ready for intake
             }
             if(gamepad2.y){
                 //Actions.runBlocking(new IntakeAction(robot));//intake

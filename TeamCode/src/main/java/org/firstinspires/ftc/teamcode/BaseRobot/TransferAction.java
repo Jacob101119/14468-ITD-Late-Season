@@ -27,7 +27,8 @@ public class TransferAction implements Action {
 
         //prepare outtake for grabbing sample
         robot.setOuttakeSlidesPos(0);//slides up a bit
-        robot.setAxlePos(Constants.outtakeAxleConstants.passThrough);
+        robot.setAxlePos(Constants.outtakeAxleConstants.straightUp);
+        robot.setIntakeGrasperPos(Constants.intakeClawConstants.looseGrab);
 
         robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.open);
         //end preparing outtake
@@ -37,13 +38,11 @@ public class TransferAction implements Action {
         robot.setGimbalPos(Constants.intakeClawConstants.gimbalReset);//gimbal straight
         robot.update();
 
-
-
         while(time.milliseconds() < 100){
 
 
         }
-        robot.setV4bPos(Constants.v4bConstants.up);//v4b in robot
+        robot.setV4bPos(Constants.v4bConstants.transfer);//v4b in robot
 
         robot.update();
         time.reset();
@@ -51,11 +50,18 @@ public class TransferAction implements Action {
         while(time.milliseconds() < 1000){
 
         }
+        robot.setAxlePos(Constants.outtakeAxleConstants.transfer);
+
+        time.reset();
+        while(time.milliseconds() < 1000){
+
+        }
+
         robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.closed);
         robot.update();
         time.reset();
 
-        while(time.milliseconds() < 50){
+        while(time.milliseconds() < 1000){
 
         }
         robot.setIntakeGrasperPos(Constants.intakeClawConstants.open);
@@ -63,7 +69,7 @@ public class TransferAction implements Action {
         time.reset();
 
 
-        while(time.milliseconds()<100){
+        while(time.milliseconds()<1000){
 
         }
 

@@ -24,9 +24,11 @@ import com.acmerobotics.dashboard.config.Config;
         @Config
         public static final class intakeSlideConstants{
 
-            public static int MAX = 1661;
+            public static int MAX = 2000;
             public static double power = .9;
-            public static int transfer = 206;
+            public static int transfer = 1000;
+            //public static int transfer2 = 765;
+            public static int minFromGround = 718;//change
 
         }
         @Config
@@ -35,28 +37,39 @@ import com.acmerobotics.dashboard.config.Config;
             //open: .4887
             //closed: .2951
             //gimbal reset: .4825
+            public static double gap45 = -.16765;//change
             public static double open = .4887;
             public static double closed = .2951;
+            public static double looseGrab = .3515;
             //public static double wayOpen = 0;
             public static double gimbalReset = .4825;
 
             public static double turn90 = .808;
 
+            //90 .132
+            //.8026
+           // 4 increments
+
+
         }
         @Config
         public static final class v4bConstants{
             public static double ground = 0;
-            public static double hover = .0868;
-            public static double up = .7781;
+            public static double hover = .1;
+            public static double up = .72;
+            public static double half = .3;
+            public static double transfer = .7485;
             //public static double farInTrayForPassThrough = .7781;
-        }@Config
-
+        }
+        @Config
         public static final class outtakeAxleConstants{
-            public static double passThrough = .6885;
-            public static double specScoring = .1602;
+            public static double passThrough = .69;
+            public static double specScoring = .14;
             public static double HBScoring =.3949;
             public static double straightUp = .5;
             public static double down = .9439;
+            public static double transfer = .6679;
+            public static double autoStart = .6;
 
 
 
@@ -64,7 +77,7 @@ import com.acmerobotics.dashboard.config.Config;
         @Config
         public static final class outtakeClawConstants{
             public static double open = .8656;
-            public static double closed = .573;
+            public static double closed = .59;
 
         }
         @Config
