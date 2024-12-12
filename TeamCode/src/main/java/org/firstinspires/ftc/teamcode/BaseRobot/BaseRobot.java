@@ -36,7 +36,8 @@ public class BaseRobot{
     // Arm Position fields
     private int intakeSlidesPos = 0;
 
-    private int outtakeSlidesPos = 0;
+    private int rightOuttakeSlidePos = 0;
+    private int leftOuttakeSlidePos = 0;
 
     private double gimbalPos = 0;
     private double intakeGrasperPos = 0;
@@ -155,7 +156,8 @@ public class BaseRobot{
 
         leftOuttakeSlider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftOuttakeSlider.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        outtakeSlidesPos = leftOuttakeSlider.getCurrentPosition();
+        leftOuttakeSlidePos = leftOuttakeSlider.getCurrentPosition();
+        rightOuttakeSlidePos = rightOuttakeSlider.getCurrentPosition();
 
         rightOuttakeSlider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightOuttakeSlider.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -238,7 +240,7 @@ public class BaseRobot{
 
     public void SpecimenScoring(){
         //if below chamber go on chamber
-        if(outtakeSlidesPos == Constants.outtakeSlideConstants.passThroughScoringBelowChamber){
+        if(leftOuttakeSlidePos == Constants.outtakeSlideConstants.passThroughScoringBelowChamber){
             setOuttakeSlidesPos(Constants.outtakeSlideConstants.passThroughScoringOnChamber);
         }
         else{
@@ -268,7 +270,8 @@ public class BaseRobot{
     public void resetOuttakeSlideEncoder(){
         leftOuttakeSlider.setPower(0);
         rightOuttakeSlider.setPower(0);
-        outtakeSlidesPos=0;
+        rightOuttakeSlidePos=0;
+        leftOuttakeSlidePos = 0;
 
         leftOuttakeSlider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightOuttakeSlider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -525,14 +528,14 @@ public class BaseRobot{
     //outtake -------------------------------------------------------------------------
     public void updateOuttakeSlidesPos(){
 
-        if(leftOuttakeSlider.getCurrentPosition() == 0 && outtakeSlidesPos == 0){
+        if(leftOuttakeSlider.getCurrentPosition() < 5 && leftOuttakeSlidePos < 5){
             leftOuttakeSlider.setPower(0);
             rightOuttakeSlider.setPower(0);
 
         }
 
-        leftOuttakeSlider.setTargetPosition(outtakeSlidesPos);
-        rightOuttakeSlider.setTargetPosition(outtakeSlidesPos);
+        leftOuttakeSlider.setTargetPosition(leftOuttakeSlidePos);
+        rightOuttakeSlider.setTargetPosition(rightOuttakeSlidePos);
 
         rightOuttakeSlider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftOuttakeSlider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -541,12 +544,14 @@ public class BaseRobot{
         leftOuttakeSlider.setPower(Constants.outtakeSlideConstants.power);
 
         if(outtakeReset == true){
-            if(outtakeSlidesPos > Constants.outtakeSlideConstants.MAX){
-                outtakeSlidesPos = Constants.outtakeSlideConstants.MAX;
+            if(rightOuttakeSlidePos > Constants.outtakeSlideConstants.MAX){
+                rightOuttakeSlidePos = Constants.outtakeSlideConstants.MAX;
+                leftOuttakeSlidePos = Constants.outtakeSlideConstants.MAX;
 
             }
-            if (outtakeSlidesPos < 0){
-              outtakeSlidesPos = 0;
+            if (rightOuttakeSlidePos < 0){
+              rightOuttakeSlidePos = 0;
+              leftOuttakeSlidePos = 0;
             }
         }
        // if(leftOuttakeSliderPos != rightOuttakeSliderPos){
@@ -558,11 +563,13 @@ public class BaseRobot{
     }
 
     public void changeOuttakeSlidesPos(int deltaPos){
-        outtakeSlidesPos += deltaPos;
+        rightOuttakeSlidePos += deltaPos;
+        leftOuttakeSlidePos += deltaPos;
     }
     public void setOuttakeSlidesPos(int newPos){
-        if(outtakeReset == true){
-            outtakeSlidesPos = newPos;
+        if(outtakeReset){
+            rightOuttakeSlidePos = newPos;
+            leftOuttakeSlidePos = newPos;
         }
 
     }
@@ -570,7 +577,8 @@ public class BaseRobot{
     public void setOuttakePower(double power) {
         rightOuttakeSlider.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftOuttakeSlider.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        outtakeSlidesPos = leftOuttakeSlider.getCurrentPosition();
+        rightOuttakeSlidePos = rightOuttakeSlider.getCurrentPosition();
+        leftOuttakeSlidePos = leftOuttakeSlider.getCurrentPosition();
         rightOuttakeSlider.setPower(power);
         leftOuttakeSlider.setPower(power);
     }
@@ -612,8 +620,11 @@ public class BaseRobot{
     public double getTrayPos(){
         return trayPos;
     }
-    public int getOuttakeSlidesPos(){
-        return outtakeSlidesPos;
+    public int getRightOuttakeSlidePos(){
+        return rightOuttakeSlidePos;
+    }
+    public int getLeftOuttakeSlidePos(){
+        return leftOuttakeSlidePos;
     }
     public int getIntakeSlidesPos(){
         return intakeSlidesPos;

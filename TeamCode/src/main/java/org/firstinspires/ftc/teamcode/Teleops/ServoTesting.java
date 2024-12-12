@@ -95,7 +95,7 @@ public class ServoTesting extends LinearOpMode {
             telemetry.addData("2 - V4b - left stick", robot.getV4bPos());
             telemetry.addLine();
             telemetry.addData("2 - axle - right stick", robot.getOuttakeAxlePos());
-            telemetry.addData("outtake slides pos", robot.getOuttakeSlidesPos());
+            //telemetry.addData("outtake slides pos", robot.getOuttakeSlidesPos());
             telemetry.addLine();
             telemetry.addData("2 - wrist - y/a", robot.getOuttakeWristPos());
             telemetry.addData("intake Gimbal - 2y and a", robot.getGimbalPos());

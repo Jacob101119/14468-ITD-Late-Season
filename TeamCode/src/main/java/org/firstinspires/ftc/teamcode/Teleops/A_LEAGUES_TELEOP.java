@@ -245,7 +245,8 @@ public class A_LEAGUES_TELEOP extends LinearOpMode {
             telemetry.addLine();
 
             telemetry.addLine("Slides: ");
-            telemetry.addData("outtake slides position: ", robot.getOuttakeSlidesPos());
+            telemetry.addData("right outtake slide: ", robot.getRightOuttakeSlidePos());
+            telemetry.addData("left outtake slide: ", robot.getLeftOuttakeSlidePos());
             //telemetry.addData("outtake slides power: ", robot.getOUTTAKE_SLIDES_POWER());
             telemetry.addLine();
 

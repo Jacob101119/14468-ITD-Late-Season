@@ -198,7 +198,7 @@ public class meet4_teleop extends LinearOpMode {
             telemetry.addLine();
 
             telemetry.addLine("Slides: ");
-            telemetry.addData("outtake slides position: ", robot.getOuttakeSlidesPos());
+            //telemetry.addData("outtake slides position: ", robot.getOuttakeSlidesPos());
             //telemetry.addData("outtake slides power: ", robot.getOUTTAKE_SLIDES_POWER());
             telemetry.addLine();
 
