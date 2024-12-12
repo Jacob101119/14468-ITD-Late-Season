@@ -92,7 +92,7 @@ public class slidesTest extends LinearOpMode {
             //telemetry.addData("outtake slides power: ", robot.getOUTTAKE_SLIDES_POWER());
             telemetry.addLine();
 
-            telemetry.addData("intake slides position: ", robot.getIntakeSlidesPos());
+            //telemetry.addData("intake slides position: ", robot.getIntakeSlidesPos());
             //telemetry.addData("intake slides power: ", robot.getINTAKE_SLIDES_POWER());
             telemetry.addLine();
             telemetry.addLine();

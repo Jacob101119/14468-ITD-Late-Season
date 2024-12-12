@@ -34,7 +34,8 @@ public class BaseRobot{
     //end motor powers
 
     // Arm Position fields
-    private int intakeSlidesPos = 0;
+    private int leftIntakeSlidePos = 0;
+    private int rightIntakeSlidePos = 0;
 
     private int rightOuttakeSlidePos = 0;
     private int leftOuttakeSlidePos = 0;
@@ -145,7 +146,9 @@ public class BaseRobot{
         rightIntakeSlider.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightIntakeSlider.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        intakeSlidesPos = leftIntakeSlider.getCurrentPosition();
+        leftIntakeSlidePos = leftIntakeSlider.getCurrentPosition();
+        rightIntakeSlidePos = rightIntakeSlider.getCurrentPosition();
+
 
 
         //outtake
@@ -457,7 +460,7 @@ public class BaseRobot{
     public void updateV4bPos(){
 
         //less than up = up
-        if (v4bPos < Constants.v4bConstants.up && intakeSlidesPos < Constants.intakeSlideConstants.minFromGround){
+        if (v4bPos < Constants.v4bConstants.up && rightIntakeSlidePos < Constants.intakeSlideConstants.minFromGround){
 
             setIntakeSlidesPos(Constants.intakeSlideConstants.minFromGround);
             setV4bPos(Constants.v4bConstants.hover);
@@ -475,52 +478,58 @@ public class BaseRobot{
 
     public void updateIntakeSlidesPos(){
 
-        if(leftIntakeSlider.getCurrentPosition() == 0 && intakeSlidesPos == 0){
+        if(leftIntakeSlider.getCurrentPosition() < 5 && rightIntakeSlidePos < 5){
             leftIntakeSlider.setPower(0);
             rightIntakeSlider.setPower(0);
 
         }
-        if(leftIntakeSlider.getCurrentPosition() == intakeSlidesPos && leftIntakeSlider.getCurrentPosition()!= 0){
+        if(leftIntakeSlider.getCurrentPosition() == leftIntakeSlidePos && leftIntakeSlider.getCurrentPosition()!= 0){
             leftIntakeSlider.setPower(.2);
             rightIntakeSlider.setPower(.2);
         }
 
 
-        rightIntakeSlider.setTargetPosition(intakeSlidesPos);
-        leftIntakeSlider.setTargetPosition(intakeSlidesPos);
+        rightIntakeSlider.setTargetPosition(rightIntakeSlidePos);
+        leftIntakeSlider.setTargetPosition(leftIntakeSlidePos);
 
         rightIntakeSlider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftIntakeSlider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        if(leftIntakeSlider.getCurrentPosition() != intakeSlidesPos){
+
+        if(leftIntakeSlider.getCurrentPosition() != leftIntakeSlidePos){
             rightIntakeSlider.setPower(Constants.intakeSlideConstants.power);
             leftIntakeSlider.setPower(Constants.intakeSlideConstants.power);
         }
 
 
-        if(intakeSlidesPos > Constants.intakeSlideConstants.MAX){
-            intakeSlidesPos = Constants.intakeSlideConstants.MAX;//limit
+        if(leftIntakeSlidePos > Constants.intakeSlideConstants.MAX){
+            leftIntakeSlidePos = Constants.intakeSlideConstants.MAX;//limit
+            rightIntakeSlidePos = Constants.intakeSlideConstants.MAX;//limit
         }
-        if(intakeSlidesPos < 0){
-            intakeSlidesPos = 0;//limit
+        if(rightIntakeSlidePos < 0){
+            rightIntakeSlidePos = 0;//limit
+            leftIntakeSlidePos = 0;
         }
 
 
     }
     public void changeIntakeSlidesPos(int deltaPos){
-        intakeSlidesPos += deltaPos;
+        rightIntakeSlidePos += deltaPos;
+        leftIntakeSlidePos += deltaPos;
 
     }
 
 
     public void setIntakeSlidesPos(int newPos){
-        intakeSlidesPos = newPos;
+        rightIntakeSlidePos = newPos;
+        leftIntakeSlidePos = newPos;
 
     }
 
     public void setIntakePower(double power) {
         rightIntakeSlider.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftIntakeSlider.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        intakeSlidesPos = leftIntakeSlider.getCurrentPosition();
+        rightIntakeSlidePos = leftIntakeSlider.getCurrentPosition();
+        leftIntakeSlidePos = leftIntakeSlider.getCurrentPosition();
         rightIntakeSlider.setPower(power);
         leftIntakeSlider.setPower(power);
     }
@@ -626,8 +635,11 @@ public class BaseRobot{
     public int getLeftOuttakeSlidePos(){
         return leftOuttakeSlidePos;
     }
-    public int getIntakeSlidesPos(){
-        return intakeSlidesPos;
+    public int getRightIntakeSlidePos(){
+        return rightIntakeSlidePos;
+    }
+    public int getLeftIntakeSlidePos(){
+        return leftIntakeSlidePos;
     }
     //end servos
 
