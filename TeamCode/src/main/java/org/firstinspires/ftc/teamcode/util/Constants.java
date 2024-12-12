@@ -10,7 +10,7 @@ import com.acmerobotics.dashboard.config.Config;
         @Config
         public static final class outtakeSlideConstants{
             public static int HighBucket = 3100;//
-            public static int passThroughScoringBelowChamber = 1950;
+            public static int passThroughScoringBelowChamber = 1780;
             public static int passThroughScoringOnChamber = 2552;
             public static int transfer = 910;
             public static int onChamber = 890;
@@ -25,7 +25,7 @@ import com.acmerobotics.dashboard.config.Config;
         public static final class intakeSlideConstants{
 
             public static int MAX = 2000;
-            public static double power = .9;
+            public static double power = .4;
             public static int transfer = 1000;
             //public static int transfer2 = 765;
             public static int minFromGround = 718;//change
@@ -58,18 +58,18 @@ import com.acmerobotics.dashboard.config.Config;
             public static double hover = .1;
             public static double up = .72;
             public static double half = .3;
-            public static double transfer = .7485;
+            public static double transfer = .762;
             //public static double farInTrayForPassThrough = .7781;
         }
         @Config
         public static final class outtakeAxleConstants{
-            public static double passThrough = .69;
-            public static double specScoring = .14;
+            public static double passThrough = .705;
+            public static double specScoring = .1913;
             public static double HBScoring =.3949;
             public static double straightUp = .5;
             public static double down = .9439;
             public static double transfer = .6679;
-            public static double autoStart = .6;
+            public static double autoStart = .6482;
 
 
 

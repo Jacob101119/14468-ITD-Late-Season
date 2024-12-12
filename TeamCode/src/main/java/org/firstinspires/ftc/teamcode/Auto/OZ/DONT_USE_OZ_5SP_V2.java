@@ -10,18 +10,15 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.robotcore.external.Const;
 import org.firstinspires.ftc.teamcode.BaseRobot.TransferAction;
 import org.firstinspires.ftc.teamcode.util.Constants;
 
 import org.firstinspires.ftc.teamcode.BaseRobot.BaseRobot;
 import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
 
-import java.util.Vector;
-
 
 @Autonomous
-public final class OZ_5SP_V2 extends LinearOpMode {
+public final class DONT_USE_OZ_5SP_V2 extends LinearOpMode {
 
     BaseRobot robot;
     MecanumDrive drive;

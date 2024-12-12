@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.BaseRobot.TransferAction;
 import org.firstinspires.ftc.teamcode.Drive.MecanumDrive;
@@ -15,7 +16,7 @@ import org.firstinspires.ftc.teamcode.BaseRobot.BaseRobot;
 import org.firstinspires.ftc.teamcode.util.Constants;
 
 @TeleOp
-public class Leagues_teleop_v2 extends LinearOpMode {
+public class A_LEAGUES_TELEOP extends LinearOpMode {
 
     private com.qualcomm.robotcore.hardware.HardwareMap HardwareMap;
     volatile BaseRobot robot;
@@ -31,6 +32,7 @@ public class Leagues_teleop_v2 extends LinearOpMode {
 
     boolean prevBack = false;
     boolean prevStart = false;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -54,8 +56,16 @@ public class Leagues_teleop_v2 extends LinearOpMode {
 
 
             if(gamepad1.right_bumper){
-              Actions.runBlocking(new TransferAction(robot));
+              //Actions.runBlocking(new TransferAction(robot));
             }
+            if(gamepad1.left_bumper && gamepad1.right_bumper){
+                robot.resetOuttakeSlideEncoder();
+                robot.outtakeReset = true;
+            }
+
+
+
+
 
             //end drive speeds
             //end drive
@@ -312,7 +322,7 @@ public class Leagues_teleop_v2 extends LinearOpMode {
     public void driveLoop(){
         while(!endTeleop){
 
-            double driveSpeed = .8;
+            double driveSpeed = 1;
 
 
             //GAMEPAD1------------------------------------------------------------------------

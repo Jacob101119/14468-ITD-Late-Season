@@ -58,6 +58,8 @@ public class BaseRobot{
     private final double OUTTAKE_GRASPER_CLOSED = .573;
     private final double OUTTAKE_GRASPER_OPEN = .8656;
 
+    public boolean outtakeReset = false;
+
 
     private final double WRIST_TO_WALL = 0;//change
     private final double WRIST_STRAIGHT = 0;//change
@@ -263,7 +265,14 @@ public class BaseRobot{
         setGimbalPos(Constants.intakeClawConstants.gimbalReset);
     }
 
+    public void resetOuttakeSlideEncoder(){
+        leftOuttakeSlider.setPower(0);
+        rightOuttakeSlider.setPower(0);
+        outtakeSlidesPos=0;
 
+        leftOuttakeSlider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightOuttakeSlider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
     public void update(){
         //motors
 
@@ -463,15 +472,27 @@ public class BaseRobot{
 
     public void updateIntakeSlidesPos(){
 
-        realIntakeSlidesPos = leftIntakeSlider.getCurrentPosition();
+        if(leftIntakeSlider.getCurrentPosition() == 0 && intakeSlidesPos == 0){
+            leftIntakeSlider.setPower(0);
+            rightIntakeSlider.setPower(0);
+
+        }
+        if(leftIntakeSlider.getCurrentPosition() == intakeSlidesPos && leftIntakeSlider.getCurrentPosition()!= 0){
+            leftIntakeSlider.setPower(.2);
+            rightIntakeSlider.setPower(.2);
+        }
+
+
         rightIntakeSlider.setTargetPosition(intakeSlidesPos);
         leftIntakeSlider.setTargetPosition(intakeSlidesPos);
 
         rightIntakeSlider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftIntakeSlider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        if(leftIntakeSlider.getCurrentPosition() != intakeSlidesPos){
+            rightIntakeSlider.setPower(Constants.intakeSlideConstants.power);
+            leftIntakeSlider.setPower(Constants.intakeSlideConstants.power);
+        }
 
-        rightIntakeSlider.setPower(Constants.intakeSlideConstants.power);
-        leftIntakeSlider.setPower(Constants.intakeSlideConstants.power);
 
         if(intakeSlidesPos > Constants.intakeSlideConstants.MAX){
             intakeSlidesPos = Constants.intakeSlideConstants.MAX;//limit
@@ -503,6 +524,13 @@ public class BaseRobot{
 
     //outtake -------------------------------------------------------------------------
     public void updateOuttakeSlidesPos(){
+
+        if(leftOuttakeSlider.getCurrentPosition() == 0 && outtakeSlidesPos == 0){
+            leftOuttakeSlider.setPower(0);
+            rightOuttakeSlider.setPower(0);
+
+        }
+
         leftOuttakeSlider.setTargetPosition(outtakeSlidesPos);
         rightOuttakeSlider.setTargetPosition(outtakeSlidesPos);
 
@@ -512,17 +540,20 @@ public class BaseRobot{
         rightOuttakeSlider.setPower(Constants.outtakeSlideConstants.power);
         leftOuttakeSlider.setPower(Constants.outtakeSlideConstants.power);
 
+        if(outtakeReset == true){
+            if(outtakeSlidesPos > Constants.outtakeSlideConstants.MAX){
+                outtakeSlidesPos = Constants.outtakeSlideConstants.MAX;
+
+            }
+            if (outtakeSlidesPos < 0){
+              outtakeSlidesPos = 0;
+            }
+        }
        // if(leftOuttakeSliderPos != rightOuttakeSliderPos){
          //   leftOuttakeSliderPos = rightOuttakeSliderPos;
         //}
 
-        if(outtakeSlidesPos > Constants.outtakeSlideConstants.MAX){
-            outtakeSlidesPos = Constants.outtakeSlideConstants.MAX;
 
-        }
-        if (outtakeSlidesPos < 0){
-            outtakeSlidesPos = 0;
-        }
 
     }
 
@@ -530,7 +561,9 @@ public class BaseRobot{
         outtakeSlidesPos += deltaPos;
     }
     public void setOuttakeSlidesPos(int newPos){
-        outtakeSlidesPos = newPos;
+        if(outtakeReset == true){
+            outtakeSlidesPos = newPos;
+        }
 
     }
 

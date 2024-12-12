@@ -84,20 +84,39 @@ public final class HB_2S extends LinearOpMode {
         robot.delay(.1);
 
         Actions.runBlocking(new TransferAction(robot));
+        robot.setOuttakeSlidesPos(Constants.outtakeSlideConstants.MAX);
+        robot.delay(.2);
 
 
-        Action touchLowBar = robot.drive.actionBuilder(robot.drive.pose)
+        Action HB = robot.drive.actionBuilder(robot.drive.pose)
+                .strafeToLinearHeading(new Vector2d(-55, -55), Math.toRadians(225))
+                .build();
+        Actions.runBlocking(HB);
+
+        robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.open);
+        robot.delay(.2);
+
+        Action moveBack = robot.drive.actionBuilder(robot.drive.pose)
+                .splineToConstantHeading(new Vector2d(-49, -49), 270)
+                .build();
+        Actions.runBlocking(moveBack);
+        robot.setOuttakeSlidesPos(0);
+
+
+       /* Action touchLowBar = robot.drive.actionBuilder(robot.drive.pose)
 
                 .strafeToLinearHeading(new Vector2d(-30, -10.6), Math.toRadians(90))
                 .strafeToLinearHeading(new Vector2d(-26.7, -10.6),Math.toRadians(0))
                 .build();
         Actions.runBlocking(touchLowBar);
-        robot.setV4bPos(Constants.v4bConstants.hover);
+        robot.setV4bPos(Constants.v4bConstants.up);
         robot.update();
         robot.delay(.5);
         robot.setIntakeGrasperPos(Constants.intakeClawConstants.open);
         robot.update();
         robot.delay(6);
+
+        */
 
 
     }
