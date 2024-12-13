@@ -47,16 +47,20 @@ public class TransferAction implements Action {
         robot.update();
         time.reset();
 
-        while(time.milliseconds() < 1000){
+        while(time.milliseconds() < 900){
 
         }
         robot.setAxlePos(Constants.outtakeAxleConstants.transfer);
-
         time.reset();
         while(time.milliseconds() < 1000){
 
         }
+        robot.setIntakeSlidesPos(Constants.intakeSlideConstants.transfer2);
+        time.reset();
 
+        while(time.milliseconds() < 1800){
+
+        }
         robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.closed);
         robot.update();
         time.reset();

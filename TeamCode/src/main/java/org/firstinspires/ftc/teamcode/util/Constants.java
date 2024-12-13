@@ -27,7 +27,7 @@ import com.acmerobotics.dashboard.config.Config;
             public static int MAX = 2000;
             public static double power = .4;
             public static int transfer = 1000;
-            //public static int transfer2 = 765;
+            public static int transfer2 = 750;
             public static int minFromGround = 718;//change
 
         }
@@ -54,21 +54,21 @@ import com.acmerobotics.dashboard.config.Config;
         }
         @Config
         public static final class v4bConstants{
-            public static double ground = 0;
-            public static double hover = .1;
-            public static double up = .72;
-            public static double half = .3;
-            public static double transfer = .762;
+            public static double ground = 0.055;
+            public static double hover = .15;
+            public static double up = .805;
+            public static double half = .4519;
+            public static double transfer = .8499;
             //public static double farInTrayForPassThrough = .7781;
         }
         @Config
         public static final class outtakeAxleConstants{
-            public static double passThrough = .705;
-            public static double specScoring = .1913;
+            public static double passThrough = .7774;
+            public static double specScoring = .2677;
             public static double HBScoring =.3949;
-            public static double straightUp = .5;
+            public static double straightUp = .58;
             public static double down = .9439;
-            public static double transfer = .6679;
+            public static double transfer = .7298;
             public static double autoStart = .6482;
 
 

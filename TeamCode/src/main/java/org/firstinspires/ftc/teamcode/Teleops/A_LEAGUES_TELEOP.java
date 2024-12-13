@@ -32,6 +32,8 @@ public class A_LEAGUES_TELEOP extends LinearOpMode {
 
     boolean prevBack = false;
     boolean prevStart = false;
+    boolean prevTouchOuttake = false;
+    boolean prevTouchIntake = false;
 
 
     @Override
@@ -56,12 +58,12 @@ public class A_LEAGUES_TELEOP extends LinearOpMode {
 
 
             if(gamepad1.right_bumper){
-              //Actions.runBlocking(new TransferAction(robot));
+              Actions.runBlocking(new TransferAction(robot));
             }
-            if(gamepad1.left_bumper && gamepad1.right_bumper){
-                robot.resetOuttakeSlideEncoder();
-                robot.outtakeReset = true;
-            }
+           // if(gamepad1.left_bumper && gamepad1.right_bumper){
+                //robot.resetOuttakeEncoders();
+                //robot.outtakeReset = true;
+            //}
 
 
 
@@ -124,7 +126,7 @@ public class A_LEAGUES_TELEOP extends LinearOpMode {
 
             //INTAKE____________________________________________________________________
             //intake slides----------------------------
-            double intakePower = gamepad2.right_stick_y - gamepad2.left_stick_y * .3;
+            double intakePower = gamepad2.right_stick_y - gamepad2.left_stick_y * .2;
             if (Math.abs(intakePower) > 0.1) {
                 robot.setIntakePower(intakePower);
             } else {
@@ -144,6 +146,8 @@ public class A_LEAGUES_TELEOP extends LinearOpMode {
                 robot.setV4bPos(Constants.v4bConstants.ground);
             }
             prevY = gamepad2.y;
+
+
             //end intake axle------------------------
 
             //claw---------------------------
@@ -220,6 +224,19 @@ public class A_LEAGUES_TELEOP extends LinearOpMode {
             prevBack = gamepad2.back;
 
 
+            if(robot.areOuttakeSlidesDown()){
+                if(robot.areOuttakeSlidesDown() && robot.areOuttakeSlidesDown()!=prevTouchOuttake){
+                    robot.resetOuttakeEncoders();
+                }
+            }
+            prevTouchOuttake = robot.areOuttakeSlidesDown();
+
+            if(robot.areIntakeSlidesDown()){
+                if(robot.areIntakeSlidesDown() && robot.areIntakeSlidesDown()!=prevTouchIntake){
+                    robot.resetIntakeEncoders();
+                }
+            }
+            prevTouchIntake = robot.areIntakeSlidesDown();
 
 
 

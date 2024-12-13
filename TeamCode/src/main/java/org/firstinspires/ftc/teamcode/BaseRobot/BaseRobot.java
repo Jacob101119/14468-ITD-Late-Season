@@ -3,11 +3,13 @@ package org.firstinspires.ftc.teamcode.BaseRobot;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
+
 
 import org.firstinspires.ftc.robotcore.external.Const;
 import org.firstinspires.ftc.teamcode.util.Constants;
@@ -115,8 +117,11 @@ public class BaseRobot{
     Servo intakeGimbal;
     Servo outtakeAxle;
     Servo tray;
+    DigitalChannel touchIntake;
+    DigitalChannel touchOuttake;
 
     public RevColorSensorV3 colorSensor;
+
 
 
 
@@ -131,6 +136,8 @@ public class BaseRobot{
         colorSensor = hwMap.get(RevColorSensorV3.class, "colorSensor");
         colorSensor.enableLed(true);
 
+        this.touchIntake = hwMap.digitalChannel.get("touchIntake");
+        this.touchOuttake = hwMap.digitalChannel.get("touchOuttake");
 
         leftIntakeSlider = hwMap.dcMotor.get("leftIntakeSlider");
         rightIntakeSlider = hwMap.dcMotor.get("rightIntakeSlider");
@@ -200,7 +207,35 @@ public class BaseRobot{
 
 
     }
+    public void resetIntakeEncoders(){
+        rightIntakeSlidePos = 0;
+        leftIntakeSlidePos = 0;
+        leftIntakeSlider.setPower(0);
+        rightIntakeSlider.setPower(0);
 
+        rightIntakeSlider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftIntakeSlider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightIntakeSlider.setTargetPosition(0);
+        leftIntakeSlider.setTargetPosition(0);
+    }
+    public void resetOuttakeEncoders(){
+        rightOuttakeSlidePos = 0;
+        leftOuttakeSlidePos = 0;
+        leftOuttakeSlider.setPower(0);
+        rightOuttakeSlider.setPower(0);
+
+        rightOuttakeSlider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftOuttakeSlider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightOuttakeSlider.setTargetPosition(0);
+        leftOuttakeSlider.setTargetPosition(0);
+
+    }
+    public boolean areOuttakeSlidesDown(){
+        return !touchOuttake.getState();
+    }
+    public boolean areIntakeSlidesDown(){
+        return !touchIntake.getState();
+    }
     public String detectColor() {
         // Get the RGB values from the color sensor
         int red = colorSensor.red();
@@ -270,15 +305,7 @@ public class BaseRobot{
         setGimbalPos(Constants.intakeClawConstants.gimbalReset);
     }
 
-    public void resetOuttakeSlideEncoder(){
-        leftOuttakeSlider.setPower(0);
-        rightOuttakeSlider.setPower(0);
-        rightOuttakeSlidePos=0;
-        leftOuttakeSlidePos = 0;
 
-        leftOuttakeSlider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightOuttakeSlider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    }
     public void update(){
         //motors
 
@@ -478,7 +505,7 @@ public class BaseRobot{
 
     public void updateIntakeSlidesPos(){
 
-        if(leftIntakeSlider.getCurrentPosition() < 5 && rightIntakeSlidePos < 5){
+        if(leftIntakeSlider.getCurrentPosition() < 50 && rightIntakeSlidePos < 50){
             leftIntakeSlider.setPower(0);
             rightIntakeSlider.setPower(0);
 
@@ -537,7 +564,7 @@ public class BaseRobot{
     //outtake -------------------------------------------------------------------------
     public void updateOuttakeSlidesPos(){
 
-        if(leftOuttakeSlider.getCurrentPosition() < 5 && leftOuttakeSlidePos < 5){
+        if(leftOuttakeSlider.getCurrentPosition() < 50 && leftOuttakeSlidePos < 50){
             leftOuttakeSlider.setPower(0);
             rightOuttakeSlider.setPower(0);
 
@@ -576,10 +603,10 @@ public class BaseRobot{
         leftOuttakeSlidePos += deltaPos;
     }
     public void setOuttakeSlidesPos(int newPos){
-        if(outtakeReset){
+        //if(outtakeReset){
             rightOuttakeSlidePos = newPos;
             leftOuttakeSlidePos = newPos;
-        }
+        //}
 
     }
 

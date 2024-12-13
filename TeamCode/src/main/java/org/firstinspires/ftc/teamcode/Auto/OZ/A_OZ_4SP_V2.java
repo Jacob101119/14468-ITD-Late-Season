@@ -90,7 +90,7 @@ public final class A_OZ_4SP_V2 extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(48, -14), 180)//move to sample 1
 
                 //push
-                .splineToConstantHeading(new Vector2d(48, -50), 90)//move to OZ
+                .splineToConstantHeading(new Vector2d(48, -51.2), 90)//move to OZ
 
                 //move to 2nd sample
                 .splineToConstantHeading(new Vector2d(48,-14),270)//move back
@@ -251,7 +251,7 @@ robot.delay(.2);
 
         Action moveToSub5 = robot.drive.actionBuilder(robot.drive.pose)
                 .splineToConstantHeading(new Vector2d(38, -59), 270)
-                .splineToConstantHeading(new Vector2d(2, -34.5), 270)
+                .splineToConstantHeading(new Vector2d(-2, -34.5), 270)
                 .build();
         Actions.runBlocking(moveToSub5);
 
@@ -264,7 +264,7 @@ robot.delay(.2);
 
         robot.setOuttakeGrasperPos(Constants.outtakeClawConstants.open);
         robot.update();
-        robot.delay(.2);
+        //robot.delay(.01);
     //    robot.delay(.2);
 
 //robot.setOuttakeSlidesPos(0);
